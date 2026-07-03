@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import Magnetic from './Magnetic';
 
 interface LabProps {
   onLabVisited: () => void;
@@ -164,10 +165,11 @@ export default function Lab({ onLabVisited }: LabProps) {
         <div>
           <div
             className="section-label"
-            style={{ marginBottom: '16px', color: 'rgba(226, 61, 15, 0.8)' }}
+            style={{ marginBottom: '16px', color: 'rgba(166, 134, 94, 0.8)' }}
           >
             Section 02
           </div>
+          <Magnetic strength={0.07} radius={90}>
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
@@ -180,6 +182,7 @@ export default function Lab({ onLabVisited }: LabProps) {
           >
             The<br />Lab
           </h2>
+          </Magnetic>
         </div>
         <div style={{ maxWidth: '360px' }}>
           <p
@@ -201,7 +204,7 @@ export default function Lab({ onLabVisited }: LabProps) {
               color: '#F4F2ED',
             }}
           >
-            I deliver <span style={{ color: 'var(--accent-light, #FF6B3D)' }}>systems.</span>
+            I deliver <span style={{ color: 'var(--accent-light, #C4A882)' }}>systems.</span>
           </p>
         </div>
       </div>
@@ -247,7 +250,7 @@ export default function Lab({ onLabVisited }: LabProps) {
                   fontSize: '11px',
                   fontWeight: 700,
                   letterSpacing: '0.2em',
-                  color: 'rgba(226, 61, 15, 0.7)',
+                  color: 'rgba(166, 134, 94, 0.7)',
                   minWidth: '28px',
                 }}
               >
@@ -258,7 +261,7 @@ export default function Lab({ onLabVisited }: LabProps) {
               <span
                 style={{
                   fontSize: '16px',
-                  color: 'rgba(226, 61, 15, 0.6)',
+                  color: 'rgba(166, 134, 94, 0.6)',
                   minWidth: '24px',
                   textAlign: 'center',
                 }}
@@ -300,19 +303,19 @@ export default function Lab({ onLabVisited }: LabProps) {
                   width: '28px',
                   height: '28px',
                   borderRadius: '50%',
-                  border: '1px solid rgba(226, 61, 15, 0.25)',
+                  border: '1px solid rgba(166, 134, 94, 0.25)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   flexShrink: 0,
                   transition: 'transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease',
                   transform: expanded === item.id ? 'rotate(45deg)' : 'rotate(0deg)',
-                  borderColor: expanded === item.id ? 'rgba(226, 61, 15, 0.6)' : 'rgba(226, 61, 15, 0.25)',
+                  borderColor: expanded === item.id ? 'rgba(166, 134, 94, 0.6)' : 'rgba(166, 134, 94, 0.25)',
                 }}
               >
                 <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-                  <line x1="5" y1="0" x2="5" y2="10" stroke="rgba(226, 61, 15, 0.8)" strokeWidth="1" />
-                  <line x1="0" y1="5" x2="10" y2="5" stroke="rgba(226, 61, 15, 0.8)" strokeWidth="1" />
+                  <line x1="5" y1="0" x2="5" y2="10" stroke="rgba(166, 134, 94, 0.8)" strokeWidth="1" />
+                  <line x1="0" y1="5" x2="10" y2="5" stroke="rgba(166, 134, 94, 0.8)" strokeWidth="1" />
                 </svg>
               </div>
             </button>
@@ -350,7 +353,7 @@ export default function Lab({ onLabVisited }: LabProps) {
                       fontWeight: 600,
                       letterSpacing: '0.2em',
                       textTransform: 'uppercase',
-                      color: 'rgba(226, 61, 15, 0.5)',
+                      color: 'rgba(166, 134, 94, 0.5)',
                       marginBottom: '12px',
                     }}
                   >

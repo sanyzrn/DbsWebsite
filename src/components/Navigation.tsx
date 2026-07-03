@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useSiteConfig, type SectionKey } from '../config/siteConfig';
+import Magnetic from './Magnetic';
 
 const NAV_ITEMS: { label: string; id: string; section: SectionKey }[] = [
   { label: 'Vault', id: 'vault', section: 'vault' },
@@ -79,8 +80,8 @@ export default function Navigation() {
           style={{ opacity: scrolled ? 1 : 0, transition: 'opacity 0.5s ease' }}
         >
           {items.map((item, i) => (
+            <Magnetic key={item.id} strength={0.35} radius={18}>
             <button
-              key={item.id}
               onClick={() => scrollTo(item.id)}
               style={{
                 fontFamily: 'Inter, sans-serif',
@@ -116,6 +117,7 @@ export default function Navigation() {
               </span>
               {item.label}
             </button>
+            </Magnetic>
           ))}
         </div>
 

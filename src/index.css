@@ -5,9 +5,9 @@
     /* Studio paper — clean warm ground, ink type, vermilion signal */
     --bg: #F7F5EF;
     --text: #131210;
-    --accent: #E23D0F;
-    --accent-light: #FF6B3D;
-    --accent-dark: #B93009;
+    --accent: #A6865E;
+    --accent-light: #C4A882;
+    --accent-dark: #8B6F4A;
     --muted: #78736A;
     --border: #DFDACE;
     --surface: #EFECE3;
@@ -299,19 +299,19 @@ nav a:hover::after {
 
 /* Expand button */
 .expand-btn {
-  border: 1px solid rgba(226, 61, 15, 0.3);
+  border: 1px solid rgba(166, 134, 94, 0.3);
   transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .expand-btn:hover {
   border-color: var(--accent);
-  background-color: rgba(226, 61, 15, 0.08);
+  background-color: rgba(166, 134, 94, 0.08);
 }
 
 /* Terminal window */
 .terminal-window {
   background: #0E0E0D;
-  border: 1px solid rgba(226, 61, 15, 0.2);
+  border: 1px solid rgba(166, 134, 94, 0.2);
   border-radius: 12px;
   box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.04);
 }
@@ -445,7 +445,7 @@ nav a:hover::after {
 /* Scrollbar for terminal */
 .terminal-output {
   scrollbar-width: thin;
-  scrollbar-color: rgba(226, 61, 15, 0.3) transparent;
+  scrollbar-color: rgba(166, 134, 94, 0.3) transparent;
 }
 
 .terminal-output::-webkit-scrollbar {
@@ -453,7 +453,7 @@ nav a:hover::after {
 }
 
 .terminal-output::-webkit-scrollbar-thumb {
-  background: rgba(226, 61, 15, 0.3);
+  background: rgba(166, 134, 94, 0.3);
   border-radius: 2px;
 }
 
@@ -567,8 +567,8 @@ nav a:hover::after {
   position: absolute;
   inset: 0;
   background-image:
-    linear-gradient(rgba(226, 61, 15, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(226, 61, 15, 0.05) 1px, transparent 1px);
+    linear-gradient(rgba(166, 134, 94, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(166, 134, 94, 0.05) 1px, transparent 1px);
   background-size: 64px 64px;
   pointer-events: none;
   opacity: 0.6;
@@ -594,8 +594,8 @@ nav a:hover::after {
 .hazard-stripe {
   background-image: repeating-linear-gradient(
     45deg,
-    rgba(226, 61, 15, 0.9) 0px,
-    rgba(226, 61, 15, 0.9) 14px,
+    rgba(166, 134, 94, 0.9) 0px,
+    rgba(166, 134, 94, 0.9) 14px,
     rgba(16, 15, 11, 0.9) 14px,
     rgba(16, 15, 11, 0.9) 28px
   );
@@ -626,7 +626,7 @@ nav a:hover::after {
 .vault-card {
   position: relative;
   background: linear-gradient(160deg, var(--ink-2), var(--ink));
-  border: 1px solid rgba(226, 61, 15, 0.18);
+  border: 1px solid rgba(166, 134, 94, 0.18);
   border-radius: 4px;
   overflow: hidden;
   transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
@@ -636,10 +636,10 @@ nav a:hover::after {
 
 .vault-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(226, 61, 15, 0.55);
+  border-color: rgba(166, 134, 94, 0.55);
   box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8),
-              0 0 0 1px rgba(226, 61, 15, 0.25),
-              0 0 40px -20px rgba(226, 61, 15, 0.4);
+              0 0 0 1px rgba(166, 134, 94, 0.25),
+              0 0 40px -20px rgba(166, 134, 94, 0.4);
 }
 
 /* registration corner marks */
@@ -647,11 +647,11 @@ nav a:hover::after {
   position: absolute;
   width: 12px;
   height: 12px;
-  border-color: rgba(226, 61, 15, 0.4);
+  border-color: rgba(166, 134, 94, 0.4);
   pointer-events: none;
   transition: border-color 0.5s ease;
 }
-.vault-card:hover .reg-mark { border-color: rgba(226, 61, 15, 0.85); }
+.vault-card:hover .reg-mark { border-color: rgba(166, 134, 94, 0.85); }
 
 /* redaction bars dissolve when the file is inspected */
 .redaction {
@@ -671,7 +671,7 @@ nav a:hover::after {
   right: 0;
   height: 2px;
   top: 0;
-  background: linear-gradient(90deg, transparent, rgba(226, 61, 15, 0.9), transparent);
+  background: linear-gradient(90deg, transparent, rgba(166, 134, 94, 0.9), transparent);
   opacity: 0;
   pointer-events: none;
 }
@@ -738,7 +738,7 @@ nav a:hover::after {
 }
 .trust-item:hover .trust-node {
   transform: scale(1.18);
-  box-shadow: 0 0 0 6px rgba(226, 61, 15, 0.1);
+  box-shadow: 0 0 0 6px rgba(166, 134, 94, 0.1);
 }
 .trust-item:hover .trust-node::after { transform: scale(1.3); }
 
@@ -753,6 +753,69 @@ nav a:hover::after {
   background: var(--bg);
   transform: translateY(-3px);
 }
+
+/* ============================================================
+   HERO BACKDROP — quiet orbital ornaments behind the wordmark
+   ============================================================ */
+.hero-orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* outer ring: dashed, slow clockwise, carries a satellite dot */
+.hero-orbit-a {
+  width: min(74vmin, 660px);
+  height: min(74vmin, 660px);
+  border: 1px dashed rgba(166, 134, 94, 0.28);
+  animation: orbitSpin 90s linear infinite;
+}
+.hero-orbit-a::after {
+  content: '';
+  position: absolute;
+  top: -3.5px;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0.55;
+}
+
+/* inner ring: dotted, counter-rotating */
+.hero-orbit-b {
+  width: min(46vmin, 400px);
+  height: min(46vmin, 400px);
+  border: 1px dotted rgba(166, 134, 94, 0.22);
+  animation: orbitSpin 60s linear infinite reverse;
+}
+
+@keyframes orbitSpin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* registration glyphs drifting slowly up and down */
+.hero-drift {
+  position: absolute;
+  font-family: 'IBM Plex Mono', monospace;
+  color: var(--accent);
+  opacity: 0.22;
+  animation: heroDrift 10s ease-in-out infinite alternate;
+  user-select: none;
+}
+
+@keyframes heroDrift {
+  from { transform: translateY(-16px); }
+  to { transform: translateY(16px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-orbit, .hero-drift { animation: none !important; }
+}
+html.cfg-no-reveal .hero-orbit,
+html.cfg-no-reveal .hero-drift { animation: none !important; }
 
 /* ============================================================
    SCROLL & MOTION POLISH
@@ -796,9 +859,9 @@ html.cfg-no-reveal .img-reveal img { transform: none !important; }
 /* ============================================================
    ADMIN PANEL CONTROLS
    ============================================================ */
-.adm-scroll { scrollbar-width: thin; scrollbar-color: rgba(226,61,15,0.35) transparent; }
+.adm-scroll { scrollbar-width: thin; scrollbar-color: rgba(166,134,94,0.35) transparent; }
 .adm-scroll::-webkit-scrollbar { width: 6px; }
-.adm-scroll::-webkit-scrollbar-thumb { background: rgba(226,61,15,0.35); border-radius: 3px; }
+.adm-scroll::-webkit-scrollbar-thumb { background: rgba(166,134,94,0.35); border-radius: 3px; }
 .adm-scroll::-webkit-scrollbar-track { background: transparent; }
 
 .adm-switch {
@@ -835,8 +898,8 @@ html.cfg-no-reveal .img-reveal img { transform: none !important; }
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease;
 }
 .adm-switch input:checked ~ .adm-track {
-  background: var(--accent, #E23D0F);
-  border-color: var(--accent, #E23D0F);
+  background: var(--accent, #A6865E);
+  border-color: var(--accent, #A6865E);
 }
 .adm-switch input:checked ~ .adm-thumb {
   transform: translateX(18px);
@@ -848,7 +911,7 @@ html.cfg-no-reveal .img-reveal img { transform: none !important; }
   appearance: none;
   width: 26px;
   height: 26px;
-  border: 1px solid rgba(226, 61, 15, 0.3);
+  border: 1px solid rgba(166, 134, 94, 0.3);
   border-radius: 4px;
   background: none;
   cursor: pointer;

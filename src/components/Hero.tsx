@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSiteConfig } from '../config/siteConfig';
+import Magnetic from './Magnetic';
 
 interface HeroProps {
   onNameTripleClick: () => void;
@@ -17,6 +18,30 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
   const topLeftRef = useRef<HTMLDivElement>(null);
   const topRightRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
+  const backdropRef = useRef<HTMLDivElement>(null);
+
+  // Faint mouse parallax on the backdrop ornaments.
+  useEffect(() => {
+    if (!window.matchMedia('(pointer: fine)').matches) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    let raf = 0;
+    const onMove = (e: MouseEvent) => {
+      if (raf) return;
+      raf = window.requestAnimationFrame(() => {
+        raf = 0;
+        const px = (e.clientX / window.innerWidth - 0.5) * -18;
+        const py = (e.clientY / window.innerHeight - 0.5) * -14;
+        if (backdropRef.current) {
+          backdropRef.current.style.transform = `translate3d(${px.toFixed(1)}px, ${py.toFixed(1)}px, 0)`;
+        }
+      });
+    };
+    window.addEventListener('mousemove', onMove, { passive: true });
+    return () => {
+      window.removeEventListener('mousemove', onMove);
+      if (raf) window.cancelAnimationFrame(raf);
+    };
+  }, []);
 
   useEffect(() => {
     const timer = setTimeout(() => setLoaded(true), 100);
@@ -78,6 +103,29 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
       className="relative flex flex-col min-h-screen overflow-hidden"
       style={{ backgroundColor: 'var(--bg)' }}
     >
+      {/* Animated backdrop — orbiting rings + drifting registration glyphs */}
+      <div
+        ref={backdropRef}
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          transition: 'transform 0.7s cubic-bezier(0.16, 1, 0.3, 1)',
+          willChange: 'transform',
+        }}
+      >
+        <div className="hero-orbit hero-orbit-a" />
+        <div className="hero-orbit hero-orbit-b" />
+        <span className="hero-drift" style={{ top: '20%', left: '11%', animationDuration: '9s', fontSize: '14px' }}>+</span>
+        <span className="hero-drift" style={{ top: '68%', left: '16%', animationDuration: '13s', animationDelay: '-4s', fontSize: '10px' }}>◇</span>
+        <span className="hero-drift" style={{ top: '30%', right: '13%', animationDuration: '11s', animationDelay: '-2s', fontSize: '12px' }}>○</span>
+        <span className="hero-drift" style={{ top: '74%', right: '18%', animationDuration: '10s', animationDelay: '-6s', fontSize: '14px' }}>+</span>
+        <span className="hero-drift" style={{ top: '48%', left: '6%', animationDuration: '14s', animationDelay: '-8s', fontSize: '9px' }}>△</span>
+        <span className="hero-drift" style={{ top: '14%', right: '30%', animationDuration: '12s', animationDelay: '-5s', fontSize: '9px' }}>◻</span>
+      </div>
+
       {/* Top floating identifiers */}
       <div
         ref={topLeftRef}
@@ -136,6 +184,8 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           opacity: 1,
           transform: 'translateY(0)',
           willChange: 'transform, opacity',
+          position: 'relative',
+          zIndex: 1,
         }}
       >
         {/* Brand crest */}
@@ -170,7 +220,8 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           Est. 2007 — Graphic Designer & Web Developer
         </div>
 
-        {/* Name */}
+        {/* Name — gently magnetic, still hiding the triple-click dossier */}
+        <Magnetic strength={0.05} radius={140}>
         <div
           className="relative cursor-default select-none"
           onClick={handleNameClick}
@@ -219,6 +270,7 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
             · · ·
           </div>
         </div>
+        </Magnetic>
 
         {/* Tagline */}
         <div
