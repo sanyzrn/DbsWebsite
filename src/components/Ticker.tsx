@@ -27,6 +27,7 @@ export default function Ticker() {
       }}
     >
       <div
+        className="ticker-row"
         style={{
           display: 'flex',
           gap: '0',
@@ -90,6 +91,7 @@ export default function Ticker() {
           from { transform: translateX(0); }
           to { transform: translateX(calc(-100% / 3)); }
         }
+        .ticker-row:hover { animation-play-state: paused; }
       `}</style>
     </div>
   );

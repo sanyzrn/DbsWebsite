@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import Magnetic from './Magnetic';
 
 export default function Contact() {
   const headerRef = useRef<HTMLDivElement>(null);
@@ -72,6 +73,7 @@ export default function Contact() {
           </div>
 
           {/* Main statement */}
+          <Magnetic strength={0.06} radius={100} style={{ display: 'block', maxWidth: '800px' }}>
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
@@ -80,7 +82,6 @@ export default function Contact() {
               lineHeight: 1.0,
               letterSpacing: '-0.03em',
               color: 'var(--text)',
-              maxWidth: '800px',
               marginBottom: '48px',
             }}
           >
@@ -89,6 +90,7 @@ export default function Contact() {
               trust begins.
             </span>
           </h2>
+          </Magnetic>
 
           <p
             style={{
@@ -141,6 +143,7 @@ export default function Contact() {
 
           {/* CTA */}
           <div style={{ marginTop: 'clamp(48px, 6vw, 72px)' }}>
+            <Magnetic strength={0.35} radius={70}>
             <a
               href="mailto:zrn_sany@yahoo.com"
               style={{
@@ -172,6 +175,7 @@ export default function Contact() {
                 <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
+            </Magnetic>
           </div>
         </div>
 
@@ -274,6 +278,7 @@ function ContactItem({ label, value, href, copied, onCopy, external }: ContactIt
       >
         {value}
       </a>
+      <Magnetic strength={0.4} radius={16}>
       <button
         onClick={onCopy}
         style={{
@@ -310,6 +315,7 @@ function ContactItem({ label, value, href, copied, onCopy, external }: ContactIt
           </>
         )}
       </button>
+      </Magnetic>
     </div>
   );
 }

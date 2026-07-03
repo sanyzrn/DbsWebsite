@@ -13,6 +13,8 @@ import DossierModal from './components/DossierModal';
 import Terminal from './components/Terminal';
 import LabButton from './components/LabButton';
 import AdminPanel from './components/AdminPanel';
+import Cursor from './components/Cursor';
+import ScrollProgress from './components/ScrollProgress';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { useSiteConfig } from './config/siteConfig';
 
@@ -85,6 +87,12 @@ export default function App() {
         transition: 'opacity 0.6s ease',
       }}
     >
+      {/* Reading progress hairline */}
+      <ScrollProgress />
+
+      {/* Trailing cursor ornament (desktop only) */}
+      <Cursor />
+
       {/* Navigation */}
       <Navigation />
 

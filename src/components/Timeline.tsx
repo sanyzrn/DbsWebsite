@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Magnetic from './Magnetic';
 
 /**
  * TIMELINE OF TRUST — provenance, not a résumé.
@@ -236,6 +237,7 @@ export default function Timeline() {
           >
             Provenance
           </div>
+          <Magnetic strength={0.07} radius={90}>
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
@@ -248,6 +250,7 @@ export default function Timeline() {
           >
             Timeline<br />of Trust
           </h2>
+          </Magnetic>
         </div>
         <p
           style={{

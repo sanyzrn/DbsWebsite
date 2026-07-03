@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import Magnetic from './Magnetic';
 
 const steps = [
   {
@@ -85,6 +86,7 @@ export default function Process() {
           <div className="section-label" style={{ marginBottom: '16px' }}>
             Section 03
           </div>
+          <Magnetic strength={0.07} radius={90}>
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
@@ -97,6 +99,7 @@ export default function Process() {
           >
             Process
           </h2>
+          </Magnetic>
         </div>
         <p
           style={{
