@@ -11,7 +11,7 @@ type Project = (typeof archiveContent.en.projects)[number] & {
  * Specimen-plate treatment mirrors Vault.tsx aesthetic (dark plate, accent doc lines).
  */
 function ArchiveSpecimenPlate({ index, label }: { index: number; label: string }) {
-  const accent = 'rgba(166, 134, 94, 0.55)';
+  const accent = 'rgba(63, 166, 92, 0.55)';
   const variants = index % 3;
 
   return (
@@ -35,7 +35,7 @@ function ArchiveSpecimenPlate({ index, label }: { index: number; label: string }
           fontSize: '10px',
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
-          color: 'rgba(166, 134, 94, 0.75)',
+          color: 'rgba(63, 166, 92, 0.75)',
         }}
       >
         SPECIMEN · PENDING CAPTURE
@@ -44,7 +44,7 @@ function ArchiveSpecimenPlate({ index, label }: { index: number; label: string }
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', padding: '24px 0' }}>
         {variants === 0 && (
           <>
-            <div className="doc-line" style={{ width: '42%', height: '8px', background: 'rgba(166,134,94,0.45)' }} />
+            <div className="doc-line" style={{ width: '42%', height: '8px', background: 'rgba(63,166,92,0.45)' }} />
             {Array.from({ length: 6 }).map((_, i) => (
               <div key={i} className="doc-line" style={{ width: `${88 - i * 9}%` }} />
             ))}
@@ -60,7 +60,7 @@ function ArchiveSpecimenPlate({ index, label }: { index: number; label: string }
             <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
               <div style={{ display: 'flex', gap: '8px' }}>
                 <div className="doc-line" style={{ flex: 1, height: '28px', borderRadius: '2px' }} />
-                <div className="doc-line" style={{ flex: 1, height: '28px', borderRadius: '2px', background: 'rgba(166,134,94,0.25)' }} />
+                <div className="doc-line" style={{ flex: 1, height: '28px', borderRadius: '2px', background: 'rgba(63,166,92,0.25)' }} />
               </div>
               {Array.from({ length: 5 }).map((_, i) => (
                 <div key={i} className="doc-line" style={{ width: `${92 - i * 11}%`, height: '5px' }} />
@@ -69,20 +69,22 @@ function ArchiveSpecimenPlate({ index, label }: { index: number; label: string }
           </div>
         )}
         {variants === 2 && (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '10px' }}>
-            {Array.from({ length: 8 }).map((_, i) => (
-              <div
-                key={i}
-                style={{
-                  aspectRatio: '1',
-                  borderRadius: '4px',
-                  border: `1px solid ${accent}`,
-                  background: i % 3 === 0
-                    ? 'rgba(166,134,94,0.2)'
-                    : 'rgba(239,235,225,0.06)',
-                }}
-              />
-            ))}
+          <div
+            style={{
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'flex-end',
+              height: '180px',
+              borderRadius: '4px',
+              padding: '20px',
+              background:
+                'linear-gradient(135deg, #17140F 0%, #2F8A48 48%, #F6ECDD 100%)',
+              border: '1px solid rgba(63,166,92,0.35)',
+            }}
+          >
+            <div className="doc-line" style={{ width: '55%', height: '6px', background: 'rgba(251,244,233,0.55)' }} />
+            <div className="doc-line" style={{ width: '78%', height: '4px', marginTop: '8px', background: 'rgba(251,244,233,0.35)' }} />
+            <div className="doc-line" style={{ width: '40%', height: '4px', marginTop: '8px', background: 'rgba(251,244,233,0.25)' }} />
           </div>
         )}
       </div>
@@ -270,7 +272,7 @@ function ProjectRow({
                 textTransform: 'uppercase',
                 color: 'var(--accent)',
                 textDecoration: 'none',
-                borderBottom: '1px solid rgba(166, 134, 94, 0.35)',
+                borderBottom: '1px solid rgba(63, 166, 92, 0.35)',
                 paddingBottom: '2px',
               }}
             >
@@ -300,7 +302,7 @@ function ProjectRow({
           top: 'clamp(40px, 6vw, 80px)',
           [isLeft ? 'right' : 'left']: 'clamp(24px, 4vw, 60px)',
           fontFamily: 'Bricolage Grotesque, sans-serif',
-          fontWeight: 800,
+          fontWeight: 900,
           fontSize: 'clamp(60px, 10vw, 120px)',
           lineHeight: 1,
           color: 'var(--text)',
@@ -366,7 +368,7 @@ export default function Archive() {
           <h2
             className="font-display"
             style={{
-              fontWeight: 800,
+              fontWeight: 900,
               fontSize: 'clamp(42px, 8vw, 100px)',
               lineHeight: 0.92,
               letterSpacing: '-0.03em',

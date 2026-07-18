@@ -49,7 +49,7 @@ export default function Contact() {
           bottom: '-0.1em',
           insetInlineStart: '-0.05em',
           fontFamily: 'Bricolage Grotesque, sans-serif',
-          fontWeight: 800,
+          fontWeight: 900,
           fontSize: 'clamp(80px, 18vw, 240px)',
           lineHeight: 1,
           color: 'var(--text)',
@@ -81,7 +81,7 @@ export default function Contact() {
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
-              fontWeight: 800,
+              fontWeight: 900,
               fontSize: 'clamp(36px, 7vw, 90px)',
               lineHeight: 1.0,
               letterSpacing: '-0.03em',
@@ -163,19 +163,20 @@ export default function Contact() {
                 fontWeight: 600,
                 letterSpacing: '0.15em',
                 textTransform: 'uppercase',
-                color: 'var(--bg)',
-                backgroundColor: 'var(--text)',
+                color: '#FFFFFF',
+                backgroundColor: 'var(--accent)',
                 padding: '16px 32px',
                 border: 'none',
+                borderRadius: '999px',
                 cursor: 'pointer',
                 textDecoration: 'none',
                 transition: 'background-color 0.3s ease, transform 0.3s ease',
               }}
               onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--accent)';
+                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--accent-dark)';
               }}
               onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--text)';
+                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--accent)';
               }}
             >
               {content.cta}

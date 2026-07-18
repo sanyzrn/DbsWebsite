@@ -184,7 +184,7 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
       case 'error':
         return { ...base, color: '#FF7B7B' };
       case 'system':
-        return { ...base, color: 'rgba(166, 134, 94, 0.8)' };
+        return { ...base, color: 'rgba(63, 166, 92, 0.8)' };
       default:
         return { ...base, color: 'rgba(244, 242, 237, 0.5)' };
     }

@@ -2,25 +2,31 @@
 
 @layer base {
   :root {
-    /* Studio paper — clean warm ground, ink type, vermilion signal */
-    --bg: #F7F5EF;
-    --text: #131210;
-    --accent: #A6865E;
-    --accent-light: #C4A882;
-    --accent-dark: #8B6F4A;
-    --muted: #78736A;
-    --border: #DFDACE;
-    --surface: #EFECE3;
-    --surface-dark: #E6E2D6;
+    /* Warm cream + ink + grass green — Hope Rise–inspired studio palette */
+    --bg: #F6ECDD;
+    --bg-soft: #FBF4E9;
+    --bg-warm: #F0E0C8;
+    --text: #17140F;
+    --accent: #3FA65C;
+    --accent-light: #5CB873;
+    --accent-dark: #2F8A48;
+    --accent-soft: rgba(63, 166, 92, 0.14);
+    --muted: #6E6355;
+    --border: rgba(23, 20, 15, 0.12);
+    --line: rgba(23, 23, 23, 0.10);
+    --surface: #F3E6D4;
+    --surface-strong: rgba(255, 255, 255, 0.80);
+    --surface-dark: #E8D7C0;
 
-    /* Conservation / restricted tones */
-    --ink: #0F0F0D;
-    --ink-2: #161512;
-    --ink-3: #1E1D19;
-    --paper: #F2F0E9;
+    /* Conservation / restricted tones (vault / classified stays red) */
+    --ink: #17140F;
+    --ink-2: #1C1914;
+    --ink-3: #242018;
+    --paper: #FBF4E9;
     --classified: #8B1A1A;
     --classified-light: #B33A2B;
-    --bg-rgb: 247, 245, 239;
+    --bg-rgb: 246, 236, 221;
+    --accent-rgb: 63, 166, 92;
   }
 
   * {
@@ -38,6 +44,12 @@
 
   body {
     background-color: var(--bg);
+    background-image:
+      radial-gradient(ellipse 90% 55% at 15% -5%, var(--bg-soft), transparent 55%),
+      radial-gradient(ellipse 70% 45% at 95% 10%, rgba(var(--accent-rgb), 0.08), transparent 50%),
+      radial-gradient(ellipse 50% 40% at 50% 100%, var(--bg-warm), transparent 55%),
+      linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 42%, var(--bg-warm) 100%);
+    background-attachment: fixed;
     color: var(--text);
     font-family: 'Inter', sans-serif;
     font-size: 16px;
@@ -132,7 +144,7 @@
      Stroke color comes from --stroke on the element or an ancestor. */
   .text-outline {
     color: transparent;
-    -webkit-text-stroke: 1.2px var(--stroke, #131210);
+    -webkit-text-stroke: 1.2px var(--stroke, #17140F);
   }
 
   .text-accent {
@@ -303,7 +315,7 @@ body::before {
 .process-num {
   font-family: 'Bricolage Grotesque', sans-serif;
   font-size: clamp(80px, 12vw, 160px);
-  font-weight: 800;
+  font-weight: 900;
   line-height: 0.85;
   color: var(--accent);
   opacity: 0.15;
@@ -950,8 +962,8 @@ html.cfg-no-reveal .img-reveal img { transform: none !important; }
   transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease;
 }
 .adm-switch input:checked ~ .adm-track {
-  background: var(--accent, #A6865E);
-  border-color: var(--accent, #A6865E);
+  background: var(--accent, #3FA65C);
+  border-color: var(--accent, #3FA65C);
 }
 .adm-switch input:checked ~ .adm-thumb {
   transform: translateX(18px);

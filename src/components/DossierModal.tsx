@@ -141,7 +141,7 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
             <h2
               style={{
                 fontFamily: 'Bricolage Grotesque, sans-serif',
-                fontWeight: 800,
+                fontWeight: 900,
                 fontSize: 'clamp(32px, 6vw, 52px)',
                 letterSpacing: '-0.03em',
                 color: 'var(--text)',

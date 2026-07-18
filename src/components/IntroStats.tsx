@@ -65,7 +65,7 @@ export default function IntroStats() {
             <div
               className="font-display"
               style={{
-                fontWeight: 800,
+                fontWeight: 900,
                 fontSize: 'clamp(44px, 5.5vw, 72px)',
                 lineHeight: 1,
                 letterSpacing: '-0.04em',

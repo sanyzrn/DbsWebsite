@@ -49,7 +49,7 @@ export default function Process() {
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
-              fontWeight: 800,
+              fontWeight: 900,
               fontSize: 'clamp(42px, 8vw, 100px)',
               lineHeight: 0.92,
               letterSpacing: '-0.03em',
@@ -107,7 +107,7 @@ export default function Process() {
               <div
                 style={{
                   fontFamily: 'Bricolage Grotesque, sans-serif',
-                  fontWeight: 800,
+                  fontWeight: 900,
                   fontSize: 'clamp(30px, 4.5vw, 52px)',
                   lineHeight: 1,
                   letterSpacing: '-0.04em',

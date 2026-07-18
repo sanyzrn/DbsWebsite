@@ -168,7 +168,7 @@ export default function Timeline() {
           top: 'clamp(40px, 6vw, 90px)',
           insetInlineEnd: '-0.04em',
           fontFamily: 'Bricolage Grotesque, sans-serif',
-          fontWeight: 800,
+          fontWeight: 900,
           fontSize: 'clamp(70px, 16vw, 220px)',
           lineHeight: 1,
           color: 'var(--text)',
@@ -214,7 +214,7 @@ export default function Timeline() {
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
-              fontWeight: 800,
+              fontWeight: 900,
               fontSize: 'clamp(40px, 7.5vw, 96px)',
               lineHeight: 0.92,
               letterSpacing: '-0.03em',
