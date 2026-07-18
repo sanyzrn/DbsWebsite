@@ -45,29 +45,33 @@
     overflow-x: hidden;
   }
 
-  /* Persian (fa) — Vazirmatn as the full type system substitute */
+  /* Persian (fa) — Cairo for display, IBM Plex Sans Arabic for body
+     (typographic sibling of IBM Plex Mono already used for system/mono UI) */
   html.lang-fa body {
-    font-family: 'Vazirmatn', 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
     letter-spacing: 0;
   }
 
   html.lang-fa .font-display,
   html.lang-fa .num-display,
   html.lang-fa .process-num {
-    font-family: 'Vazirmatn', sans-serif;
+    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
   }
 
   /* Override hardcoded Latin display/body fonts in inline styles (common in this codebase) */
-  html.lang-fa [style*="Bricolage Grotesque"],
+  html.lang-fa [style*="Bricolage Grotesque"] {
+    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif !important;
+  }
+
   html.lang-fa [style*="Inter,"],
   html.lang-fa [style*="Inter "] {
-    font-family: 'Vazirmatn', sans-serif !important;
+    font-family: 'IBM Plex Sans Arabic', sans-serif !important;
   }
 
   /* Emphasis break for Persian — lighter weight instead of italic serif;
      color stays under component control so Lab/Contact hierarchy is preserved */
   html.lang-fa .serif-accent {
-    font-family: 'Vazirmatn', sans-serif !important;
+    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif !important;
     font-style: normal !important;
     font-weight: 300;
     letter-spacing: 0.01em;
@@ -75,7 +79,7 @@
 
   html.lang-fa .section-label,
   html.lang-fa .classified-stamp {
-    font-family: 'Vazirmatn', sans-serif;
+    font-family: 'IBM Plex Sans Arabic', sans-serif;
     letter-spacing: 0.12em;
   }
 

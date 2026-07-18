@@ -131,11 +131,13 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
         <span className="hero-drift" style={{ top: '14%', right: '30%', animationDuration: '12s', animationDelay: '-5s', fontSize: '9px' }}>◻</span>
       </div>
 
-      {/* Top floating identifiers — swap sides via logical inset in RTL */}
+      {/* Top floating identifiers — below the 64px nav; hidden on mobile so they
+          never collide with the persistent lang-toggle + hamburger corner. */}
       <div
         ref={topLeftRef}
-        className="fixed top-6 z-20 pointer-events-none"
+        className="hero-corner-meta fixed z-20 pointer-events-none hidden md:block"
         style={{
+          top: '76px',
           insetInlineStart: '1.5rem',
           opacity: loaded ? 1 : 0,
           transition: 'opacity 1.2s ease',
@@ -164,8 +166,9 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
 
       <div
         ref={topRightRef}
-        className="fixed top-6 z-20 pointer-events-none"
+        className="hero-corner-meta fixed z-20 pointer-events-none hidden md:block"
         style={{
+          top: '76px',
           insetInlineEnd: '1.5rem',
           textAlign: 'end',
           opacity: loaded ? 1 : 0,
