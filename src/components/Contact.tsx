@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import Magnetic from './Magnetic';
+import { useLanguage } from '../config/languageConfig';
+import { contactContent } from '../content/contact';
 
 export default function Contact() {
+  const { lang, isFa } = useLanguage();
+  const content = contactContent[lang];
   const headerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
   const [copied, setCopied] = useState<string | null>(null);
@@ -43,7 +47,7 @@ export default function Contact() {
         style={{
           position: 'absolute',
           bottom: '-0.1em',
-          left: '-0.05em',
+          insetInlineStart: '-0.05em',
           fontFamily: 'Bricolage Grotesque, sans-serif',
           fontWeight: 800,
           fontSize: 'clamp(80px, 18vw, 240px)',
@@ -56,7 +60,7 @@ export default function Contact() {
           whiteSpace: 'nowrap',
         }}
       >
-        DBS GRAPHIC
+        {content.ghost}
       </div>
 
       <div style={{ position: 'relative', zIndex: 1 }}>
@@ -69,7 +73,7 @@ export default function Contact() {
           }}
         >
           <div className="section-label" style={{ marginBottom: '24px' }}>
-            Section 04
+            {content.eyebrow}
           </div>
 
           {/* Main statement */}
@@ -85,9 +89,9 @@ export default function Contact() {
               marginBottom: '48px',
             }}
           >
-            Design is how<br />
+            {content.headlineLead}<br />
             <span className="serif-accent" style={{ color: 'var(--accent)', fontWeight: 400 }}>
-              trust begins.
+              {content.headlineAccent}
             </span>
           </h2>
           </Magnetic>
@@ -102,7 +106,7 @@ export default function Contact() {
               marginBottom: 'clamp(48px, 7vw, 80px)',
             }}
           >
-            Ready to start a project or looking for collaboration? I'm available for remote or part-time work. Whether it's pharmaceutical packaging, brand identity, or a custom website — let's discuss how to create something that works.
+            {content.paragraph}
           </p>
         </div>
 
@@ -124,20 +128,24 @@ export default function Contact() {
           >
             {/* Email */}
             <ContactItem
-              label="Email"
-              value="zrn_sany@yahoo.com"
-              href="mailto:zrn_sany@yahoo.com"
+              label={content.emailLabel}
+              value={content.email}
+              href={`mailto:${content.email}`}
               copied={copied === 'email'}
-              onCopy={() => copyToClipboard('zrn_sany@yahoo.com', 'email')}
+              onCopy={() => copyToClipboard(content.email, 'email')}
+              copyLabel={content.copy}
+              copiedLabel={content.copied}
             />
 
             {/* Phone */}
             <ContactItem
-              label="Phone"
-              value="09301221816"
-              href="tel:+989301221816"
+              label={content.phoneLabel}
+              value={content.phone}
+              href={content.phoneHref}
               copied={copied === 'phone'}
-              onCopy={() => copyToClipboard('09301221816', 'phone')}
+              onCopy={() => copyToClipboard(content.phone, 'phone')}
+              copyLabel={content.copy}
+              copiedLabel={content.copied}
             />
           </div>
 
@@ -145,7 +153,7 @@ export default function Contact() {
           <div style={{ marginTop: 'clamp(48px, 6vw, 72px)' }}>
             <Magnetic strength={0.35} radius={70}>
             <a
-              href="mailto:zrn_sany@yahoo.com"
+              href={`mailto:${content.email}`}
               style={{
                 display: 'inline-flex',
                 alignItems: 'center',
@@ -170,8 +178,14 @@ export default function Contact() {
                 (e.currentTarget as HTMLAnchorElement).style.backgroundColor = 'var(--text)';
               }}
             >
-              Start a Conversation
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              {content.cta}
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 14 14"
+                fill="none"
+                style={{ transform: isFa ? 'scaleX(-1)' : undefined }}
+              >
                 <path d="M1 7h12M7 1l6 6-6 6" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
             </a>
@@ -205,7 +219,7 @@ export default function Contact() {
                 letterSpacing: '0.08em',
               }}
             >
-              © {new Date().getFullYear()} DBS Graphic · Saeed Zarrini — All work reserved.
+              {content.footerRights(new Date().getFullYear())}
             </span>
           </div>
           <div
@@ -216,7 +230,7 @@ export default function Contact() {
               letterSpacing: '0.08em',
             }}
           >
-            Designing Trust Since 2007
+            {content.footerTagline}
           </div>
         </div>
       </div>
@@ -230,10 +244,21 @@ interface ContactItemProps {
   href: string;
   copied: boolean;
   onCopy: () => void;
+  copyLabel: string;
+  copiedLabel: string;
   external?: boolean;
 }
 
-function ContactItem({ label, value, href, copied, onCopy, external }: ContactItemProps) {
+function ContactItem({
+  label,
+  value,
+  href,
+  copied,
+  onCopy,
+  copyLabel,
+  copiedLabel,
+  external,
+}: ContactItemProps) {
   return (
     <div
       style={{
@@ -303,7 +328,7 @@ function ContactItem({ label, value, href, copied, onCopy, external }: ContactIt
             <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
               <path d="M1 5l3 3 5-5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
-            Copied
+            {copiedLabel}
           </>
         ) : (
           <>
@@ -311,7 +336,7 @@ function ContactItem({ label, value, href, copied, onCopy, external }: ContactIt
               <rect x="3" y="0" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1" />
               <rect x="0" y="3" width="7" height="7" rx="1" stroke="currentColor" strokeWidth="1" fill="var(--bg)" />
             </svg>
-            Copy
+            {copyLabel}
           </>
         )}
       </button>

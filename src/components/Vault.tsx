@@ -1,11 +1,25 @@
 import { useEffect, useRef } from 'react';
 import { useSiteConfig } from '../config/siteConfig';
+import { useLanguage } from '../config/languageConfig';
+import { vaultContent } from '../content/vault';
 
 /**
  * THE VAULT — the restricted collection.
  * Pharmaceutical work only. Catalogued and conserved like a national archive:
  * each entry is a sealed specimen plate, declassified only on close inspection.
  */
+
+type PlateKind = 'label' | 'leaflet' | 'carton' | 'identity' | 'system' | 'blister';
+
+/** Plate kinds in catalog order — matches vaultContent specimens. */
+const PLATE_KINDS: PlateKind[] = [
+  'label',
+  'leaflet',
+  'carton',
+  'identity',
+  'system',
+  'blister',
+];
 
 interface Specimen {
   ref: string;
@@ -15,81 +29,19 @@ interface Specimen {
   medium: string;
   status: string;
   year: string;
-  /* visual signature of the specimen plate */
-  plate: 'label' | 'leaflet' | 'carton' | 'identity' | 'system' | 'blister';
+  plate: PlateKind;
 }
 
-const specimens: Specimen[] = [
-  {
-    ref: 'VLT-PH-001',
-    title: 'Drug Labels',
-    classification: 'Controlled',
-    description:
-      'Primary labels engineered as instruments of safety. Dosage hierarchy, contraindication legibility, and regulatory marks composed so the critical line is never the one a tired hand misreads.',
-    medium: 'Pressure-sensitive · Foil · Litho',
-    status: 'Conserved',
-    year: '2011—2024',
-    plate: 'label',
-  },
-  {
-    ref: 'VLT-PH-002',
-    title: 'Patient Leaflets',
-    classification: 'Regulated',
-    description:
-      'The folded document that accompanies every box. A typographic system built to carry dense pharmacological law and still be read by a patient at the kitchen table.',
-    medium: 'Bible paper · 6pt grid · Multilingual',
-    status: 'Archived',
-    year: '2012—2023',
-    plate: 'leaflet',
-  },
-  {
-    ref: 'VLT-PH-003',
-    title: 'Cartons & Packaging',
-    classification: 'Specimen',
-    description:
-      'Secondary packaging as a structural promise. Tamper evidence, Braille, serialization, and shelf presence resolved into a single object the pharmacist trusts on sight.',
-    medium: 'Folding carton · Emboss · Braille',
-    status: 'Conserved',
-    year: '2010—2024',
-    plate: 'carton',
-  },
-  {
-    ref: 'VLT-PH-004',
-    title: 'Medical Branding',
-    classification: 'Restricted',
-    description:
-      'Identity systems for clinical portfolios — where a logotype must read as competence, not marketing. Trust marks designed to survive a regulator, a doctor, and a frightened patient in the same afternoon.',
-    medium: 'Identity · Naming · Trust marks',
-    status: 'Sealed',
-    year: '2014—2025',
-    plate: 'identity',
-  },
-  {
-    ref: 'VLT-PH-005',
-    title: 'Healthcare Systems',
-    classification: 'Classified',
-    description:
-      'The infrastructure no patient sees: formulary tools, clinical dashboards, and ordering systems. Interfaces where a misplaced pixel is a patient-safety event, designed accordingly.',
-    medium: 'UX · Information architecture · Code',
-    status: 'Active',
-    year: '2018—2025',
-    plate: 'system',
-  },
-  {
-    ref: 'VLT-PH-006',
-    title: 'Pharmaceutical Packaging',
-    classification: 'Controlled',
-    description:
-      'The complete dosage object — blister, foil, and box governed by one system. Every surface a coordinate in a grid that makes the right medicine unmistakable from the wrong one.',
-    medium: 'Blister · Foil · Full system',
-    status: 'Conserved',
-    year: '2009—2025',
-    plate: 'blister',
-  },
-];
+interface MetaLabels {
+  medium: string;
+  status: string;
+  catalogued: string;
+  access: string;
+  accessValue: string;
+}
 
 /* A CSS-only "conserved specimen" — a document under archival glass. */
-function SpecimenPlate({ kind }: { kind: Specimen['plate'] }) {
+function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
   const accent = 'rgba(166, 134, 94, 0.55)';
 
   return (
@@ -131,8 +83,8 @@ function SpecimenPlate({ kind }: { kind: Specimen['plate'] }) {
               {[3, 1, 2, 1, 3, 1, 1, 2, 1, 3, 2, 1, 1, 2].map((w, i) => (
                 <div key={i} style={{ width: `${w}px`, height: '100%', background: 'rgba(239,235,225,0.5)' }} />
               ))}
-              <span className="mono" style={{ marginLeft: 'auto', fontSize: '7px', color: accent, letterSpacing: '0.1em' }}>
-                LOT ████
+              <span className="mono" style={{ marginInlineStart: 'auto', fontSize: '7px', color: accent, letterSpacing: '0.1em' }}>
+                {lot}
               </span>
             </div>
           </>
@@ -141,7 +93,16 @@ function SpecimenPlate({ kind }: { kind: Specimen['plate'] }) {
         {kind === 'leaflet' && (
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', height: '100%' }}>
             {[0, 1, 2].map((col) => (
-              <div key={col} style={{ display: 'flex', flexDirection: 'column', gap: '4px', borderRight: col < 2 ? `1px dashed ${accent}` : 'none', paddingRight: '6px' }}>
+              <div
+                key={col}
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '4px',
+                  borderInlineEnd: col < 2 ? `1px dashed ${accent}` : 'none',
+                  paddingInlineEnd: '6px',
+                }}
+              >
                 {Array.from({ length: 7 }).map((_, i) => (
                   <div key={i} className="doc-line" style={{ width: `${60 + ((i * 13) % 40)}%`, height: '3px' }} />
                 ))}
@@ -192,7 +153,7 @@ function SpecimenPlate({ kind }: { kind: Specimen['plate'] }) {
 
         {kind === 'system' && (
           <div style={{ display: 'grid', gridTemplateColumns: '34px 1fr', gap: '8px', height: '100%' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', borderRight: `1px solid ${accent}`, paddingRight: '6px' }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px', borderInlineEnd: `1px solid ${accent}`, paddingInlineEnd: '6px' }}>
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="doc-line" style={{ width: '100%', height: '5px', opacity: i === 1 ? 1 : 0.5 }} />
               ))}
@@ -224,20 +185,30 @@ function SpecimenPlate({ kind }: { kind: Specimen['plate'] }) {
       <span className="reg-mark" style={{ bottom: 8, left: 8, borderBottom: '1px solid', borderLeft: '1px solid' }} />
       <span className="reg-mark" style={{ bottom: 8, right: 8, borderBottom: '1px solid', borderRight: '1px solid' }} />
 
-      {/* redaction bars — slide away when the file is inspected */}
+      {/* redaction bars — slide away when the file is inspected; RTL clip handled in CSS */}
       <div
         className="redaction"
-        style={{ position: 'absolute', top: '40px', left: '40px', height: '8px', width: '46%' }}
+        style={{ position: 'absolute', top: '40px', insetInlineStart: '40px', height: '8px', width: '46%' }}
       />
       <div
         className="redaction"
-        style={{ position: 'absolute', top: '64px', left: '40px', height: '8px', width: '30%', transitionDelay: '0.05s' }}
+        style={{ position: 'absolute', top: '64px', insetInlineStart: '40px', height: '8px', width: '30%', transitionDelay: '0.05s' }}
       />
     </div>
   );
 }
 
-function SpecimenCard({ s, index }: { s: Specimen; index: number }) {
+function SpecimenCard({
+  s,
+  index,
+  meta,
+  lot,
+}: {
+  s: Specimen;
+  index: number;
+  meta: MetaLabels;
+  lot: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -259,7 +230,7 @@ function SpecimenCard({ s, index }: { s: Specimen; index: number }) {
       className="reveal-scale vault-card"
       style={{ transitionDelay: `${(index % 2) * 90 + 60}ms` }}
     >
-      <SpecimenPlate kind={s.plate} />
+      <SpecimenPlate kind={s.plate} lot={lot} />
 
       {/* metadata body */}
       <div style={{ padding: 'clamp(18px, 2.4vw, 26px)', position: 'relative' }}>
@@ -312,10 +283,10 @@ function SpecimenCard({ s, index }: { s: Specimen; index: number }) {
             letterSpacing: '0.08em',
           }}
         >
-          <MetaCell label="Medium" value={s.medium} />
-          <MetaCell label="Status" value={s.status} highlight />
-          <MetaCell label="Catalogued" value={s.year} />
-          <MetaCell label="Access" value="On Request" />
+          <MetaCell label={meta.medium} value={s.medium} />
+          <MetaCell label={meta.status} value={s.status} highlight />
+          <MetaCell label={meta.catalogued} value={s.year} />
+          <MetaCell label={meta.access} value={meta.accessValue} />
         </div>
       </div>
     </div>
@@ -337,7 +308,17 @@ function MetaCell({ label, value, highlight }: { label: string; value: string; h
 
 export default function Vault() {
   const { config } = useSiteConfig();
+  const { lang, isFa } = useLanguage();
+  const content = vaultContent[lang];
   const headerRef = useRef<HTMLDivElement>(null);
+
+  const clearance = isFa ? content.clearance : config.vault.clearance;
+  const facility = isFa ? content.facility : config.vault.facility;
+
+  const specimens: Specimen[] = content.specimens.map((s, i) => ({
+    ...s,
+    plate: PLATE_KINDS[i],
+  }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -383,10 +364,10 @@ export default function Vault() {
       >
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
           <span className="rec-dot" style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--classified-light)' }} />
-          {config.vault.clearance}
+          {clearance}
         </span>
-        <span style={{ color: 'rgba(166, 134, 94, 0.85)' }}>Pharmaceutical Division</span>
-        <span>{config.vault.facility}</span>
+        <span style={{ color: 'rgba(166, 134, 94, 0.85)' }}>{content.division}</span>
+        <span>{facility}</span>
       </div>
 
       {/* Header */}
@@ -419,7 +400,7 @@ export default function Vault() {
             }}
           >
             <span style={{ width: '24px', height: '1px', background: 'var(--classified-light)' }} />
-            Classified Collection
+            {content.eyebrow}
           </div>
 
           <h2
@@ -434,7 +415,7 @@ export default function Vault() {
               textShadow: '0 0 60px rgba(166,134,94,0.12)',
             }}
           >
-            THE<br />VAULT
+            {content.titlePrefix}<br />{content.title}
           </h2>
 
           <p
@@ -446,9 +427,7 @@ export default function Vault() {
               maxWidth: '520px',
             }}
           >
-            Behind reinforced glass: the pharmaceutical work, held to the standard of a national
-            archive. Catalogued, conserved, and released only on request — because in medicine,
-            design is not decoration. It is the difference between the right dose and the last one.
+            {content.body}
           </p>
         </div>
 
@@ -466,18 +445,12 @@ export default function Vault() {
           }}
         >
           <div style={{ color: 'rgba(166,134,94,0.85)', letterSpacing: '0.25em', marginBottom: '16px', fontSize: '9px' }}>
-            ▣ VAULT MANIFEST
+            {content.manifestTitle}
           </div>
-          {[
-            ['Entries', '06 / Sealed'],
-            ['Domain', 'Pharma Only'],
-            ['Earliest', '2009'],
-            ['Last Audit', '06 · 2025'],
-            ['Integrity', '100%'],
-          ].map(([k, v]) => (
-            <div key={k} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid rgba(239,235,225,0.08)' }}>
-              <span style={{ color: 'rgba(239,235,225,0.4)', textTransform: 'uppercase' }}>{k}</span>
-              <span style={{ color: 'rgba(239,235,225,0.8)' }}>{v}</span>
+          {content.manifest.map(({ label, value }) => (
+            <div key={label} style={{ display: 'flex', justifyContent: 'space-between', padding: '6px 0', borderBottom: '1px solid rgba(239,235,225,0.08)' }}>
+              <span style={{ color: 'rgba(239,235,225,0.4)', textTransform: 'uppercase' }}>{label}</span>
+              <span style={{ color: 'rgba(239,235,225,0.8)' }}>{value}</span>
             </div>
           ))}
         </div>
@@ -495,7 +468,7 @@ export default function Vault() {
         }}
       >
         {specimens.map((s, i) => (
-          <SpecimenCard key={s.ref} s={s} index={i} />
+          <SpecimenCard key={s.ref} s={s} index={i} meta={content.meta} lot={content.lot} />
         ))}
       </div>
 
@@ -516,7 +489,7 @@ export default function Vault() {
         }}
       >
         <span style={{ flex: 1, height: '1px', background: 'rgba(166, 134, 94, 0.25)' }} />
-        <span>End of Restricted Manifest · Do Not Distribute</span>
+        <span>{content.footer}</span>
         <span style={{ flex: 1, height: '1px', background: 'rgba(166, 134, 94, 0.25)' }} />
       </div>
     </section>

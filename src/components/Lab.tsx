@@ -1,89 +1,28 @@
 import { useEffect, useRef, useState } from 'react';
 import Magnetic from './Magnetic';
+import { useLanguage } from '../config/languageConfig';
+import { labContent } from '../content/lab';
 
 interface LabProps {
   onLabVisited: () => void;
 }
 
-const capabilities = [
-  {
-    id: 'packaging',
-    index: '01',
-    title: 'Pharmaceutical Packaging',
-    short: 'Where precision meets patient care.',
-    detail:
-      'Sixteen years of pharmaceutical and cosmetic packaging — from conceptual layout to print-ready production files. Drug labeling, cosmetic boxes, insert design, and multi-SKU systems built in Adobe Illustrator and Photoshop. Every element justified. Every specification met.',
-    specs: ['Drug Labeling', 'Cosmetic Packaging', 'Insert Design', 'Multi-SKU Systems', 'Print Production'],
-    icon: '⬡',
-  },
-  {
-    id: 'identity',
-    index: '02',
-    title: 'Visual Identity & Brand Systems',
-    short: 'Brands that carry weight without explanation.',
-    detail:
-      'Comprehensive graphic design and branding work spanning logo development, brand guidelines, marketing materials, and digital content. Building visual languages — not just logos — that scale from business card to billboard and remain coherent across every application.',
-    specs: ['Logo Design', 'Brand Guidelines', 'Art Direction', 'Print Materials', 'Visual Systems'],
-    icon: '◈',
-  },
-  {
-    id: 'web',
-    index: '03',
-    title: 'Web Development',
-    short: 'Professional websites — from WordPress to React.',
-    detail:
-      'Full website design and development across the stack: WordPress custom themes, HTML/CSS/JavaScript, and React applications. From a brand-aligned business site to a component-driven web app — purpose-built, performance-optimized, and delivered clean.',
-    specs: ['WordPress', 'HTML / CSS / JS', 'React', 'Web Design', 'Performance'],
-    icon: '▲',
-  },
-  {
-    id: 'ai',
-    index: '04',
-    title: 'AI Solutions',
-    short: 'Practical intelligence, not buzzwords.',
-    detail:
-      'Integrating AI into real workflows — chatbots with genuine context, automated content pipelines, intelligent classification tools, and LLM-powered assistants. Built to solve actual business problems, not to demo.',
-    specs: ['LLM Integration', 'AI Chatbots', 'Workflow Automation', 'Content AI', 'API Integration'],
-    icon: '◈',
-  },
-  {
-    id: 'bots',
-    index: '05',
-    title: 'Telegram & Bale Bots',
-    short: 'Your business running inside the apps people already use.',
-    detail:
-      'Full-featured bots for Telegram and Bale — customer service, order management, team notifications, content delivery, and payment integrations. Deployed where your audience actually is, not where you wish they were.',
-    specs: ['Telegram Bot API', 'Bale Bot API', 'Webhooks', 'Payment Systems', 'CRM Integration'],
-    icon: '◎',
-  },
-  {
-    id: 'ui',
-    index: '06',
-    title: 'UI/UX Design',
-    short: 'Interfaces people actually want to use.',
-    detail:
-      'User interface design for web and applications using Figma and Adobe XD. Clear visual hierarchy, intuitive navigation, and seamless user experience — prototype-tested before a single line of code is written.',
-    specs: ['Figma', 'Adobe XD', 'Prototyping', 'User Flows', 'Interface Systems'],
-    icon: '⬡',
-  },
-  {
-    id: 'editorial',
-    index: '07',
-    title: 'Catalog & Editorial Design',
-    short: 'Print that earns shelf space.',
-    detail:
-      'Product catalogs, corporate brochures, and editorial pieces designed in Adobe InDesign. Structured layout systems, precision typography, and print-ready files that printers do not have to correct. Seven years of editorial experience at Payam Magazine.',
-    specs: ['Catalog Design', 'Brochure Layout', 'Adobe InDesign', 'Print Production', 'Art Direction'],
-    icon: '□',
-  },
-];
+/** Icons kept local — matched to capabilities order in labContent. */
+const CAPABILITY_ICONS = ['⬡', '◈', '▲', '◈', '◎', '⬡', '□'];
 
 export default function Lab({ onLabVisited }: LabProps) {
+  const { lang } = useLanguage();
+  const content = labContent[lang];
   const [expanded, setExpanded] = useState<string | null>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
   const visitedRef = useRef(false);
+
+  const capabilities = content.capabilities.map((item, i) => ({
+    ...item,
+    icon: CAPABILITY_ICONS[i],
+  }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -144,7 +83,7 @@ export default function Lab({ onLabVisited }: LabProps) {
           letterSpacing: '-0.04em',
         }}
       >
-        LAB
+        {content.ghost}
       </div>
 
       {/* Section header */}
@@ -167,7 +106,7 @@ export default function Lab({ onLabVisited }: LabProps) {
             className="section-label"
             style={{ marginBottom: '16px', color: 'rgba(166, 134, 94, 0.8)' }}
           >
-            Section 02
+            {content.eyebrow}
           </div>
           <Magnetic strength={0.07} radius={90}>
           <h2
@@ -180,7 +119,7 @@ export default function Lab({ onLabVisited }: LabProps) {
               color: '#F4F2ED',
             }}
           >
-            The<br />Lab
+            {content.titlePrefix}<br />{content.title}
           </h2>
           </Magnetic>
         </div>
@@ -194,7 +133,7 @@ export default function Lab({ onLabVisited }: LabProps) {
               marginBottom: '16px',
             }}
           >
-            Most designers deliver files.
+            {content.subheadLead}
           </p>
           <p
             className="serif-accent"
@@ -204,7 +143,8 @@ export default function Lab({ onLabVisited }: LabProps) {
               color: '#F4F2ED',
             }}
           >
-            I deliver <span style={{ color: 'var(--accent-light, #C4A882)' }}>systems.</span>
+            {content.subheadDeliver}{' '}
+            <span style={{ color: 'var(--accent-light, #C4A882)' }}>{content.subheadAccent}</span>
           </p>
         </div>
       </div>
@@ -239,7 +179,7 @@ export default function Lab({ onLabVisited }: LabProps) {
                 display: 'flex',
                 alignItems: 'center',
                 gap: '24px',
-                textAlign: 'left',
+                textAlign: 'start',
               }}
               aria-expanded={expanded === item.id}
             >
@@ -327,7 +267,7 @@ export default function Lab({ onLabVisited }: LabProps) {
               <div
                 style={{
                   paddingBottom: '32px',
-                  paddingLeft: 'clamp(52px, 6vw, 72px)',
+                  paddingInlineStart: 'clamp(52px, 6vw, 72px)',
                   display: 'flex',
                   flexWrap: 'wrap',
                   gap: '32px',
@@ -357,7 +297,7 @@ export default function Lab({ onLabVisited }: LabProps) {
                       marginBottom: '12px',
                     }}
                   >
-                    Capabilities
+                    {content.capabilitiesLabel}
                   </div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                     {item.specs.map((spec) => (

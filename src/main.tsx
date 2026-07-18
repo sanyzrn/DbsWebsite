@@ -3,11 +3,14 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App";
 import { SiteConfigProvider } from "./config/siteConfig";
+import { LanguageProvider } from "./config/languageConfig";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <SiteConfigProvider>
-      <App />
-    </SiteConfigProvider>
+    <LanguageProvider>
+      <SiteConfigProvider>
+        <App />
+      </SiteConfigProvider>
+    </LanguageProvider>
   </StrictMode>
 );

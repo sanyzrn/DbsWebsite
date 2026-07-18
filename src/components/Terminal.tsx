@@ -1,4 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
+import { useLanguage } from '../config/languageConfig';
+import {
+  terminalContent,
+  type TerminalCommandId,
+} from '../content/terminal';
 
 interface TerminalProps {
   isOpen: boolean;
@@ -10,92 +15,20 @@ type OutputLine = {
   content: string;
 };
 
-const COMMANDS: Record<string, () => string[]> = {
-  help: () => [
-    '┌─ Available Commands ──────────────────────────',
-    '│  help       — show this message',
-    '│  whoami     — display user profile',
-    '│  skills     — list technical capabilities',
-    '│  projects   — browse selected work',
-    '│  contact    — get contact information',
-    '│  coffee     — essential fuel',
-    '│  clear      — clear terminal output',
-    '└───────────────────────────────────────────────',
-  ],
-  whoami: () => [
-    '',
-    '  NAME    Saeed Zarrini',
-    '  ROLE    Graphic Designer · Packaging Specialist · Web Developer',
-    '  EXP     16+ years (Est. 2007)',
-    '  BASE    Independent Studio — Remote-First',
-    '  MODE    Precision & Creativity',
-    '',
-    '  "I don\'t design to impress. I design to work."',
-    '',
-  ],
-  skills: () => [
-    '',
-    '  ── DESIGN ─────────────────────────────────────',
-    '  ▸ Adobe Illustrator              ████████████ Master',
-    '  ▸ Adobe Photoshop                ████████████ Master',
-    '  ▸ Adobe XD / Figma               ████████████ Master',
-    '  ▸ Adobe InDesign                 ███████████░ Expert',
-    '  ▸ Pharmaceutical Packaging       ███████████░ Expert',
-    '',
-    '  ── DEVELOPMENT ────────────────────────────────',
-    '  ▸ HTML / CSS                     ████████████ Master',
-    '  ▸ WordPress                      ████████████ Master',
-    '  ▸ JavaScript                     ██████████░░ Expert',
-    '  ▸ React                          █████████░░░ Advanced',
-    '  ▸ AI Integration                 █████████░░░ Advanced',
-    '  ▸ Telegram & Bale Bot API        ████████░░░░ Advanced',
-    '',
-  ],
-  projects: () => [
-    '',
-    '  001  Pharmaceutical Packaging — Nafas Pharmed    2023–',
-    '  002  Packaging & Visual Identity — Busun Pharmed 2021–',
-    '  003  Packaging Systems — Packman Group           2021–23',
-    '  004  Drug Labeling — Zarjam Daru                 2021–22',
-    '  005  Editorial Design — Payam Magazine           2009–16',
-    '',
-    '  → Scroll the archive to examine selected work.',
-    '',
-  ],
-  contact: () => [
-    '',
-    '  EMAIL      zrn_sany@yahoo.com',
-    '  PHONE      09301221816',
-    '',
-    '  Preferred contact: Email',
-    '  Response time:     < 24 hours',
-    '',
-  ],
-  coffee: () => [
-    '',
-    '  ☕  Loading caffeine...',
-    '',
-    '  ██████████████████████████████ 100%',
-    '',
-    '  Design quality    +25%',
-    '  Attention to detail  +40%',
-    '  Font kerning sensitivity  +60%',
-    '  Tolerance for bad briefs  -15%',
-    '',
-    '  ✓ Ready to design.',
-    '',
-  ],
-};
-
-const BOOT_LINES = [
-  'SAEED DESIGN SYSTEM v1.0',
-  'Initializing workspace...',
-  '──────────────────────────────────────────',
-  'Type "help" for available commands.',
-  '',
+const EN_COMMAND_IDS: TerminalCommandId[] = [
+  'help',
+  'whoami',
+  'skills',
+  'projects',
+  'contact',
+  'coffee',
+  'clear',
 ];
 
 export default function Terminal({ isOpen, onClose }: TerminalProps) {
+  const { lang } = useLanguage();
+  const content = terminalContent[lang];
+
   const [history, setHistory] = useState<OutputLine[]>([]);
   const [input, setInput] = useState('');
   const [cmdHistory, setCmdHistory] = useState<string[]>([]);
@@ -104,32 +37,45 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
 
   const inputRef = useRef<HTMLInputElement>(null);
   const outputRef = useRef<HTMLDivElement>(null);
+  const bootTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // Boot sequence
+  const clearBootTimers = () => {
+    bootTimersRef.current.forEach(clearTimeout);
+    bootTimersRef.current = [];
+  };
+
+  const runBoot = () => {
+    clearBootTimers();
+    setHistory([]);
+    setBooted(false);
+    let delay = 0;
+    content.boot.forEach((line, i) => {
+      const t = setTimeout(() => {
+        setHistory((prev) => [...prev, { type: 'system', content: line }]);
+      }, delay);
+      bootTimersRef.current.push(t);
+      delay += i === 0 ? 300 : 120;
+    });
+    const done = setTimeout(() => {
+      setBooted(true);
+      inputRef.current?.focus();
+    }, delay + 100);
+    bootTimersRef.current.push(done);
+  };
+
+  // Boot sequence on open; re-boot when language changes while open
   useEffect(() => {
-    if (isOpen && !booted) {
-      setHistory([]);
-      let delay = 0;
-      BOOT_LINES.forEach((line, i) => {
-        setTimeout(() => {
-          setHistory((prev) => [
-            ...prev,
-            { type: 'system', content: line },
-          ]);
-        }, delay);
-        delay += i === 0 ? 300 : 120;
-      });
-      setTimeout(() => {
-        setBooted(true);
-        inputRef.current?.focus();
-      }, delay + 100);
-    }
-    if (!isOpen) {
+    if (isOpen) {
+      runBoot();
+    } else {
+      clearBootTimers();
       setBooted(false);
       setHistory([]);
       setInput('');
     }
-  }, [isOpen, booted]);
+    return () => clearBootTimers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- intentional: re-boot on lang while open
+  }, [isOpen, lang]);
 
   useEffect(() => {
     if (outputRef.current) {
@@ -155,38 +101,56 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
     return () => { document.body.style.overflow = ''; };
   }, [isOpen]);
 
+  const resolveCommand = (raw: string): TerminalCommandId | null => {
+    const cmd = raw.trim().toLowerCase();
+    if (!cmd) return null;
+
+    // Accept English command names in both languages
+    if ((EN_COMMAND_IDS as string[]).includes(cmd)) {
+      return cmd as TerminalCommandId;
+    }
+
+    const fromAlias = content.aliases[raw.trim()] ?? content.aliases[cmd];
+    if (fromAlias) return fromAlias;
+
+    return null;
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const cmd = input.trim().toLowerCase();
-    if (!cmd) return;
+    const raw = input.trim();
+    if (!raw) return;
 
-    // Add input line to history
+    const displayCmd = raw;
     const newHistory: OutputLine[] = [
       ...history,
-      { type: 'input', content: cmd },
+      { type: 'input', content: displayCmd },
     ];
 
-    if (cmd === 'clear') {
+    const resolved = resolveCommand(raw);
+
+    if (resolved === 'clear') {
       setHistory([]);
       setInput('');
+      setCmdHistory((prev) => [raw, ...prev]);
+      setHistoryIndex(-1);
       return;
     }
 
-    const handler = COMMANDS[cmd];
-    if (handler) {
-      const lines = handler();
+    if (resolved) {
+      const lines = content.commands[resolved];
       lines.forEach((line) => {
         newHistory.push({ type: 'output', content: line });
       });
     } else {
       newHistory.push({
         type: 'error',
-        content: `  Command not found: "${cmd}". Type "help" for available commands.`,
+        content: content.notFound(raw),
       });
     }
 
     setHistory(newHistory);
-    setCmdHistory((prev) => [cmd, ...prev]);
+    setCmdHistory((prev) => [raw, ...prev]);
     setHistoryIndex(-1);
     setInput('');
   };
@@ -259,8 +223,12 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Terminal title bar */}
-        <div className="terminal-bar" style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}>
+        {/* Terminal title bar — traffic lights stay LTR */}
+        <div
+          className="terminal-bar"
+          dir="ltr"
+          style={{ padding: '12px 16px', display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0 }}
+        >
           {/* Traffic light buttons */}
           <button
             onClick={onClose}
@@ -273,13 +241,13 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
               cursor: 'pointer',
               flexShrink: 0,
             }}
-            aria-label="Close terminal"
+            aria-label={content.closeAria}
           />
           <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#FEBC2E', flexShrink: 0 }} />
           <div style={{ width: 12, height: 12, borderRadius: '50%', backgroundColor: '#28C840', flexShrink: 0 }} />
 
           {/* Title */}
-          <div style={{ flex: 1, textAlign: 'center', marginRight: '40px' }}>
+          <div style={{ flex: 1, textAlign: 'center', marginInlineEnd: '40px' }}>
             <span
               style={{
                 fontFamily: 'SF Mono, Fira Code, monospace',
@@ -288,7 +256,7 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
                 letterSpacing: '0.08em',
               }}
             >
-              saeed-design-system — terminal
+              {content.windowTitle}
             </span>
           </div>
         </div>
@@ -321,6 +289,7 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
         {/* Input area */}
         <form
           onSubmit={handleSubmit}
+          dir="ltr"
           style={{
             borderTop: '1px solid rgba(244, 242, 237, 0.06)',
             padding: '12px 20px 16px',
@@ -345,7 +314,8 @@ export default function Terminal({ isOpen, onClose }: TerminalProps) {
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="type a command..."
+            placeholder={content.placeholder}
+            disabled={!booted}
             autoComplete="off"
             autoCapitalize="off"
             spellCheck={false}
