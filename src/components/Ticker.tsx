@@ -1,19 +1,9 @@
-const items = [
-  'Pharmaceutical Packaging',
-  'Brand Identity',
-  'Graphic Design',
-  'AI Solutions',
-  'Telegram & Bale Bots',
-  'WordPress Development',
-  'React Applications',
-  'UI/UX Design',
-  'Catalog Design',
-  'Art Direction',
-  'Brochure Design',
-  'Visual Systems',
-];
+import { useLanguage } from '../config/languageConfig';
+import { tickerContent } from '../content/ticker';
 
 export default function Ticker() {
+  const { lang, isFa } = useLanguage();
+  const items = tickerContent[lang];
   const repeated = [...items, ...items, ...items];
 
   return (
@@ -31,18 +21,18 @@ export default function Ticker() {
         style={{
           display: 'flex',
           gap: '0',
-          animation: 'tickerScroll 44s linear infinite',
+          animation: `${isFa ? 'tickerScrollRtl' : 'tickerScroll'} 44s linear infinite`,
           width: 'max-content',
         }}
       >
         {repeated.map((item, index) => (
           <span
-            key={index}
+            key={`${lang}-${index}`}
+            className="font-display"
             style={{
-              fontFamily: 'Bricolage Grotesque, sans-serif',
               fontSize: 'clamp(13px, 1.6vw, 17px)',
               fontWeight: 700,
-              letterSpacing: '0.1em',
+              letterSpacing: isFa ? '0.02em' : '0.1em',
               textTransform: 'uppercase',
               whiteSpace: 'nowrap',
               padding: '0 28px',
@@ -60,12 +50,11 @@ export default function Ticker() {
         ))}
       </div>
 
-      {/* Fade edges */}
       <div
         style={{
           position: 'absolute',
           top: 0,
-          left: 0,
+          insetInlineStart: 0,
           width: '60px',
           height: '100%',
           background: 'linear-gradient(to right, var(--accent), transparent)',
@@ -77,7 +66,7 @@ export default function Ticker() {
         style={{
           position: 'absolute',
           top: 0,
-          right: 0,
+          insetInlineEnd: 0,
           width: '60px',
           height: '100%',
           background: 'linear-gradient(to left, var(--accent), transparent)',
@@ -90,6 +79,10 @@ export default function Ticker() {
         @keyframes tickerScroll {
           from { transform: translateX(0); }
           to { transform: translateX(calc(-100% / 3)); }
+        }
+        @keyframes tickerScrollRtl {
+          from { transform: translateX(0); }
+          to { transform: translateX(calc(100% / 3)); }
         }
         .ticker-row:hover { animation-play-state: paused; }
       `}</style>

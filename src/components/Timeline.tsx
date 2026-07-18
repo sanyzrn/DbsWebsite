@@ -260,8 +260,8 @@ export default function Timeline() {
         ))}
       </div>
 
-      {/* responsive grid variables: center spine on desktop, start rail on mobile;
-          under html.lang-fa / [dir=rtl] plaque columns and text-align mirror */}
+      {/* responsive grid variables: center spine on desktop, start rail on mobile.
+          Document dir=rtl already mirrors columns; do not re-swap under .lang-fa. */}
       <style>{`
         #trust {
           --tl-cols: 24px 1fr;
@@ -291,34 +291,6 @@ export default function Timeline() {
           #trust .trust-item:nth-child(odd) {
             --tl-plaque-col: 3;
             --tl-text-align: start;
-          }
-        }
-
-        /* RTL: mirror plaque columns, text alignment, and spine rail */
-        html.lang-fa #trust,
-        [dir="rtl"] #trust {
-          --tl-cols: 1fr 24px;
-          --tl-spine-inline: 12px;
-          --tl-node-col: 2;
-          --tl-plaque-col: 1;
-          --tl-text-align: start;
-        }
-        @media (min-width: 860px) {
-          html.lang-fa #trust,
-          [dir="rtl"] #trust {
-            --tl-cols: 1fr 24px 1fr;
-            --tl-spine-inline: 50%;
-            --tl-node-col: 2;
-          }
-          html.lang-fa #trust .trust-item:nth-child(even),
-          [dir="rtl"] #trust .trust-item:nth-child(even) {
-            --tl-plaque-col: 3;
-            --tl-text-align: start;
-          }
-          html.lang-fa #trust .trust-item:nth-child(odd),
-          [dir="rtl"] #trust .trust-item:nth-child(odd) {
-            --tl-plaque-col: 1;
-            --tl-text-align: end;
           }
         }
       `}</style>

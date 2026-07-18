@@ -1,13 +1,10 @@
 import { useEffect, useRef } from 'react';
-
-const stats = [
-  { index: '01', value: '16+', label: 'Years of Experience' },
-  { index: '02', value: '10+', label: 'Brands Served' },
-  { index: '03', value: '5', label: 'Disciplines Mastered' },
-  { index: '04', value: '∞', label: 'Iterations Until Right' },
-];
+import { useLanguage } from '../config/languageConfig';
+import { introStatsContent } from '../content/introStats';
 
 export default function IntroStats() {
+  const { lang } = useLanguage();
+  const copy = introStatsContent[lang];
   const sectionRef = useRef<HTMLDivElement>(null);
   const itemsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -23,7 +20,7 @@ export default function IntroStats() {
     if (sectionRef.current) observer.observe(sectionRef.current);
     itemsRef.current.forEach((el) => { if (el) observer.observe(el); });
     return () => observer.disconnect();
-  }, []);
+  }, [lang]);
 
   return (
     <section
@@ -33,7 +30,6 @@ export default function IntroStats() {
         borderBottom: '1px solid var(--border)',
       }}
     >
-      {/* Stats row */}
       <div
         style={{
           display: 'grid',
@@ -41,7 +37,7 @@ export default function IntroStats() {
           borderBottom: '1px solid var(--border)',
         }}
       >
-        {stats.map((stat, index) => (
+        {copy.stats.map((stat, index) => (
           <div
             key={stat.label}
             ref={(el) => { itemsRef.current[index] = el; }}
@@ -49,14 +45,14 @@ export default function IntroStats() {
             style={{
               transitionDelay: `${index * 80}ms`,
               padding: 'clamp(28px, 4vw, 48px) clamp(20px, 3vw, 36px)',
-              borderRight: index < stats.length - 1 ? '1px solid var(--border)' : 'none',
-              textAlign: 'left',
+              borderInlineEnd: index < copy.stats.length - 1 ? '1px solid var(--border)' : 'none',
+              textAlign: 'start',
               position: 'relative',
             }}
           >
             <div
+              className="mono"
               style={{
-                fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '10px',
                 fontWeight: 500,
                 letterSpacing: '0.2em',
@@ -67,8 +63,8 @@ export default function IntroStats() {
               ({stat.index})
             </div>
             <div
+              className="font-display"
               style={{
-                fontFamily: 'Bricolage Grotesque, sans-serif',
                 fontWeight: 800,
                 fontSize: 'clamp(44px, 5.5vw, 72px)',
                 lineHeight: 1,
@@ -81,7 +77,7 @@ export default function IntroStats() {
             </div>
             <div
               style={{
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'inherit',
                 fontSize: '11px',
                 fontWeight: 500,
                 letterSpacing: '0.12em',
@@ -95,7 +91,6 @@ export default function IntroStats() {
         ))}
       </div>
 
-      {/* Manifesto */}
       <div
         style={{
           padding: 'clamp(48px, 7vw, 90px) clamp(24px, 6vw, 80px)',
@@ -103,8 +98,8 @@ export default function IntroStats() {
         }}
       >
         <p
+          className="font-display"
           style={{
-            fontFamily: 'Bricolage Grotesque, sans-serif',
             fontWeight: 600,
             fontSize: 'clamp(22px, 3.4vw, 40px)',
             lineHeight: 1.3,
@@ -112,11 +107,11 @@ export default function IntroStats() {
             color: 'var(--text)',
           }}
         >
-          Transforming ideas into visual masterpieces.{' '}
+          {copy.manifestoLead}{' '}
           <span className="serif-accent" style={{ color: 'var(--accent)', fontWeight: 400 }}>
-            From pharmaceutical packaging to pixel-perfect interfaces
+            {copy.manifestoAccent}
           </span>{' '}
-          — creativity and precision in every layer.
+          {copy.manifestoTail}
         </p>
         <div
           style={{
@@ -128,8 +123,8 @@ export default function IntroStats() {
         >
           <div style={{ width: '40px', height: '1px', backgroundColor: 'var(--accent)' }} />
           <span
+            className="mono"
             style={{
-              fontFamily: 'IBM Plex Mono, monospace',
               fontSize: '11px',
               fontWeight: 500,
               letterSpacing: '0.2em',
@@ -137,7 +132,7 @@ export default function IntroStats() {
               color: 'var(--muted)',
             }}
           >
-            Saeed Zarrini · Est. 2007
+            {copy.attribution}
           </span>
         </div>
       </div>

@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSiteConfig } from '../config/siteConfig';
+import { useLanguage } from '../config/languageConfig';
+import { heroContent } from '../content/hero';
 import Magnetic from './Magnetic';
 
 interface HeroProps {
@@ -8,19 +10,24 @@ interface HeroProps {
 
 export default function Hero({ onNameTripleClick }: HeroProps) {
   const { config } = useSiteConfig();
-  const { name, tagline, year, descriptor } = config.hero;
+  const { lang } = useLanguage();
+  const copy = heroContent[lang];
+  // English: admin-editable hero from siteConfig. Persian: localized content.
+  const name = lang === 'en' ? config.hero.name : copy.name;
+  const tagline = lang === 'en' ? config.hero.tagline : copy.tagline;
+  const year = lang === 'en' ? config.hero.year : copy.year;
+  const descriptor = lang === 'en' ? config.hero.descriptor : copy.descriptor;
+
   const [loaded, setLoaded] = useState(false);
   const clickCountRef = useRef(0);
   const clickTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  // Refs we drive directly on scroll — no state, so no per-frame re-render.
   const contentRef = useRef<HTMLDivElement>(null);
   const topLeftRef = useRef<HTMLDivElement>(null);
   const topRightRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
   const backdropRef = useRef<HTMLDivElement>(null);
 
-  // Faint mouse parallax on the backdrop ornaments.
   useEffect(() => {
     if (!window.matchMedia('(pointer: fine)').matches) return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -48,7 +55,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
     return () => clearTimeout(timer);
   }, []);
 
-  // Parallax driven through refs + rAF instead of React state.
   useEffect(() => {
     let raf = 0;
     let ticking = false;
@@ -103,7 +109,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
       className="relative flex flex-col min-h-screen overflow-hidden"
       style={{ backgroundColor: 'var(--bg)' }}
     >
-      {/* Animated backdrop — orbiting rings + drifting registration glyphs */}
       <div
         ref={backdropRef}
         aria-hidden="true"
@@ -126,11 +131,12 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
         <span className="hero-drift" style={{ top: '14%', right: '30%', animationDuration: '12s', animationDelay: '-5s', fontSize: '9px' }}>◻</span>
       </div>
 
-      {/* Top floating identifiers */}
+      {/* Top floating identifiers — swap sides via logical inset in RTL */}
       <div
         ref={topLeftRef}
-        className="fixed top-6 left-6 z-20 pointer-events-none"
+        className="fixed top-6 z-20 pointer-events-none"
         style={{
+          insetInlineStart: '1.5rem',
           opacity: loaded ? 1 : 0,
           transition: 'opacity 1.2s ease',
         }}
@@ -139,44 +145,44 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           className="section-label mb-1"
           style={{ transitionDelay: '400ms', fontSize: '9px' }}
         >
-          Portfolio
+          {copy.portfolio}
         </div>
         <div
           style={{
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'inherit',
             fontSize: '11px',
             color: 'var(--text)',
             lineHeight: '1.7',
             opacity: 0.6,
           }}
         >
-          Graphic Designer<br />
-          Packaging Specialist<br />
-          Web Developer
+          {copy.roles[0]}<br />
+          {copy.roles[1]}<br />
+          {copy.roles[2]}
         </div>
       </div>
 
-      {/* Top right metadata */}
       <div
         ref={topRightRef}
-        className="fixed top-6 right-6 z-20 text-right pointer-events-none"
+        className="fixed top-6 z-20 pointer-events-none"
         style={{
+          insetInlineEnd: '1.5rem',
+          textAlign: 'end',
           opacity: loaded ? 1 : 0,
           transition: 'opacity 1.2s ease 0.5s',
           fontSize: '9px',
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: 'inherit',
           color: 'var(--muted)',
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
           lineHeight: '1.8',
         }}
       >
-        <div>Pharmaceutical</div>
-        <div>Branding</div>
-        <div>Web & UI</div>
+        <div>{copy.meta[0]}</div>
+        <div>{copy.meta[1]}</div>
+        <div>{copy.meta[2]}</div>
       </div>
 
-      {/* Main hero content */}
       <div
         ref={contentRef}
         className="flex-1 flex flex-col items-center justify-center px-6"
@@ -188,7 +194,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           zIndex: 1,
         }}
       >
-        {/* Brand crest */}
         <img
           src="/logo/Dbs_logo_single.png"
           alt="DBS Graphic"
@@ -202,25 +207,24 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           }}
         />
 
-        {/* Section index */}
         <div
           style={{
             opacity: loaded ? 1 : 0,
             transform: loaded ? 'translateY(0)' : 'translateY(16px)',
             transition: 'opacity 0.9s ease 0.2s, transform 0.9s ease 0.2s',
             fontSize: '9px',
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'inherit',
             fontWeight: 600,
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             color: 'var(--accent)',
             marginBottom: '48px',
+            textAlign: 'center',
           }}
         >
-          Est. 2007 — Graphic Designer & Web Developer
+          {copy.sectionIndex}
         </div>
 
-        {/* Name — gently magnetic, still hiding the triple-click dossier */}
         <Magnetic strength={0.05} radius={140}>
         <div
           className="relative cursor-default select-none"
@@ -228,12 +232,12 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           title=""
         >
           <h1
+            className="font-display"
             style={{
-              fontFamily: 'Bricolage Grotesque, sans-serif',
               fontWeight: 800,
               fontSize: 'clamp(80px, 22vw, 280px)',
               lineHeight: 0.88,
-              letterSpacing: '-0.03em',
+              letterSpacing: lang === 'fa' ? '-0.01em' : '-0.03em',
               color: 'var(--text)',
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'translateY(0)' : 'translateY(40px)',
@@ -242,7 +246,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
               userSelect: 'none',
             }}
           >
-            {/* Cyberpunk glitch wordmark — a museum artifact briefly carrying signal */}
             <span
               className="glitch-name"
               data-text={name}
@@ -252,7 +255,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
             </span>
           </h1>
 
-          {/* Hidden hint — only shows on triple click */}
           <div
             style={{
               position: 'absolute',
@@ -272,7 +274,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
         </div>
         </Magnetic>
 
-        {/* Tagline */}
         <div
           style={{
             marginTop: '52px',
@@ -294,13 +295,13 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
               {tagline}
             </div>
             <div
+              className="mono"
               style={{
                 marginTop: '20px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '16px',
-                fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '11px',
                 fontWeight: 500,
                 letterSpacing: '0.3em',
@@ -329,7 +330,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           </div>
         </div>
 
-        {/* Descriptor */}
         <div
           style={{
             marginTop: '40px',
@@ -341,7 +341,7 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
         >
           <p
             style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'inherit',
               fontSize: '14px',
               fontWeight: 400,
               color: 'var(--muted)',
@@ -355,7 +355,6 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
         </div>
       </div>
 
-      {/* Bottom scroll indicator */}
       <div
         ref={scrollHintRef}
         className="flex flex-col items-center pb-10"
@@ -366,7 +365,7 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
       >
         <div
           style={{
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'inherit',
             fontSize: '9px',
             fontWeight: 600,
             letterSpacing: '0.25em',
@@ -375,7 +374,7 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
             marginBottom: '12px',
           }}
         >
-          Scroll
+          {copy.scroll}
         </div>
         <div
           style={{

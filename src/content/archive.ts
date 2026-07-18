@@ -8,7 +8,7 @@ export const archiveContent = {
     footer: 'End of Selected Archive',
     projects: [
       {
-        number: '01',
+        number: '001',
         year: '2023',
         category: 'Pharmaceutical Packaging',
         title: 'Medical Trust Series',
@@ -18,7 +18,7 @@ export const archiveContent = {
         align: 'left' as const,
       },
       {
-        number: '02',
+        number: '002',
         year: '2022',
         category: 'Product Packaging',
         title: 'Luxury Wellness Identity',
@@ -28,7 +28,7 @@ export const archiveContent = {
         align: 'right' as const,
       },
       {
-        number: '03',
+        number: '003',
         year: '2022',
         category: 'Catalog Design',
         title: 'Editorial Product Archive',
@@ -38,7 +38,7 @@ export const archiveContent = {
         align: 'left' as const,
       },
       {
-        number: '04',
+        number: '004',
         year: '2021',
         category: 'Brand Identity',
         title: 'Corporate Identity System',
@@ -48,7 +48,7 @@ export const archiveContent = {
         align: 'right' as const,
       },
       {
-        number: '05',
+        number: '005',
         year: '2023',
         category: 'UI/UX Design',
         title: 'Healthcare Digital Platform',
@@ -68,7 +68,7 @@ export const archiveContent = {
     footer: 'پایان آرشیو منتخب',
     projects: [
       {
-        number: '01',
+        number: '001',
         year: '2023',
         category: 'بسته‌بندی دارویی',
         title: 'مجموعه اعتماد پزشکی',
@@ -78,7 +78,7 @@ export const archiveContent = {
         align: 'left' as const,
       },
       {
-        number: '02',
+        number: '002',
         year: '2022',
         category: 'بسته‌بندی محصول',
         title: 'هویت رفاه لوکس',
@@ -88,7 +88,7 @@ export const archiveContent = {
         align: 'right' as const,
       },
       {
-        number: '03',
+        number: '003',
         year: '2022',
         category: 'طراحی کاتالوگ',
         title: 'آرشیو تحریریه‌ای محصول',
@@ -98,7 +98,7 @@ export const archiveContent = {
         align: 'left' as const,
       },
       {
-        number: '04',
+        number: '004',
         year: '2021',
         category: 'هویت برند',
         title: 'سامانه هویت سازمانی',
@@ -108,7 +108,7 @@ export const archiveContent = {
         align: 'right' as const,
       },
       {
-        number: '05',
+        number: '005',
         year: '2023',
         category: 'طراحی رابط و تجربه کاربری',
         title: 'پلتفرم دیجیتال سلامت',

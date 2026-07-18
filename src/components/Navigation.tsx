@@ -1,23 +1,16 @@
 import { useState, useEffect } from 'react';
-import { useSiteConfig, type SectionKey } from '../config/siteConfig';
+import { useSiteConfig } from '../config/siteConfig';
+import { useLanguage } from '../config/languageConfig';
+import { navContent } from '../content/nav';
 import Magnetic from './Magnetic';
-
-const NAV_ITEMS: { label: string; id: string; section: SectionKey }[] = [
-  { label: 'Vault', id: 'vault', section: 'vault' },
-  { label: 'Archive', id: 'archive', section: 'archive' },
-  { label: 'Lab', id: 'lab', section: 'lab' },
-  { label: 'Process', id: 'process', section: 'process' },
-  { label: 'Trust', id: 'trust', section: 'timeline' },
-  { label: 'Contact', id: 'contact', section: 'contact' },
-];
 
 export default function Navigation() {
   const { config } = useSiteConfig();
+  const { lang, toggleLang } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Only link to sections that are actually rendered.
-  const items = NAV_ITEMS.filter((item) => config.sections[item.section]);
+  const items = navContent.items.filter((item) => config.sections[item.section]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,14 +25,53 @@ export default function Navigation() {
     setMenuOpen(false);
   };
 
+  const langToggle = (
+    <button
+      type="button"
+      onClick={toggleLang}
+      aria-label={lang === 'en' ? 'Switch to Persian' : 'تغییر به انگلیسی'}
+      className="lang-toggle mono"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+        background: 'none',
+        border: '1px solid var(--border)',
+        cursor: 'pointer',
+        padding: '5px 10px',
+        fontSize: '10px',
+        fontWeight: 600,
+        letterSpacing: '0.18em',
+        textTransform: 'uppercase',
+        color: 'var(--accent)',
+        borderRadius: '2px',
+        transition: 'border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease',
+        opacity: scrolled || menuOpen ? 1 : 0.85,
+      }}
+      onMouseEnter={(e) => {
+        const btn = e.currentTarget;
+        btn.style.borderColor = 'var(--accent)';
+        btn.style.backgroundColor = 'rgba(166, 134, 94, 0.08)';
+      }}
+      onMouseLeave={(e) => {
+        const btn = e.currentTarget;
+        btn.style.borderColor = 'var(--border)';
+        btn.style.backgroundColor = 'transparent';
+      }}
+    >
+      <span style={{ opacity: lang === 'en' ? 1 : 0.4 }}>EN</span>
+      <span style={{ opacity: 0.35 }}>/</span>
+      <span style={{ opacity: lang === 'fa' ? 1 : 0.4, letterSpacing: '0.08em' }}>فا</span>
+    </button>
+  );
+
   return (
     <>
       <nav
         style={{
           position: 'fixed',
           top: 0,
-          left: 0,
-          right: 0,
+          insetInline: 0,
           zIndex: 50,
           padding: '0 24px',
           height: '64px',
@@ -55,7 +87,7 @@ export default function Navigation() {
         {/* Logo */}
         <button
           onClick={() => scrollTo('hero')}
-          aria-label="DBS Graphic — home"
+          aria-label={navContent.homeAria[lang]}
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -74,100 +106,113 @@ export default function Navigation() {
           />
         </button>
 
-        {/* Desktop nav links */}
+        {/* Desktop nav links + language toggle */}
         <div
           className="hidden md:flex items-center gap-8"
-          style={{ opacity: scrolled ? 1 : 0, transition: 'opacity 0.5s ease' }}
+          style={{ opacity: scrolled ? 1 : 0.9, transition: 'opacity 0.5s ease' }}
         >
-          {items.map((item, i) => (
-            <Magnetic key={item.id} strength={0.35} radius={18}>
-            <button
-              onClick={() => scrollTo(item.id)}
-              style={{
-                fontFamily: 'Inter, sans-serif',
-                fontSize: '12px',
-                fontWeight: 500,
-                letterSpacing: '0.08em',
-                textTransform: 'uppercase',
-                color: 'var(--text)',
-                background: 'none',
-                border: 'none',
-                cursor: 'pointer',
-                padding: '4px 0',
-                position: 'relative',
-                opacity: 0.7,
-                transition: 'opacity 0.3s ease',
-                display: 'inline-flex',
-                alignItems: 'baseline',
-                gap: '6px',
-              }}
-              onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
-              onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.7'; }}
-            >
-              <span
-                aria-hidden="true"
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: '32px',
+              opacity: scrolled ? 1 : 0,
+              transition: 'opacity 0.5s ease',
+            }}
+          >
+            {items.map((item, i) => (
+              <Magnetic key={item.id} strength={0.35} radius={18}>
+              <button
+                onClick={() => scrollTo(item.id)}
                 style={{
-                  fontFamily: 'IBM Plex Mono, monospace',
-                  fontSize: '9px',
-                  color: 'var(--accent)',
-                  letterSpacing: '0.05em',
+                  fontFamily: 'inherit',
+                  fontSize: '12px',
+                  fontWeight: 500,
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  color: 'var(--text)',
+                  background: 'none',
+                  border: 'none',
+                  cursor: 'pointer',
+                  padding: '4px 0',
+                  position: 'relative',
+                  opacity: 0.7,
+                  transition: 'opacity 0.3s ease',
+                  display: 'inline-flex',
+                  alignItems: 'baseline',
+                  gap: '6px',
                 }}
+                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
+                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.7'; }}
               >
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              {item.label}
-            </button>
-            </Magnetic>
-          ))}
+                <span
+                  aria-hidden="true"
+                  className="mono"
+                  style={{
+                    fontSize: '9px',
+                    color: 'var(--accent)',
+                    letterSpacing: '0.05em',
+                  }}
+                >
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                {item.label[lang]}
+              </button>
+              </Magnetic>
+            ))}
+          </div>
+          {langToggle}
         </div>
 
-        {/* Mobile menu button */}
-        <button
-          className="md:hidden"
-          onClick={() => setMenuOpen(!menuOpen)}
-          style={{
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: '8px',
-            opacity: scrolled ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-          }}
-          aria-label="Toggle menu"
-        >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-            <span
-              style={{
-                display: 'block',
-                width: '22px',
-                height: '1.5px',
-                backgroundColor: 'var(--text)',
-                transition: 'transform 0.3s ease, opacity 0.3s ease',
-                transform: menuOpen ? 'rotate(45deg) translate(4.5px, 4.5px)' : 'none',
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                width: '22px',
-                height: '1.5px',
-                backgroundColor: 'var(--text)',
-                transition: 'opacity 0.3s ease',
-                opacity: menuOpen ? 0 : 1,
-              }}
-            />
-            <span
-              style={{
-                display: 'block',
-                width: '22px',
-                height: '1.5px',
-                backgroundColor: 'var(--text)',
-                transition: 'transform 0.3s ease, opacity 0.3s ease',
-                transform: menuOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : 'none',
-              }}
-            />
-          </div>
-        </button>
+        {/* Mobile: lang toggle + menu button */}
+        <div className="md:hidden flex items-center gap-3">
+          {langToggle}
+          <button
+            onClick={() => setMenuOpen(!menuOpen)}
+            style={{
+              background: 'none',
+              border: 'none',
+              cursor: 'pointer',
+              padding: '8px',
+              opacity: scrolled ? 1 : 0.85,
+              transition: 'opacity 0.5s ease',
+            }}
+            aria-label={navContent.menuAria[lang]}
+          >
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
+              <span
+                style={{
+                  display: 'block',
+                  width: '22px',
+                  height: '1.5px',
+                  backgroundColor: 'var(--text)',
+                  transition: 'transform 0.3s ease, opacity 0.3s ease',
+                  transform: menuOpen ? 'rotate(45deg) translate(4.5px, 4.5px)' : 'none',
+                }}
+              />
+              <span
+                style={{
+                  display: 'block',
+                  width: '22px',
+                  height: '1.5px',
+                  backgroundColor: 'var(--text)',
+                  transition: 'opacity 0.3s ease',
+                  opacity: menuOpen ? 0 : 1,
+                }}
+              />
+              <span
+                style={{
+                  display: 'block',
+                  width: '22px',
+                  height: '1.5px',
+                  backgroundColor: 'var(--text)',
+                  transition: 'transform 0.3s ease, opacity 0.3s ease',
+                  transform: menuOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : 'none',
+                }}
+              />
+            </div>
+          </button>
+        </div>
       </nav>
 
       {/* Mobile menu */}
@@ -176,8 +221,7 @@ export default function Navigation() {
         style={{
           position: 'fixed',
           top: '64px',
-          left: 0,
-          right: 0,
+          insetInline: 0,
           zIndex: 49,
           backgroundColor: 'rgba(var(--bg-rgb), 0.97)',
           backdropFilter: 'blur(12px)',
@@ -197,7 +241,7 @@ export default function Navigation() {
             key={item.id}
             onClick={() => scrollTo(item.id)}
             style={{
-              fontFamily: 'Inter, sans-serif',
+              fontFamily: 'inherit',
               fontSize: '14px',
               fontWeight: 500,
               letterSpacing: '0.06em',
@@ -207,7 +251,7 @@ export default function Navigation() {
               border: 'none',
               cursor: 'pointer',
               padding: '14px 0',
-              textAlign: 'left',
+              textAlign: 'start',
               borderBottom: '1px solid var(--border)',
               display: 'flex',
               alignItems: 'baseline',
@@ -216,15 +260,15 @@ export default function Navigation() {
           >
             <span
               aria-hidden="true"
+              className="mono"
               style={{
-                fontFamily: 'IBM Plex Mono, monospace',
                 fontSize: '10px',
                 color: 'var(--accent)',
               }}
             >
               {String(i + 1).padStart(2, '0')}
             </span>
-            {item.label}
+            {item.label[lang]}
           </button>
         ))}
       </div>
