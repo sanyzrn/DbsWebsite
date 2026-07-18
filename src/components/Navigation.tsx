@@ -1,24 +1,14 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useSiteConfig } from '../config/siteConfig';
 import { useLanguage } from '../config/languageConfig';
 import { navContent } from '../content/nav';
-import Magnetic from './Magnetic';
 
 export default function Navigation() {
   const { config } = useSiteConfig();
   const { lang, toggleLang } = useLanguage();
-  const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
 
   const items = navContent.items.filter((item) => config.sections[item.section]);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrolled(window.scrollY > window.innerHeight * 0.6);
-    };
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
@@ -30,248 +20,85 @@ export default function Navigation() {
       type="button"
       onClick={toggleLang}
       aria-label={lang === 'en' ? 'Switch to Persian' : 'تغییر به انگلیسی'}
-      className="lang-toggle mono"
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        gap: '6px',
-        background: 'none',
-        border: '1px solid var(--border)',
-        cursor: 'pointer',
-        padding: '5px 10px',
-        fontSize: '10px',
-        fontWeight: 600,
-        letterSpacing: '0.18em',
-        textTransform: 'uppercase',
-        color: 'var(--accent)',
-        borderRadius: '2px',
-        transition: 'border-color 0.3s ease, background-color 0.3s ease, color 0.3s ease',
-        opacity: scrolled || menuOpen ? 1 : 0.85,
-      }}
-      onMouseEnter={(e) => {
-        const btn = e.currentTarget;
-        btn.style.borderColor = 'var(--accent)';
-        btn.style.backgroundColor = 'rgba(63, 166, 92, 0.08)';
-      }}
-      onMouseLeave={(e) => {
-        const btn = e.currentTarget;
-        btn.style.borderColor = 'var(--border)';
-        btn.style.backgroundColor = 'transparent';
-      }}
+      className="mono rounded-full border border-[var(--line)] px-3 py-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--ink)]"
     >
       <span style={{ opacity: lang === 'en' ? 1 : 0.4 }}>EN</span>
-      <span style={{ opacity: 0.35 }}>/</span>
-      <span style={{ opacity: lang === 'fa' ? 1 : 0.4, letterSpacing: '0.08em' }}>فا</span>
+      <span className="mx-1 opacity-30">/</span>
+      <span style={{ opacity: lang === 'fa' ? 1 : 0.4 }}>فا</span>
     </button>
   );
 
   return (
-    <>
-      <nav
-        style={{
-          position: 'fixed',
-          top: 0,
-          insetInline: 0,
-          zIndex: 50,
-          padding: '0 24px',
-          height: '64px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          backgroundColor: scrolled ? 'rgba(var(--bg-rgb), 0.88)' : 'transparent',
-          backdropFilter: scrolled ? 'blur(12px)' : 'none',
-          borderBottom: scrolled ? '1px solid var(--border)' : '1px solid transparent',
-          transition: 'background-color 0.5s ease, backdrop-filter 0.5s ease, border-color 0.5s ease',
-        }}
-      >
-        {/* Logo */}
+    <header id="top" className="sticky top-0 z-40 px-4 py-4 sm:px-6 lg:px-10">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-3 rounded-full border border-[var(--line)] bg-white/75 px-4 py-3 shadow-[0_12px_40px_-30px_rgba(0,0,0,0.6)] backdrop-blur-xl sm:px-5">
         <button
+          type="button"
           onClick={() => scrollTo('hero')}
           aria-label={navContent.homeAria[lang]}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            background: 'none',
-            border: 'none',
-            cursor: 'pointer',
-            padding: 0,
-            opacity: scrolled ? 1 : 0,
-            transition: 'opacity 0.5s ease',
-          }}
+          className="flex items-center gap-3 bg-transparent border-0 cursor-pointer p-0"
         >
-          <img
-            src="/logo/Dbs_logo.webp"
-            alt="DBS Graphic"
-            style={{ height: '26px', width: 'auto', display: 'block' }}
-          />
+          <span className="inline-flex h-9 w-9 items-center justify-center rounded-full bg-[var(--ink)] text-sm font-semibold text-white">
+            DB
+          </span>
+          <div className="hidden sm:block text-start">
+            <p className="text-sm font-medium tracking-[0.18em] text-[var(--muted)] uppercase">
+              {navContent.brand[lang]}
+            </p>
+          </div>
         </button>
 
-        {/* Desktop nav links + language toggle */}
-        <div
-          className="hidden md:flex items-center gap-8"
-          style={{ opacity: scrolled ? 1 : 0.9, transition: 'opacity 0.5s ease' }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '32px',
-              opacity: scrolled ? 1 : 0,
-              transition: 'opacity 0.5s ease',
-            }}
+        <nav className="hidden items-center gap-6 text-sm text-[var(--muted)] md:flex">
+          {items.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => scrollTo(item.id)}
+              className="bg-transparent border-0 cursor-pointer p-0 transition hover:text-[var(--ink)]"
+            >
+              {item.label[lang]}
+            </button>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2 sm:gap-3">
+          {langToggle}
+          <a href="#contact" className="btn-primary hidden sm:inline-flex !py-2 !px-4">
+            {navContent.cta[lang]}
+          </a>
+          <button
+            type="button"
+            className="md:hidden inline-flex h-9 w-9 items-center justify-center rounded-full border border-[var(--line)] bg-white/80"
+            aria-label={navContent.menuAria[lang]}
+            onClick={() => setMenuOpen((v) => !v)}
           >
-            {items.map((item, i) => (
-              <Magnetic key={item.id} strength={0.35} radius={18}>
+            <span className="flex flex-col gap-1">
+              <span className={`block h-0.5 w-4 bg-[var(--ink)] transition ${menuOpen ? 'translate-y-1.5 rotate-45' : ''}`} />
+              <span className={`block h-0.5 w-4 bg-[var(--ink)] transition ${menuOpen ? 'opacity-0' : ''}`} />
+              <span className={`block h-0.5 w-4 bg-[var(--ink)] transition ${menuOpen ? '-translate-y-1.5 -rotate-45' : ''}`} />
+            </span>
+          </button>
+        </div>
+      </div>
+
+      {menuOpen && (
+        <div className="md:hidden mx-auto mt-2 max-w-6xl rounded-[28px] border border-[var(--line)] bg-white/90 p-4 backdrop-blur-xl shadow-lg">
+          <div className="flex flex-col gap-1">
+            {items.map((item) => (
               <button
+                key={item.id}
+                type="button"
                 onClick={() => scrollTo(item.id)}
-                style={{
-                  fontFamily: 'inherit',
-                  fontSize: '12px',
-                  fontWeight: 500,
-                  letterSpacing: '0.08em',
-                  textTransform: 'uppercase',
-                  color: 'var(--text)',
-                  background: 'none',
-                  border: 'none',
-                  cursor: 'pointer',
-                  padding: '4px 0',
-                  position: 'relative',
-                  opacity: 0.7,
-                  transition: 'opacity 0.3s ease',
-                  display: 'inline-flex',
-                  alignItems: 'baseline',
-                  gap: '6px',
-                }}
-                onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '1'; }}
-                onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.opacity = '0.7'; }}
+                className="rounded-2xl px-4 py-3 text-start text-sm font-medium text-[var(--ink)] hover:bg-[var(--accent-soft)] bg-transparent border-0 cursor-pointer"
               >
-                <span
-                  aria-hidden="true"
-                  className="mono"
-                  style={{
-                    fontSize: '9px',
-                    color: 'var(--accent)',
-                    letterSpacing: '0.05em',
-                  }}
-                >
-                  {String(i + 1).padStart(2, '0')}
-                </span>
                 {item.label[lang]}
               </button>
-              </Magnetic>
             ))}
+            <a href="#contact" className="btn-primary mt-2 justify-center" onClick={() => setMenuOpen(false)}>
+              {navContent.cta[lang]}
+            </a>
           </div>
-          {langToggle}
         </div>
-
-        {/* Mobile: lang toggle + menu button */}
-        <div className="md:hidden flex items-center gap-3">
-          {langToggle}
-          <button
-            onClick={() => setMenuOpen(!menuOpen)}
-            style={{
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '8px',
-              opacity: scrolled ? 1 : 0.85,
-              transition: 'opacity 0.5s ease',
-            }}
-            aria-label={navContent.menuAria[lang]}
-          >
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '5px' }}>
-              <span
-                style={{
-                  display: 'block',
-                  width: '22px',
-                  height: '1.5px',
-                  backgroundColor: 'var(--text)',
-                  transition: 'transform 0.3s ease, opacity 0.3s ease',
-                  transform: menuOpen ? 'rotate(45deg) translate(4.5px, 4.5px)' : 'none',
-                }}
-              />
-              <span
-                style={{
-                  display: 'block',
-                  width: '22px',
-                  height: '1.5px',
-                  backgroundColor: 'var(--text)',
-                  transition: 'opacity 0.3s ease',
-                  opacity: menuOpen ? 0 : 1,
-                }}
-              />
-              <span
-                style={{
-                  display: 'block',
-                  width: '22px',
-                  height: '1.5px',
-                  backgroundColor: 'var(--text)',
-                  transition: 'transform 0.3s ease, opacity 0.3s ease',
-                  transform: menuOpen ? 'rotate(-45deg) translate(4.5px, -4.5px)' : 'none',
-                }}
-              />
-            </div>
-          </button>
-        </div>
-      </nav>
-
-      {/* Mobile menu */}
-      <div
-        className="md:hidden"
-        style={{
-          position: 'fixed',
-          top: '64px',
-          insetInline: 0,
-          zIndex: 49,
-          backgroundColor: 'rgba(var(--bg-rgb), 0.97)',
-          backdropFilter: 'blur(12px)',
-          borderBottom: '1px solid var(--border)',
-          padding: '24px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '4px',
-          opacity: menuOpen ? 1 : 0,
-          pointerEvents: menuOpen ? 'all' : 'none',
-          transform: menuOpen ? 'translateY(0)' : 'translateY(-12px)',
-          transition: 'opacity 0.3s ease, transform 0.3s ease',
-        }}
-      >
-        {items.map((item, i) => (
-          <button
-            key={item.id}
-            onClick={() => scrollTo(item.id)}
-            style={{
-              fontFamily: 'inherit',
-              fontSize: '14px',
-              fontWeight: 500,
-              letterSpacing: '0.06em',
-              textTransform: 'uppercase',
-              color: 'var(--text)',
-              background: 'none',
-              border: 'none',
-              cursor: 'pointer',
-              padding: '14px 0',
-              textAlign: 'start',
-              borderBottom: '1px solid var(--border)',
-              display: 'flex',
-              alignItems: 'baseline',
-              gap: '10px',
-            }}
-          >
-            <span
-              aria-hidden="true"
-              className="mono"
-              style={{
-                fontSize: '10px',
-                color: 'var(--accent)',
-              }}
-            >
-              {String(i + 1).padStart(2, '0')}
-            </span>
-            {item.label[lang]}
-          </button>
-        ))}
-      </div>
-    </>
+      )}
+    </header>
   );
 }

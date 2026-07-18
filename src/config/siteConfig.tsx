@@ -54,20 +54,20 @@ export interface SiteConfig {
 
 export const DEFAULT_CONFIG: SiteConfig = {
   sections: {
-    ticker: true,
-    introStats: true,
+    ticker: false,
+    introStats: false,
     vault: false,
-    archive: false,
+    archive: true,
     lab: true,
     process: true,
     timeline: true,
     contact: true,
   },
   theme: {
-    bg: '#F6ECDD',
-    surface: '#F3E6D4',
+    bg: '#FAF7F2',
+    surface: '#F3E9DA',
     text: '#17140F',
-    accent: '#3FA65C',
+    accent: '#41DA6F',
   },
   hero: {
     name: 'SAEED',
@@ -89,7 +89,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
   },
 };
 
-const STORAGE_KEY = 'dbs.siteConfig.v4';
+const STORAGE_KEY = 'dbs.siteConfig.v5';
 
 /** Deep-merge a stored (possibly partial / outdated) config onto defaults. */
 function mergeConfig(base: SiteConfig, stored: unknown): SiteConfig {

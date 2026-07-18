@@ -1,429 +1,102 @@
-import { useEffect, useRef } from 'react';
 import { useLanguage } from '../config/languageConfig';
 import { archiveContent } from '../content/archive';
 
-type Project = (typeof archiveContent.en.projects)[number] & {
-  displayNumber: string;
-};
-
-/**
- * Placeholder visual pending real product screenshots.
- * Specimen-plate treatment mirrors Vault.tsx aesthetic (dark plate, accent doc lines).
- */
-function ArchiveSpecimenPlate({ index, label }: { index: number; label: string }) {
-  const accent = 'rgba(63, 166, 92, 0.55)';
-  const variants = index % 3;
-
-  return (
-    <div
-      className="vault-card"
-      style={{
-        position: 'relative',
-        width: '100%',
-        minHeight: 'clamp(280px, 45vw, 540px)',
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'space-between',
-        padding: '28px',
-        background: 'linear-gradient(160deg, var(--ink-2), var(--ink))',
-      }}
-      aria-hidden="true"
-    >
-      <div
-        className="mono"
-        style={{
-          fontSize: '10px',
-          letterSpacing: '0.22em',
-          textTransform: 'uppercase',
-          color: 'rgba(63, 166, 92, 0.75)',
-        }}
-      >
-        SPECIMEN · PENDING CAPTURE
-      </div>
-
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', gap: '10px', padding: '24px 0' }}>
-        {variants === 0 && (
-          <>
-            <div className="doc-line" style={{ width: '42%', height: '8px', background: 'rgba(63,166,92,0.45)' }} />
-            {Array.from({ length: 6 }).map((_, i) => (
-              <div key={i} className="doc-line" style={{ width: `${88 - i * 9}%` }} />
-            ))}
-          </>
-        )}
-        {variants === 1 && (
-          <div style={{ display: 'grid', gridTemplateColumns: '40px 1fr', gap: '12px', height: '160px' }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', borderInlineEnd: `1px solid ${accent}`, paddingInlineEnd: '8px' }}>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="doc-line" style={{ width: '100%', height: '6px', opacity: i === 1 ? 1 : 0.45 }} />
-              ))}
-            </div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-              <div style={{ display: 'flex', gap: '8px' }}>
-                <div className="doc-line" style={{ flex: 1, height: '28px', borderRadius: '2px' }} />
-                <div className="doc-line" style={{ flex: 1, height: '28px', borderRadius: '2px', background: 'rgba(63,166,92,0.25)' }} />
-              </div>
-              {Array.from({ length: 5 }).map((_, i) => (
-                <div key={i} className="doc-line" style={{ width: `${92 - i * 11}%`, height: '5px' }} />
-              ))}
-            </div>
-          </div>
-        )}
-        {variants === 2 && (
-          <div
-            style={{
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'flex-end',
-              height: '180px',
-              borderRadius: '4px',
-              padding: '20px',
-              background:
-                'linear-gradient(135deg, #17140F 0%, #2F8A48 48%, #F6ECDD 100%)',
-              border: '1px solid rgba(63,166,92,0.35)',
-            }}
-          >
-            <div className="doc-line" style={{ width: '55%', height: '6px', background: 'rgba(251,244,233,0.55)' }} />
-            <div className="doc-line" style={{ width: '78%', height: '4px', marginTop: '8px', background: 'rgba(251,244,233,0.35)' }} />
-            <div className="doc-line" style={{ width: '40%', height: '4px', marginTop: '8px', background: 'rgba(251,244,233,0.25)' }} />
-          </div>
-        )}
-      </div>
-
-      <div
-        className="mono"
-        style={{
-          fontSize: '11px',
-          letterSpacing: '0.12em',
-          color: 'rgba(239, 235, 225, 0.55)',
-        }}
-      >
-        {label}
-      </div>
-
-      <span className="reg-mark" style={{ top: 8, left: 8, borderTop: '1px solid', borderLeft: '1px solid' }} />
-      <span className="reg-mark" style={{ top: 8, right: 8, borderTop: '1px solid', borderRight: '1px solid' }} />
-      <span className="reg-mark" style={{ bottom: 8, left: 8, borderBottom: '1px solid', borderLeft: '1px solid' }} />
-      <span className="reg-mark" style={{ bottom: 8, right: 8, borderBottom: '1px solid', borderRight: '1px solid' }} />
-    </div>
-  );
-}
-
-function ProjectRow({
-  project,
-  index,
-  isFa,
-  viewLabel,
-}: {
-  project: Project;
-  index: number;
-  isFa: boolean;
-  viewLabel: string;
-}) {
-  const rowRef = useRef<HTMLDivElement>(null);
-  const imgRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
-        });
-      },
-      { threshold: 0.12, rootMargin: '0px 0px -60px 0px' }
-    );
-
-    if (rowRef.current) observer.observe(rowRef.current);
-    if (imgRef.current) observer.observe(imgRef.current);
-
-    return () => observer.disconnect();
-  }, []);
-
-  const effectiveAlign = isFa
-    ? project.align === 'left'
-      ? 'right'
-      : 'left'
-    : project.align;
-  const isLeft = effectiveAlign === 'left';
-
-  // Temporary search-based GitHub link until dedicated repos are linked.
-  const githubHref = `https://github.com/sanyzrn?tab=repositories&q=${encodeURIComponent(project.repoQuery)}`;
-
-  return (
-    <article
-      style={{
-        paddingTop: 'clamp(60px, 8vw, 120px)',
-        paddingBottom: 'clamp(60px, 8vw, 120px)',
-        borderBottom: '1px solid var(--border)',
-        position: 'relative',
-      }}
-    >
-      <div
-        className={`flex flex-col ${isLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-16 items-start`}
-        style={{ padding: '0 clamp(24px, 6vw, 80px)', direction: 'ltr' }}
-      >
-        <div
-          ref={rowRef}
-          className={`reveal ${isLeft ? '' : 'reveal-right'} flex-1 lg:max-w-sm`}
-          style={{
-            paddingTop: 'clamp(0px, 4vw, 60px)',
-            transitionDelay: `${index * 80}ms`,
-            direction: isFa ? 'rtl' : 'ltr',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: '16px',
-              marginBottom: '32px',
-            }}
-          >
-            <span
-              className="mono"
-              style={{
-                fontWeight: 700,
-                fontSize: '11px',
-                letterSpacing: '0.2em',
-                color: 'var(--accent)',
-              }}
-            >
-              {project.displayNumber}
-            </span>
-            <div style={{ height: '1px', width: '32px', backgroundColor: 'var(--border)' }} />
-            <span
-              style={{
-                fontFamily: 'inherit',
-                fontSize: '10px',
-                fontWeight: 600,
-                letterSpacing: '0.2em',
-                textTransform: 'uppercase',
-                color: 'var(--muted)',
-              }}
-            >
-              {project.category}
-            </span>
-          </div>
-
-          <h2
-            className="font-display"
-            style={{
-              fontWeight: 700,
-              fontSize: 'clamp(28px, 3.5vw, 44px)',
-              lineHeight: 1.1,
-              letterSpacing: '-0.02em',
-              color: 'var(--text)',
-              marginBottom: '24px',
-            }}
-          >
-            {project.title}
-          </h2>
-
-          <p
-            style={{
-              fontFamily: 'inherit',
-              fontSize: '14px',
-              lineHeight: 1.8,
-              color: 'var(--muted)',
-              marginBottom: '32px',
-            }}
-          >
-            {project.description}
-          </p>
-
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '32px' }}>
-            {project.tags.map((tag) => (
-              <span key={tag} className="pill">
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          <div
-            style={{
-              display: 'flex',
-              flexWrap: 'wrap',
-              alignItems: 'center',
-              gap: '16px',
-            }}
-          >
-            <div
-              className="mono"
-              style={{
-                fontSize: '11px',
-                fontWeight: 500,
-                letterSpacing: '0.15em',
-                color: 'var(--border)',
-                textTransform: 'uppercase',
-              }}
-            >
-              {project.year}
-            </div>
-            <a
-              href={githubHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mono"
-              style={{
-                fontSize: '11px',
-                fontWeight: 600,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: 'var(--accent)',
-                textDecoration: 'none',
-                borderBottom: '1px solid rgba(63, 166, 92, 0.35)',
-                paddingBottom: '2px',
-              }}
-            >
-              {viewLabel}
-            </a>
-          </div>
-        </div>
-
-        <div
-          ref={imgRef}
-          className="reveal-scale flex-1 w-full project-image-wrap"
-          style={{
-            transitionDelay: `${index * 80 + 150}ms`,
-            borderRadius: '4px',
-            overflow: 'hidden',
-            minHeight: 'clamp(280px, 45vw, 540px)',
-          }}
-        >
-          <ArchiveSpecimenPlate index={index} label={project.title} />
-        </div>
-      </div>
-
-      <div
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: 'clamp(40px, 6vw, 80px)',
-          [isLeft ? 'right' : 'left']: 'clamp(24px, 4vw, 60px)',
-          fontFamily: 'Bricolage Grotesque, sans-serif',
-          fontWeight: 900,
-          fontSize: 'clamp(60px, 10vw, 120px)',
-          lineHeight: 1,
-          color: 'var(--text)',
-          opacity: 0.04,
-          pointerEvents: 'none',
-          userSelect: 'none',
-        }}
-      >
-        {project.displayNumber}
-      </div>
-    </article>
-  );
-}
+const GRADIENTS = [
+  'linear-gradient(135deg, #17140F 0%, #2FBF58 55%, #F5E8D1 100%)',
+  'linear-gradient(135deg, #18181b 0%, #52525b 100%)',
+  'linear-gradient(135deg, #1a2e1f 0%, #41DA6F 45%, #94a3b8 100%)',
+  'linear-gradient(135deg, #334155 0%, #94a3b8 100%)',
+  'linear-gradient(135deg, #17140F 0%, #3a5a40 100%)',
+  'linear-gradient(135deg, #0f172a 0%, #41DA6F 100%)',
+];
 
 export default function Archive() {
-  const { lang, isFa } = useLanguage();
+  const { lang } = useLanguage();
   const content = archiveContent[lang];
-  const headerRef = useRef<HTMLDivElement>(null);
-  const viewLabel = lang === 'fa' ? 'مشاهده در گیت‌هاب ↗' : 'View on GitHub ↗';
-
-  const projects: Project[] = content.projects.map((p) => ({
-    ...p,
-    displayNumber: p.number.padStart(3, '0'),
-  }));
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.1 }
-    );
-    if (headerRef.current) observer.observe(headerRef.current);
-    return () => observer.disconnect();
-  }, []);
+  // Show a curated set in the glass grid (first 6) for visual balance
+  const projects = content.projects.slice(0, 6);
+  const viewLabel = lang === 'fa' ? 'گیت‌هاب ↗' : 'GitHub ↗';
 
   return (
-    <section
-      id="archive"
-      style={{
-        backgroundColor: 'var(--bg)',
-        borderTop: '1px solid var(--border)',
-      }}
-    >
-      <div
-        ref={headerRef}
-        className="reveal"
-        style={{
-          padding: 'clamp(60px, 8vw, 100px) clamp(24px, 6vw, 80px) clamp(40px, 5vw, 60px)',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '24px',
-          alignItems: 'flex-end',
-          justifyContent: 'space-between',
-        }}
-      >
-        <div>
-          <div className="section-label" style={{ marginBottom: '16px' }}>
-            {content.eyebrow}
+    <section id="archive" className="px-4 sm:px-6 lg:px-10 mt-16 sm:mt-20">
+      <div className="mx-auto max-w-6xl">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+          <div>
+            <p className="section-eyebrow">{lang === 'fa' ? 'کار منتخب' : 'Selected work'}</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl text-[var(--ink)] max-w-xl">
+              {lang === 'fa'
+                ? 'تجربه‌های دیجیتال ظریف با دیدگاه روشن.'
+                : 'Elegant digital experiences with a strong point of view.'}
+            </h2>
           </div>
-          <h2
-            className="font-display"
-            style={{
-              fontWeight: 900,
-              fontSize: 'clamp(42px, 8vw, 100px)',
-              lineHeight: 0.92,
-              letterSpacing: '-0.03em',
-              color: 'var(--text)',
-            }}
-          >
-            {content.titlePrefix}<br />{content.title}
-          </h2>
+          <p className="max-w-xl text-sm leading-6 text-[var(--muted)] sm:text-right">
+            {content.subtitle}
+          </p>
         </div>
-        <p
-          style={{
-            fontFamily: 'inherit',
-            fontSize: '14px',
-            lineHeight: 1.8,
-            color: 'var(--muted)',
-            maxWidth: '340px',
-          }}
-        >
-          {content.subtitle}
-        </p>
-      </div>
 
-      {projects.map((project, index) => (
-        <ProjectRow
-          key={project.number}
-          project={project}
-          index={index}
-          isFa={isFa}
-          viewLabel={viewLabel}
-        />
-      ))}
+        <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((project, index) => {
+            const href = `https://github.com/sanyzrn?tab=repositories&q=${encodeURIComponent(project.repoQuery)}`;
+            return (
+              <article
+                key={project.number}
+                className="rounded-[32px] border border-[var(--line)] bg-white/72 p-4 shadow-[0_24px_70px_-44px_rgba(0,0,0,0.55)] backdrop-blur-xl"
+              >
+                <div
+                  className="relative h-52 overflow-hidden rounded-[26px] p-5 text-white"
+                  style={{ backgroundImage: GRADIENTS[index % GRADIENTS.length] }}
+                >
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(255,255,255,0.22),transparent_32%)]" />
+                  <div className="relative flex h-full flex-col justify-between">
+                    <div className="flex items-center justify-between text-[11px] uppercase tracking-[0.2em] text-white/80">
+                      <span className="truncate pe-2">{project.category}</span>
+                      <span className="mono">{project.number}</span>
+                    </div>
+                    <div className="grid grid-cols-[1.45fr_1fr] gap-3">
+                      <div className="rounded-[22px] border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
+                        <div className="h-2 w-20 rounded-full bg-white/85" />
+                        <div className="mt-4 h-16 rounded-[18px] border border-white/10 bg-black/10" />
+                      </div>
+                      <div className="space-y-3">
+                        <div className="h-12 rounded-[18px] border border-white/20 bg-black/10" />
+                        <div className="grid grid-cols-2 gap-2">
+                          <div className="h-10 rounded-[14px] border border-white/20 bg-white/10" />
+                          <div className="h-10 rounded-[14px] border border-white/20 bg-white/10" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-      <div
-        style={{
-          padding: 'clamp(32px, 5vw, 56px) clamp(24px, 6vw, 80px)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: '24px',
-          opacity: 0.45,
-        }}
-      >
-        <div style={{ height: '1px', flex: 1, backgroundColor: 'var(--border)' }} />
-        <span
-          style={{
-            fontFamily: 'inherit',
-            fontSize: '11px',
-            letterSpacing: '0.2em',
-            textTransform: 'uppercase',
-            color: 'var(--muted)',
-            whiteSpace: 'nowrap',
-          }}
-        >
-          {content.footer}
-        </span>
-        <div style={{ height: '1px', flex: 1, backgroundColor: 'var(--border)' }} />
+                <div className="px-2 pb-2 pt-5">
+                  <div className="flex items-start justify-between gap-3">
+                    <h3 className="text-2xl font-bold tracking-tight text-[var(--ink)]">{project.title}</h3>
+                    <span className="mono text-[10px] text-[var(--muted)] whitespace-nowrap pt-2">{project.year}</span>
+                  </div>
+                  <p className="mt-3 text-sm leading-6 text-[var(--muted)] line-clamp-3">{project.description}</p>
+
+                  <ul className="mt-5 space-y-2 text-sm text-[var(--muted)]">
+                    {project.tags.slice(0, 3).map((tag) => (
+                      <li key={tag} className="flex items-center gap-3">
+                        <span className="h-1.5 w-1.5 rounded-full bg-[var(--accent)] shrink-0" />
+                        <span>{tag}</span>
+                      </li>
+                    ))}
+                  </ul>
+
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-5 inline-flex text-sm font-semibold text-[var(--accent-dark)] hover:underline"
+                  >
+                    {viewLabel}
+                  </a>
+                </div>
+              </article>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
