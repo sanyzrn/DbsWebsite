@@ -39,7 +39,7 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           </p>
 
           <h1
-            className="mt-8 max-w-4xl text-5xl font-black leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl text-[var(--ink)] cursor-default select-none"
+            className="mt-8 max-w-4xl text-5xl font-display font-extrabold leading-[0.95] tracking-tight sm:text-6xl lg:text-7xl text-[var(--ink)] cursor-default select-none"
             onClick={onNameClick}
           >
             {copy.headlineLead}
@@ -82,7 +82,7 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
             <div className="mt-6 space-y-5">
               {glance.map((service) => (
                 <div key={service.id} className="border-t border-[var(--line)] pt-5 first:border-t-0 first:pt-0">
-                  <h2 className="text-lg font-semibold tracking-tight text-[var(--ink)]">{service.title}</h2>
+                  <h2 className="text-lg font-display font-semibold tracking-tight text-[var(--ink)]">{service.title}</h2>
                   <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{service.short}</p>
                 </div>
               ))}
@@ -95,7 +95,7 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
                 key={metric.label}
                 className="rounded-[28px] border border-[var(--line)] bg-white/70 p-5 text-center shadow-[0_16px_50px_-40px_rgba(0,0,0,0.65)]"
               >
-                <p className="text-2xl font-bold tracking-tight text-[var(--ink)]">{metric.value}</p>
+                <p className="text-2xl font-display font-bold tracking-tight text-[var(--ink)]">{metric.value}</p>
                 <p className="mt-2 text-[10px] uppercase tracking-[0.18em] text-[var(--muted)] leading-snug">
                   {metric.label}
                 </p>

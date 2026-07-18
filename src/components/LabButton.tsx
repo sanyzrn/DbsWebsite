@@ -25,7 +25,7 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
         type="button"
         onClick={onClick}
         aria-label={copy.aria}
-        className="btn-primary shadow-[0_16px_40px_-20px_rgba(65,218,111,0.7)]"
+        className="btn-primary shadow-[0_16px_40px_-20px_rgba(188,148,99,0.7)]"
       >
         {copy.label}
       </button>

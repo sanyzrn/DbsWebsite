@@ -13,8 +13,7 @@ const GRADIENTS = [
 export default function Archive() {
   const { lang } = useLanguage();
   const content = archiveContent[lang];
-  // Show a curated set in the glass grid (first 6) for visual balance
-  const projects = content.projects.slice(0, 6);
+  const projects = content.projects;
   const viewLabel = lang === 'fa' ? 'گیت‌هاب ↗' : 'GitHub ↗';
 
   return (
@@ -25,7 +24,7 @@ export default function Archive() {
             <p className="section-eyebrow">{lang === 'fa' ? 'کار منتخب' : 'Selected work'}</p>
             <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)] max-w-xl">
               {lang === 'fa'
-                ? 'تجربه‌های دیجیتالِ دقیق، با نگاهی روشن و مشخص.'
+                ? 'تجربه‌های دیجیتال دقیق، با نگاهی روشن و مشخص.'
                 : 'Precise digital experiences with a clear point of view.'}
             </h2>
           </div>

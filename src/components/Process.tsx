@@ -13,9 +13,9 @@ export default function Process() {
         <div className="rounded-[36px] border border-[var(--line)] bg-[var(--surface)] p-8 backdrop-blur-xl lg:p-10">
           <p className="section-eyebrow">{lang === 'fa' ? 'رویکرد' : 'Approach'}</p>
           <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)]">
-            {lang === 'fa'
-              ? 'طراحی خوب بی‌زحمت به‌نظر می‌رسد؛ چون هر تصمیم از پیش سنجیده شده است.'
-              : 'Good design feels effortless because every decision has already been weighed.'}
+              {lang === 'fa'
+                ? 'طراحی خوب بی‌زحمت به‌نظر می‌رسد؛ چون هر تصمیم از پیش سنجیده شده.'
+                : 'Good design feels effortless because every decision has already been weighed.'}
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-[var(--muted)]">
             {content.subtitle}

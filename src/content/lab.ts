@@ -104,7 +104,7 @@ export const labContent = {
     title: 'تخصص',
     subheadLead: 'بیشتر طراحان فایل تحویل می‌دهند.',
     subheadDeliver: 'من',
-    subheadAccent: 'سامانه.',
+    subheadAccent: 'سامانه می‌سازم.',
     capabilitiesLabel: 'توانایی‌ها',
     capabilities: [
       {

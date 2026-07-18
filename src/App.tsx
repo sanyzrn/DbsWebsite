@@ -62,11 +62,11 @@ export default function App() {
       className="min-h-screen overflow-hidden text-[var(--ink)]"
       style={{ opacity: pageReady ? 1 : 0, transition: 'opacity 0.5s ease' }}
     >
-      {/* Ambient blobs — sample style, tuned for cream + green */}
+      {/* Ambient blobs — sample style, tuned for cream + brand gold */}
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
         <div className="absolute left-[-7rem] top-24 h-72 w-72 rounded-full bg-[#e8d5b8]/70 blur-3xl" />
         <div className="absolute right-[-5rem] top-16 h-64 w-64 rounded-full bg-white/85 blur-3xl" />
-        <div className="absolute bottom-10 left-1/3 h-80 w-80 rounded-full bg-[rgba(65,218,111,0.12)] blur-3xl" />
+        <div className="absolute bottom-10 left-1/3 h-80 w-80 rounded-full bg-[rgba(188,148,99,0.12)] blur-3xl" />
       </div>
 
       <Navigation />
