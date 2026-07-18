@@ -2,12 +2,12 @@ import { useLanguage } from '../config/languageConfig';
 import { archiveContent } from '../content/archive';
 
 const GRADIENTS = [
-  'linear-gradient(135deg, #17140F 0%, #2FBF58 55%, #F5E8D1 100%)',
+  'linear-gradient(135deg, #17140F 0%, #A07A4F 55%, #F5E8D1 100%)',
   'linear-gradient(135deg, #18181b 0%, #52525b 100%)',
-  'linear-gradient(135deg, #1a2e1f 0%, #41DA6F 45%, #94a3b8 100%)',
+  'linear-gradient(135deg, #2a2118 0%, #BC9463 45%, #94a3b8 100%)',
   'linear-gradient(135deg, #334155 0%, #94a3b8 100%)',
-  'linear-gradient(135deg, #17140F 0%, #3a5a40 100%)',
-  'linear-gradient(135deg, #0f172a 0%, #41DA6F 100%)',
+  'linear-gradient(135deg, #17140F 0%, #4a3a28 100%)',
+  'linear-gradient(135deg, #0f172a 0%, #BC9463 100%)',
 ];
 
 export default function Archive() {
@@ -23,10 +23,10 @@ export default function Archive() {
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
             <p className="section-eyebrow">{lang === 'fa' ? 'کار منتخب' : 'Selected work'}</p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl text-[var(--ink)] max-w-xl">
+            <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)] max-w-xl">
               {lang === 'fa'
-                ? 'تجربه‌های دیجیتال ظریف با دیدگاه روشن.'
-                : 'Elegant digital experiences with a strong point of view.'}
+                ? 'تجربه‌های دیجیتالِ دقیق، با نگاهی روشن و مشخص.'
+                : 'Precise digital experiences with a clear point of view.'}
             </h2>
           </div>
           <p className="max-w-xl text-sm leading-6 text-[var(--muted)] sm:text-right">
@@ -70,7 +70,7 @@ export default function Archive() {
 
                 <div className="px-2 pb-2 pt-5">
                   <div className="flex items-start justify-between gap-3">
-                    <h3 className="text-2xl font-bold tracking-tight text-[var(--ink)]">{project.title}</h3>
+                    <h3 className="text-2xl font-display font-bold tracking-tight text-[var(--ink)]">{project.title}</h3>
                     <span className="mono text-[10px] text-[var(--muted)] whitespace-nowrap pt-2">{project.year}</span>
                   </div>
                   <p className="mt-3 text-sm leading-6 text-[var(--muted)] line-clamp-3">{project.description}</p>

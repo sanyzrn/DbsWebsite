@@ -14,9 +14,9 @@ export default function Contact() {
           <div className="rounded-[40px] border border-[var(--ink)] bg-[var(--ink)] px-8 py-10 text-white shadow-[0_30px_100px_-50px_rgba(0,0,0,0.75)] lg:flex lg:items-end lg:justify-between lg:px-10 lg:py-12">
             <div className="max-w-2xl">
               <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/60">
-                {lang === 'fa' ? 'بیایید کار کنیم' : "Let's work together"}
+                {lang === 'fa' ? 'همکاری را شروع کنیم' : "Let's work together"}
               </p>
-              <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl">
+              <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl">
                 {content.headlineLead}{' '}
                 <span className="text-[var(--accent)]">{content.headlineAccent}</span>
               </h2>
@@ -42,7 +42,7 @@ export default function Contact() {
                 href="#top"
                 className="rounded-full border border-white/20 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
               >
-                {lang === 'fa' ? 'بازگشت به بالا' : 'Back to top'}
+                {lang === 'fa' ? 'بازگشت به ابتدا' : 'Back to top'}
               </a>
             </div>
           </div>
@@ -70,7 +70,7 @@ export function TrustStrip() {
       <div className="mx-auto max-w-6xl">
         <div className="mb-8">
           <p className="section-eyebrow">{content.eyebrow}</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl text-[var(--ink)]">
+          <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)]">
             {content.title}{' '}
             <span className="serif-accent text-[var(--accent-dark)]">{content.titleAccent}</span>
           </h2>
@@ -86,7 +86,7 @@ export function TrustStrip() {
                 <span className="mono text-xs tracking-[0.2em] text-[var(--accent-dark)]">{m.era}</span>
                 <span className="mono text-[10px] text-[var(--muted)]">{m.marker}</span>
               </div>
-              <h3 className="mt-3 text-lg font-bold tracking-tight text-[var(--ink)]">{m.title}</h3>
+              <h3 className="mt-3 text-lg font-display font-bold tracking-tight text-[var(--ink)]">{m.title}</h3>
               <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{m.body}</p>
             </div>
           ))}
