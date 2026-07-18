@@ -30,7 +30,7 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
         alignItems: 'center',
         gap: '10px',
         backgroundColor: '#1A1916',
-        border: '1px solid rgba(166, 134, 94, 0.3)',
+        border: '1px solid rgba(63, 166, 92, 0.3)',
         padding: '12px 20px',
         cursor: 'pointer',
         opacity: visible ? 1 : 0,
@@ -40,12 +40,12 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
       }}
       onMouseEnter={(e) => {
         const btn = e.currentTarget as HTMLButtonElement;
-        btn.style.borderColor = 'rgba(166, 134, 94, 0.7)';
+        btn.style.borderColor = 'rgba(63, 166, 92, 0.7)';
         btn.style.backgroundColor = '#252420';
       }}
       onMouseLeave={(e) => {
         const btn = e.currentTarget as HTMLButtonElement;
-        btn.style.borderColor = 'rgba(166, 134, 94, 0.3)';
+        btn.style.borderColor = 'rgba(63, 166, 92, 0.3)';
         btn.style.backgroundColor = '#1A1916';
       }}
     >
@@ -56,9 +56,9 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
         fill="none"
         style={{ flexShrink: 0 }}
       >
-        <rect x="0.5" y="0.5" width="13" height="13" rx="1.5" stroke="rgba(166,134,94,0.6)" />
-        <path d="M3 5l2.5 2L3 9" stroke="rgba(166,134,94,0.9)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
-        <line x1="7.5" y1="9" x2="11" y2="9" stroke="rgba(166,134,94,0.6)" strokeWidth="1.2" strokeLinecap="round" />
+        <rect x="0.5" y="0.5" width="13" height="13" rx="1.5" stroke="rgba(63,166,92,0.6)" />
+        <path d="M3 5l2.5 2L3 9" stroke="rgba(63,166,92,0.9)" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+        <line x1="7.5" y1="9" x2="11" y2="9" stroke="rgba(63,166,92,0.6)" strokeWidth="1.2" strokeLinecap="round" />
       </svg>
 
       <span
@@ -68,7 +68,7 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
           fontWeight: 500,
           letterSpacing: '0.12em',
           textTransform: 'uppercase',
-          color: 'rgba(166, 134, 94, 0.9)',
+          color: 'rgba(63, 166, 92, 0.9)',
         }}
       >
         {copy.label}
@@ -80,7 +80,7 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
             position: 'absolute',
             inset: 0,
             borderRadius: '50%',
-            backgroundColor: 'rgba(166, 134, 94, 0.5)',
+            backgroundColor: 'rgba(63, 166, 92, 0.5)',
             animation: 'pulseRing 2s ease-out infinite',
           }}
         />

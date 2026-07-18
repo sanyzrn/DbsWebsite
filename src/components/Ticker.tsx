@@ -39,10 +39,10 @@ export default function Ticker() {
               display: 'inline-flex',
               alignItems: 'center',
               gap: '28px',
-              color: '#131210',
+              color: 'var(--ink)',
             }}
           >
-            <span style={index % 2 === 1 ? { color: '#F7F5EF' } : undefined}>
+            <span style={index % 2 === 1 ? { color: 'var(--bg-soft, #FBF4E9)' } : undefined}>
               {item}
             </span>
             <span style={{ fontSize: '10px', opacity: 0.85 }}>✳</span>

@@ -64,10 +64,10 @@ export const DEFAULT_CONFIG: SiteConfig = {
     contact: true,
   },
   theme: {
-    bg: '#F7F5EF',
-    surface: '#EFECE3',
-    text: '#131210',
-    accent: '#A6865E',
+    bg: '#F6ECDD',
+    surface: '#F3E6D4',
+    text: '#17140F',
+    accent: '#3FA65C',
   },
   hero: {
     name: 'SAEED',
@@ -89,7 +89,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
   },
 };
 
-const STORAGE_KEY = 'dbs.siteConfig.v3';
+const STORAGE_KEY = 'dbs.siteConfig.v4';
 
 /** Deep-merge a stored (possibly partial / outdated) config onto defaults. */
 function mergeConfig(base: SiteConfig, stored: unknown): SiteConfig {

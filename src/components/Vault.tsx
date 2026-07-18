@@ -42,7 +42,7 @@ interface MetaLabels {
 
 /* A CSS-only "conserved specimen" — a document under archival glass. */
 function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
-  const accent = 'rgba(166, 134, 94, 0.55)';
+  const accent = 'rgba(63, 166, 92, 0.55)';
 
   return (
     <div
@@ -50,8 +50,8 @@ function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
         position: 'relative',
         height: '180px',
         background:
-          'radial-gradient(120% 100% at 50% 0%, rgba(166,134,94,0.10), transparent 60%), #0c0b08',
-        borderBottom: '1px solid rgba(166, 134, 94, 0.18)',
+          'radial-gradient(120% 100% at 50% 0%, rgba(63,166,92,0.10), transparent 60%), #0c0b08',
+        borderBottom: '1px solid rgba(63, 166, 92, 0.18)',
         overflow: 'hidden',
       }}
     >
@@ -70,12 +70,12 @@ function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
           flexDirection: 'column',
           gap: '7px',
           background:
-            'repeating-linear-gradient(to bottom, transparent 0 11px, rgba(166,134,94,0.04) 11px 12px)',
+            'repeating-linear-gradient(to bottom, transparent 0 11px, rgba(63,166,92,0.04) 11px 12px)',
         }}
       >
         {kind === 'label' && (
           <>
-            <div className="doc-line" style={{ width: '40%', height: '8px', background: 'rgba(166,134,94,0.5)' }} />
+            <div className="doc-line" style={{ width: '40%', height: '8px', background: 'rgba(63,166,92,0.5)' }} />
             <div className="doc-line" style={{ width: '85%' }} />
             <div className="doc-line" style={{ width: '70%' }} />
             <div style={{ flex: 1 }} />
@@ -120,14 +120,14 @@ function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
                 border: `1px solid ${accent}`,
                 position: 'relative',
                 transform: 'perspective(400px) rotateY(-16deg)',
-                background: 'linear-gradient(120deg, rgba(166,134,94,0.12), transparent)',
+                background: 'linear-gradient(120deg, rgba(63,166,92,0.12), transparent)',
                 display: 'flex',
                 flexDirection: 'column',
                 gap: '6px',
                 padding: '10px',
               }}
             >
-              <div className="doc-line" style={{ width: '60%', height: '6px', background: 'rgba(166,134,94,0.5)' }} />
+              <div className="doc-line" style={{ width: '60%', height: '6px', background: 'rgba(63,166,92,0.5)' }} />
               <div className="doc-line" style={{ width: '90%' }} />
               <div className="doc-line" style={{ width: '75%' }} />
               <div style={{ flex: 1 }} />
@@ -144,9 +144,9 @@ function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
         {kind === 'identity' && (
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '12px', height: '100%' }}>
             <div style={{ width: '38px', height: '38px', borderRadius: '50%', border: `1.5px solid ${accent}`, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <div style={{ width: '16px', height: '16px', background: 'rgba(166,134,94,0.45)', transform: 'rotate(45deg)' }} />
+              <div style={{ width: '16px', height: '16px', background: 'rgba(63,166,92,0.45)', transform: 'rotate(45deg)' }} />
             </div>
-            <div className="doc-line" style={{ width: '50%', height: '6px', background: 'rgba(166,134,94,0.4)' }} />
+            <div className="doc-line" style={{ width: '50%', height: '6px', background: 'rgba(63,166,92,0.4)' }} />
             <div className="doc-line" style={{ width: '32%' }} />
           </div>
         )}
@@ -161,7 +161,7 @@ function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <div style={{ display: 'flex', gap: '6px' }}>
                 <div className="doc-line" style={{ flex: 1, height: '18px', borderRadius: '2px' }} />
-                <div className="doc-line" style={{ flex: 1, height: '18px', borderRadius: '2px', background: 'rgba(166,134,94,0.25)' }} />
+                <div className="doc-line" style={{ flex: 1, height: '18px', borderRadius: '2px', background: 'rgba(63,166,92,0.25)' }} />
               </div>
               {Array.from({ length: 4 }).map((_, i) => (
                 <div key={i} className="doc-line" style={{ width: `${90 - i * 12}%`, height: '4px' }} />
@@ -173,7 +173,7 @@ function SpecimenPlate({ kind, lot }: { kind: PlateKind; lot: string }) {
         {kind === 'blister' && (
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gridTemplateRows: 'repeat(2, 1fr)', gap: '8px', height: '100%', padding: '4px' }}>
             {Array.from({ length: 10 }).map((_, i) => (
-              <div key={i} style={{ borderRadius: '50%', border: `1px solid ${accent}`, background: 'radial-gradient(circle at 35% 30%, rgba(239,235,225,0.35), rgba(166,134,94,0.08))' }} />
+              <div key={i} style={{ borderRadius: '50%', border: `1px solid ${accent}`, background: 'radial-gradient(circle at 35% 30%, rgba(239,235,225,0.35), rgba(63,166,92,0.08))' }} />
             ))}
           </div>
         )}
@@ -238,7 +238,7 @@ function SpecimenCard({
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px' }}>
           <span
             className="mono"
-            style={{ fontSize: '10px', letterSpacing: '0.18em', color: 'rgba(166, 134, 94, 0.85)' }}
+            style={{ fontSize: '10px', letterSpacing: '0.18em', color: 'rgba(63, 166, 92, 0.85)' }}
           >
             {s.ref}
           </span>
@@ -277,7 +277,7 @@ function SpecimenCard({
             display: 'grid',
             gridTemplateColumns: '1fr 1fr',
             gap: '10px 16px',
-            borderTop: '1px solid rgba(166, 134, 94, 0.15)',
+            borderTop: '1px solid rgba(63, 166, 92, 0.15)',
             paddingTop: '16px',
             fontSize: '9px',
             letterSpacing: '0.08em',
@@ -299,7 +299,7 @@ function MetaCell({ label, value, highlight }: { label: string; value: string; h
       <div style={{ color: 'rgba(239, 235, 225, 0.3)', textTransform: 'uppercase', marginBottom: '3px' }}>
         {label}
       </div>
-      <div style={{ color: highlight ? 'rgba(166, 134, 94, 0.95)' : 'rgba(239, 235, 225, 0.7)' }}>
+      <div style={{ color: highlight ? 'rgba(63, 166, 92, 0.95)' : 'rgba(239, 235, 225, 0.7)' }}>
         {value}
       </div>
     </div>
@@ -354,7 +354,7 @@ export default function Vault() {
           alignItems: 'center',
           justifyContent: 'space-between',
           padding: '12px clamp(24px, 6vw, 80px)',
-          borderBottom: '1px solid rgba(166, 134, 94, 0.18)',
+          borderBottom: '1px solid rgba(63, 166, 92, 0.18)',
           fontSize: '9.5px',
           letterSpacing: '0.22em',
           textTransform: 'uppercase',
@@ -366,7 +366,7 @@ export default function Vault() {
           <span className="rec-dot" style={{ width: '7px', height: '7px', borderRadius: '50%', background: 'var(--classified-light)' }} />
           {clearance}
         </span>
-        <span style={{ color: 'rgba(166, 134, 94, 0.85)' }}>{content.division}</span>
+        <span style={{ color: 'rgba(63, 166, 92, 0.85)' }}>{content.division}</span>
         <span>{facility}</span>
       </div>
 
@@ -406,13 +406,13 @@ export default function Vault() {
           <h2
             style={{
               fontFamily: 'Bricolage Grotesque, sans-serif',
-              fontWeight: 800,
+              fontWeight: 900,
               fontSize: 'clamp(56px, 13vw, 180px)',
               lineHeight: 0.86,
               letterSpacing: '-0.04em',
               color: 'var(--paper)',
               marginBottom: '28px',
-              textShadow: '0 0 60px rgba(166,134,94,0.12)',
+              textShadow: '0 0 60px rgba(63,166,92,0.12)',
             }}
           >
             {content.titlePrefix}<br />{content.title}
@@ -435,7 +435,7 @@ export default function Vault() {
         <div
           className="mono"
           style={{
-            border: '1px solid rgba(166, 134, 94, 0.25)',
+            border: '1px solid rgba(63, 166, 92, 0.25)',
             borderRadius: '4px',
             padding: '20px 22px',
             minWidth: '230px',
@@ -444,7 +444,7 @@ export default function Vault() {
             letterSpacing: '0.1em',
           }}
         >
-          <div style={{ color: 'rgba(166,134,94,0.85)', letterSpacing: '0.25em', marginBottom: '16px', fontSize: '9px' }}>
+          <div style={{ color: 'rgba(63,166,92,0.85)', letterSpacing: '0.25em', marginBottom: '16px', fontSize: '9px' }}>
             {content.manifestTitle}
           </div>
           {content.manifest.map(({ label, value }) => (
@@ -488,9 +488,9 @@ export default function Vault() {
           color: 'rgba(239, 235, 225, 0.4)',
         }}
       >
-        <span style={{ flex: 1, height: '1px', background: 'rgba(166, 134, 94, 0.25)' }} />
+        <span style={{ flex: 1, height: '1px', background: 'rgba(63, 166, 92, 0.25)' }} />
         <span>{content.footer}</span>
-        <span style={{ flex: 1, height: '1px', background: 'rgba(166, 134, 94, 0.25)' }} />
+        <span style={{ flex: 1, height: '1px', background: 'rgba(63, 166, 92, 0.25)' }} />
       </div>
     </section>
   );

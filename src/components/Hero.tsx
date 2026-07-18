@@ -237,10 +237,10 @@ export default function Hero({ onNameTripleClick }: HeroProps) {
           <h1
             className="font-display"
             style={{
-              fontWeight: 800,
+              fontWeight: 900,
               fontSize: 'clamp(80px, 22vw, 280px)',
               lineHeight: 0.88,
-              letterSpacing: lang === 'fa' ? '-0.01em' : '-0.03em',
+              letterSpacing: lang === 'fa' ? '-0.01em' : '-0.04em',
               color: 'var(--text)',
               opacity: loaded ? 1 : 0,
               transform: loaded ? 'translateY(0)' : 'translateY(40px)',

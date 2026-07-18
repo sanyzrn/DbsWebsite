@@ -51,7 +51,7 @@ export default function Navigation() {
       onMouseEnter={(e) => {
         const btn = e.currentTarget;
         btn.style.borderColor = 'var(--accent)';
-        btn.style.backgroundColor = 'rgba(166, 134, 94, 0.08)';
+        btn.style.backgroundColor = 'rgba(63, 166, 92, 0.08)';
       }}
       onMouseLeave={(e) => {
         const btn = e.currentTarget;

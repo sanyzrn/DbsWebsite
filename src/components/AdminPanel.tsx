@@ -32,9 +32,9 @@ const EFFECTS: { key: keyof SiteConfig['effects']; label: string; note: string }
 ];
 
 const PRESETS: { name: string; theme: SiteConfig['theme'] }[] = [
-  { name: 'Studio Bronze', theme: { bg: '#F7F5EF', surface: '#EFECE3', text: '#131210', accent: '#A6865E' } },
-  { name: 'Studio Vermilion', theme: { bg: '#F7F5EF', surface: '#EFECE3', text: '#131210', accent: '#E23D0F' } },
-  { name: 'Klein Blue', theme: { bg: '#F7F5EF', surface: '#EFECE3', text: '#131210', accent: '#1F3BC4' } },
+  { name: 'Cream Green', theme: { bg: '#F6ECDD', surface: '#F3E6D4', text: '#17140F', accent: '#3FA65C' } },
+  { name: 'Studio Vermilion', theme: { bg: '#F6ECDD', surface: '#F3E6D4', text: '#17140F', accent: '#E23D0F' } },
+  { name: 'Klein Blue', theme: { bg: '#F6ECDD', surface: '#F3E6D4', text: '#17140F', accent: '#1F3BC4' } },
   { name: 'Crimson Archive', theme: { bg: '#F1EDE6', surface: '#E8E3D9', text: '#15140F', accent: '#8B1A1A' } },
 ];
 
@@ -42,8 +42,8 @@ const PANEL = {
   ink: '#100F0B',
   ink2: '#18160F',
   paper: '#EFEBE1',
-  bronze: '#A6865E',
-  line: 'rgba(166,134,94,0.2)',
+  bronze: '#3FA65C',
+  line: 'rgba(63,166,92,0.2)',
   mut: 'rgba(239,235,225,0.45)',
 };
 
@@ -312,7 +312,7 @@ export default function AdminPanel() {
                         ? 'rgba(63,185,80,0.12)'
                         : remoteSyncStatus === 'error'
                         ? 'rgba(179,58,43,0.12)'
-                        : 'rgba(166,134,94,0.1)',
+                        : 'rgba(63,166,92,0.1)',
                     border: `1px solid ${
                       remoteSyncStatus === 'published'
                         ? 'rgba(63,185,80,0.5)'
@@ -373,7 +373,7 @@ export default function AdminPanel() {
                       padding: '6px 9px',
                       borderRadius: '4px',
                       cursor: 'pointer',
-                      background: active ? 'rgba(166,134,94,0.14)' : 'transparent',
+                      background: active ? 'rgba(63,166,92,0.14)' : 'transparent',
                       border: `1px solid ${active ? PANEL.bronze : PANEL.line}`,
                       color: active ? PANEL.paper : PANEL.mut,
                       fontSize: '9px',
