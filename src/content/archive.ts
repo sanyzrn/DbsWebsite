@@ -129,7 +129,7 @@ export const archiveContent = {
     titlePrefix: 'آرشیو',
     title: 'منتخب',
     subtitle:
-      'سامانه‌ها و محصولات گزینش‌شده. همه‌چیز اینجا نیست؛ آنچه هست، ارزشِ بررسی دقیق دارد.',
+      'گزیده‌ای از سامانه‌ها و محصولات. همهٔ کارها اینجا نیستند؛ همین نمونه‌ها برای نگاه دقیق، حرف کافی دارند.',
     footer: 'پایان آرشیو منتخب',
     projects: [
       {
@@ -138,7 +138,7 @@ export const archiveContent = {
         category: 'سامانهٔ فول‌استک',
         title: 'DbsPulse',
         description:
-          'سامانهٔ ارزیابی عملکرد سازمانی و تمدید قرارداد با گردش تأیید چهارمرحله‌ای — سرپرست واحد ← منابع انسانی ← معاون ← مدیرعامل — به‌همراه داشبورد تحلیلی و خروجی Excel/PDF با تأیید QR.',
+          'سامانهٔ ارزیابی عملکرد سازمانی و تمدید قرارداد با گردش تأیید چهارمرحله‌ای — سرپرست واحد ← منابع انسانی ← معاون ← مدیرعامل — به‌همراه داشبورد تحلیلی و خروجی Excel/PDF با اعتبارسنجی QR.',
         tags: ['FastAPI', 'React', 'PostgreSQL', 'Docker'],
         repoQuery: 'DbsPulse',
         align: 'left' as const,
@@ -149,7 +149,7 @@ export const archiveContent = {
         category: 'اندروید / آفلاین‌محور',
         title: 'Second Brain (SOL)',
         description:
-          'اپلیکیشن اندروید آفلاین‌محور برای مدیریت زندگی شخصی — یادداشت، عادت، پروژه، دارو، هزینه، هدف — کاملاً فارسی و راست‌به‌چپ، با رمزنگاری در حالت سکون.',
+          'اپلیکیشن اندروید آفلاین‌محور برای مدیریت زندگی شخصی — یادداشت، عادت، پروژه، دارو، هزینه و هدف — کاملاً فارسی و راست‌به‌چپ، با داده‌های رمزنگاری‌شده روی دستگاه.',
         tags: ['Kotlin', 'Jetpack Compose', 'SQLCipher', 'Room', 'Hilt'],
         repoQuery: 'SOL',
         align: 'right' as const,
@@ -160,7 +160,7 @@ export const archiveContent = {
         category: 'اپلیکیشن دسکتاپ',
         title: 'DbsKeep',
         description:
-          'یادداشت‌بردار دسکتاپ ویندوز با شش تب، پالت فرمان، دستیار هوش مصنوعی محلی، همگام‌سازی تلگرام، و ذخیرهٔ JSON روی دیسک — بدون وابستگی به ابر.',
+          'یادداشت‌بردار دسکتاپ ویندوز با شش تب، پالت فرمان، دستیار هوش مصنوعی محلی، همگام‌سازی تلگرام و ذخیره‌سازی JSON روی دیسک — بدون وابستگی به فضای ابری.',
         tags: ['Tauri v2', 'Rust'],
         repoQuery: 'DbsKeep',
         align: 'left' as const,
@@ -171,7 +171,7 @@ export const archiveContent = {
         category: 'فضای کار داخلی هوش مصنوعی',
         title: 'Nafas AI',
         description:
-          'فضای کار داخلیِ خودمیزبان برای دسترسی تیم به چند مدل هوش مصنوعی — Anthropic، OpenAI، Google، OpenRouter — با سقف مصرف و گزارش‌گیری کامل ادمین.',
+          'فضای کار داخلی خودمیزبان برای دسترسی تیم به چند مدل هوش مصنوعی — Anthropic، OpenAI، Google، OpenRouter — با سقف مصرف و گزارش‌گیری کامل برای مدیر سیستم.',
         tags: ['React 19', 'PHP 8', 'MySQL'],
         repoQuery: 'Nafas+AI',
         align: 'right' as const,
@@ -182,7 +182,7 @@ export const archiveContent = {
         category: 'افزونهٔ وردپرس',
         title: 'Nafas Chatbot Pro',
         description:
-          'افزونهٔ چت‌بات هوش مصنوعی برای وردپرس — ویجت شناور، ویجت المنتور یا شورت‌کد — مبتنی بر Gemini، با پنل ادمین شش‌تب.',
+          'افزونهٔ چت‌بات هوش مصنوعی برای وردپرس — ویجت شناور، ویجت المنتور یا شورت‌کد — مبتنی بر Gemini، با پنل مدیریت شش‌تب.',
         tags: ['WordPress', 'PHP', 'AJAX', 'Google Gemini'],
         repoQuery: 'Nafas+Chatbot',
         align: 'left' as const,
@@ -193,7 +193,7 @@ export const archiveContent = {
         category: 'افزونهٔ المنتور',
         title: 'Elementor Product Carousel',
         description:
-          'اسلایدر محصول برای المنتور: ناوبری با صفحه‌کلید و ماوس، پخش خودکار و حلقه، چند سبک صفحه‌بندی، کنترل کامل استایل، و پشتیبانی از reduced-motion.',
+          'اسلایدر محصول برای المنتور: ناوبری با صفحه‌کلید و ماوس، پخش خودکار و اجرای حلقه‌ای، چند سبک صفحه‌بندی، کنترل کامل استایل و پشتیبانی از reduced-motion.',
         tags: ['PHP', 'WordPress', 'Elementor'],
         repoQuery: 'Elementor+Carousel',
         align: 'right' as const,
@@ -204,7 +204,7 @@ export const archiveContent = {
         category: 'پلتفرم تناسب‌اندام',
         title: 'EsiFit',
         description:
-          'پلتفرم تناسب‌اندام دوزبانه (fa/en) با ۱۴ ماشین‌حساب تخصصی — BMI، BMR، TDEE، درصد چربی، 1RM، ماکرو، FFMI و بیشتر — به‌همراه نقشهٔ بدن SVG تعاملی و نمودارهای پیشرفت.',
+          'پلتفرم تناسب‌اندام دوزبانه (fa/en) با ۱۴ ماشین‌حساب تخصصی — BMI، BMR، TDEE، درصد چربی، 1RM، ماکرو، FFMI و موارد دیگر — به‌همراه نقشهٔ بدن SVG تعاملی و نمودارهای پیشرفت.',
         tags: ['React 18', 'TypeScript', 'Vite', 'Tailwind CSS'],
         repoQuery: 'EsiFit',
         align: 'left' as const,
@@ -215,7 +215,7 @@ export const archiveContent = {
         category: 'PWA مالی شخصی',
         title: 'حساب‌یار',
         description:
-          'مدیر مالی شخصی کاملاً خصوصی — تراکنش، حساب، وام، بودجه‌بندی پاکتی، اهداف پس‌انداز — با پشتیبانی تقویم شمسی و پوستهٔ قابل‌نصب PWA.',
+          'مدیر مالی شخصی کاملاً خصوصی — تراکنش‌ها، حساب‌ها، وام‌ها، بودجه‌بندی پاکتی و اهداف پس‌انداز — با پشتیبانی تقویم شمسی و نسخهٔ قابل‌نصب PWA.',
         tags: ['PHP', 'MySQL', 'PWA'],
         repoQuery: 'Hesabyar',
         align: 'right' as const,
@@ -226,7 +226,7 @@ export const archiveContent = {
         category: 'پورتال بیمار',
         title: 'پورتال نفس زیست فارمد',
         description:
-          'پورتال آموزش و پشتیبانی بیمار: کاتالوگ‌های قابل‌جستجو (Fuse.js)، خوانندهٔ PDF با هایلایت و یادداشت، پخش‌کنندهٔ ویدیو، پنل ادمین محتوا — قابل‌نصب به‌صورت PWA.',
+          'پورتال آموزش و پشتیبانی بیمار: کاتالوگ‌های قابل‌جستجو (Fuse.js)، نمایشگر PDF با هایلایت و یادداشت، پخش‌کنندهٔ ویدیو و پنل مدیریت محتوا — قابل‌نصب به‌صورت PWA.',
         tags: ['React 19', 'PHP', 'PWA'],
         repoQuery: 'Nafas+Portal',
         align: 'left' as const,
@@ -237,7 +237,7 @@ export const archiveContent = {
         category: 'جعبه‌ابزار بهره‌وری',
         title: 'NafasTools',
         description:
-          'جعبه‌ابزار بهره‌وری: فشرده‌سازی، ادغام، تقسیم و تبدیل PDF سمت کلاینت؛ تولید اسناد رسمی؛ ترجمهٔ تخصصی دارویی با کمک هوش مصنوعی؛ و ابزارهای متنی.',
+          'جعبه‌ابزار بهره‌وری: فشرده‌سازی، ادغام، تقسیم و تبدیل PDF در سمت کلاینت؛ تولید اسناد رسمی؛ ترجمهٔ تخصصی دارویی با کمک هوش مصنوعی؛ و ابزارهای متنی.',
         tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         repoQuery: 'NafasTools',
         align: 'right' as const,

@@ -23,7 +23,7 @@ export default function Lab({ onLabVisited }: LabProps) {
             <p className="section-eyebrow">{lang === 'fa' ? 'خدمات' : 'Services'}</p>
             <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)]">
               {lang === 'fa'
-                ? 'سامانه‌هایی روشن که برند را شفاف، منسجم و قابل‌اعتماد نشان می‌دهند.'
+                ? 'سامانه‌هایی ساده و روشن که برند را منسجم، شفاف و قابل‌اعتماد نشان می‌دهند.'
                 : 'Simple systems that make brands feel clear, composed, and easy to trust.'}
             </h2>
             <p className="mt-4 text-sm leading-6 text-[var(--muted)] sm:text-base">

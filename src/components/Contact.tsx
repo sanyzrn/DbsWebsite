@@ -14,7 +14,7 @@ export default function Contact() {
           <div className="rounded-[40px] border border-[var(--ink)] bg-[var(--ink)] px-8 py-10 text-white shadow-[0_30px_100px_-50px_rgba(0,0,0,0.75)] lg:flex lg:items-end lg:justify-between lg:px-10 lg:py-12">
             <div className="max-w-2xl">
               <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/60">
-                {lang === 'fa' ? 'همکاری را شروع کنیم' : "Let's work together"}
+                {lang === 'fa' ? 'برای همکاری آماده‌ام' : "Let's work together"}
               </p>
               <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl">
                 {content.headlineLead}{' '}
@@ -42,7 +42,7 @@ export default function Contact() {
                 href="#top"
                 className="rounded-full border border-white/20 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
               >
-                {lang === 'fa' ? 'بازگشت به ابتدا' : 'Back to top'}
+                {lang === 'fa' ? 'بازگشت به بالا' : 'Back to top'}
               </a>
             </div>
           </div>

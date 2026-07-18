@@ -14,11 +14,11 @@ export const introStatsContent = {
   fa: {
     stats: [
       { index: '01', value: '۱۶+', label: 'سال تجربه' },
-      { index: '02', value: '۱۰+', label: 'برند همراه' },
-      { index: '03', value: '۶', label: 'حوزه — از طراحی تا نرم‌افزار' },
+      { index: '02', value: '۱۰+', label: 'همکاری با برندها' },
+      { index: '03', value: '۶', label: 'حوزه؛ از طراحی تا نرم‌افزار' },
       { index: '04', value: '∞', label: 'تکرار تا رسیدن به نتیجهٔ درست' },
     ],
-    manifestoLead: 'ایده را به سامانه‌ای تبدیل می‌کنم که واقعاً کار می‌کند.',
+    manifestoLead: 'ایده‌ها را به سامانه‌هایی تبدیل می‌کنم که واقعاً کار می‌کنند.',
     manifestoAccent: 'از بسته‌بندی دارویی تا نرم‌افزار تحویل‌شده',
     manifestoTail: '— وضوح و دقت در هر لایه.',
     attribution: 'سعید زرینی · از ۱۳۸۶',

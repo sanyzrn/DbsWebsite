@@ -14,17 +14,17 @@ export default function Archive() {
   const { lang } = useLanguage();
   const content = archiveContent[lang];
   const projects = content.projects;
-  const viewLabel = lang === 'fa' ? 'گیت‌هاب ↗' : 'GitHub ↗';
+  const viewLabel = lang === 'fa' ? 'مشاهده در گیت‌هاب ↗' : 'GitHub ↗';
 
   return (
     <section id="archive" className="px-4 sm:px-6 lg:px-10 mt-16 sm:mt-20">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="section-eyebrow">{lang === 'fa' ? 'کار منتخب' : 'Selected work'}</p>
+            <p className="section-eyebrow">{lang === 'fa' ? 'کارهای منتخب' : 'Selected work'}</p>
             <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)] max-w-xl">
               {lang === 'fa'
-                ? 'تجربه‌های دیجیتال دقیق، با نگاهی روشن و مشخص.'
+                ? 'تجربه‌های دیجیتال دقیق، با نگاهی روشن و سنجیده.'
                 : 'Precise digital experiences with a clear point of view.'}
             </h2>
           </div>
