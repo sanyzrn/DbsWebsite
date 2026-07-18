@@ -14,7 +14,7 @@ export default function Process() {
           <p className="section-eyebrow">{lang === 'fa' ? 'رویکرد' : 'Approach'}</p>
           <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)]">
               {lang === 'fa'
-                ? 'طراحی خوب بی‌زحمت به‌نظر می‌رسد؛ چون هر تصمیم از پیش سنجیده شده.'
+                ? 'طراحی خوب بی‌زحمت دیده می‌شود؛ چون هر تصمیم از پیش سنجیده شده است.'
                 : 'Good design feels effortless because every decision has already been weighed.'}
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-[var(--muted)]">
@@ -24,7 +24,7 @@ export default function Process() {
           <div className="mt-8 rounded-[28px] border border-[var(--line)] bg-white/70 p-6">
             <p className="text-sm leading-7 text-[var(--muted)]">
               {lang === 'fa'
-                ? 'هدف فقط زیباتر شدن نیست — ساختن حضوری بصری که در هر نقطهٔ تماس منسجم، مطمئن و مفید باشد.'
+                ? 'هدف فقط زیباتر شدن نیست — باید حضوری بصری ساخت که در هر نقطهٔ تماس منسجم، مطمئن و مفید باشد.'
                 : 'The goal is not merely to look better. It is to build a visual presence that feels cohesive, confident, and useful at every touchpoint.'}
             </p>
           </div>

@@ -19,7 +19,7 @@ export default function Navigation() {
     <button
       type="button"
       onClick={toggleLang}
-      aria-label={lang === 'en' ? 'Switch to Persian' : 'تغییر به انگلیسی'}
+      aria-label={lang === 'en' ? 'Switch to Persian' : 'تغییر زبان به انگلیسی'}
       className="mono rounded-full border border-[var(--line)] px-3 py-1.5 text-[10px] font-semibold tracking-[0.18em] uppercase text-[var(--muted)] transition hover:border-[var(--accent)] hover:text-[var(--ink)]"
     >
       <span style={{ opacity: lang === 'en' ? 1 : 0.4 }}>EN</span>

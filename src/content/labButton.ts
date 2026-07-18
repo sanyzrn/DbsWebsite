@@ -4,7 +4,7 @@ export const labButtonContent = {
     aria: 'Open Lab Terminal',
   },
   fa: {
-    label: 'باز کردن آزمایشگاه',
+    label: 'ورود به آزمایشگاه',
     aria: 'باز کردن ترمینال آزمایشگاه',
   },
 };
