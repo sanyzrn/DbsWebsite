@@ -1,5 +1,7 @@
 import { useEffect, useRef } from 'react';
 import Magnetic from './Magnetic';
+import { useLanguage } from '../config/languageConfig';
+import { timelineContent } from '../content/timeline';
 
 /**
  * TIMELINE OF TRUST — provenance, not a résumé.
@@ -14,45 +16,6 @@ interface Milestone {
   body: string;
   marker: string;
 }
-
-const milestones: Milestone[] = [
-  {
-    era: '2007',
-    title: 'The First Commission',
-    body: 'First professional design work at Taranom Advertising. The discipline of client deadlines and commercial expectations forged a standard that has not been lowered since.',
-    marker: 'I',
-  },
-  {
-    era: '2009',
-    title: 'Seven Years of Editorial Mastery',
-    body: 'A seven-year residency at Payam Magazine built deep expertise in layout systems, typographic precision, and the patience required to design for print at scale — every issue a deadline, every page a system.',
-    marker: 'II',
-  },
-  {
-    era: '2017',
-    title: 'Entering the Pharmaceutical World',
-    body: 'A four-year remote partnership with Kimia Kala Razi marked the beginning of pharmaceutical specialization — a domain where a misplaced element carries regulatory and patient consequence.',
-    marker: 'III',
-  },
-  {
-    era: '2021',
-    title: 'The Year of Simultaneous Trust',
-    body: 'In a single year: GPL, Yas Pharmed, Ovedis, and Zarjam Daru each extended trust concurrently. Four pharmaceutical clients. One independent designer. Zero compromises on standard.',
-    marker: 'IV',
-  },
-  {
-    era: '2021',
-    title: 'A Remote Partnership Built to Last',
-    body: 'The collaboration with Busun Pharmed began in 2021 and continues today — a remote relationship sustained not by proximity, but by consistent delivery across every project.',
-    marker: 'V',
-  },
-  {
-    era: '2023',
-    title: 'Current Chapter: Nafas Pharmed',
-    body: 'Ongoing work with Nafas Pharmed and Busun Pharmed simultaneously — pharmaceutical packaging that meets industry standards while maintaining the visual discipline that defines every piece leaving this studio.',
-    marker: 'VI',
-  },
-];
 
 function TimelineRow({ m, index }: { m: Milestone; index: number }) {
   const ref = useRef<HTMLDivElement>(null);
@@ -93,7 +56,15 @@ function TimelineRow({ m, index }: { m: Milestone; index: number }) {
           textAlign: 'var(--tl-text-align)' as React.CSSProperties['textAlign'],
         }}
       >
-        <div className="trust-plaque" style={{ padding: 'clamp(20px, 2.6vw, 30px)', display: 'inline-block', textAlign: 'left', maxWidth: '420px' }}>
+        <div
+          className="trust-plaque"
+          style={{
+            padding: 'clamp(20px, 2.6vw, 30px)',
+            display: 'inline-block',
+            textAlign: 'start',
+            maxWidth: '420px',
+          }}
+        >
           <div
             className="mono"
             style={{
@@ -162,6 +133,8 @@ function TimelineRow({ m, index }: { m: Milestone; index: number }) {
 }
 
 export default function Timeline() {
+  const { lang } = useLanguage();
+  const content = timelineContent[lang];
   const headerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -193,7 +166,7 @@ export default function Timeline() {
         style={{
           position: 'absolute',
           top: 'clamp(40px, 6vw, 90px)',
-          right: '-0.04em',
+          insetInlineEnd: '-0.04em',
           fontFamily: 'Bricolage Grotesque, sans-serif',
           fontWeight: 800,
           fontSize: 'clamp(70px, 16vw, 220px)',
@@ -206,7 +179,7 @@ export default function Timeline() {
           whiteSpace: 'nowrap',
         }}
       >
-        TRUST
+        {content.ghost}
       </div>
 
       {/* Header */}
@@ -235,7 +208,7 @@ export default function Timeline() {
               marginBottom: '16px',
             }}
           >
-            Provenance
+            {content.eyebrow}
           </div>
           <Magnetic strength={0.07} radius={90}>
           <h2
@@ -248,7 +221,7 @@ export default function Timeline() {
               color: 'var(--text)',
             }}
           >
-            Timeline<br />of Trust
+            {content.title}<br />{content.titleAccent}
           </h2>
           </Magnetic>
         </div>
@@ -261,8 +234,7 @@ export default function Timeline() {
             maxWidth: '340px',
           }}
         >
-          Not a résumé. A record of the organizations that placed their brand in these hands —
-          and the discipline that kept every one of them.
+          {content.subtitle}
         </p>
       </div>
 
@@ -277,38 +249,48 @@ export default function Timeline() {
         }}
       >
         {/* spine */}
-        <div className="trust-spine" style={{ left: 'var(--tl-spine-left)' }} aria-hidden="true" />
+        <div
+          className="trust-spine"
+          style={{ insetInlineStart: 'var(--tl-spine-inline)' }}
+          aria-hidden="true"
+        />
 
-        {milestones.map((m, i) => (
-          <TimelineRow key={m.era} m={m} index={i} />
+        {content.milestones.map((m, i) => (
+          <TimelineRow key={`${m.era}-${m.marker}`} m={m} index={i} />
         ))}
       </div>
 
-      {/* responsive grid variables: center spine on desktop, left rail on mobile */}
+      {/* responsive grid variables: center spine on desktop, start rail on mobile.
+          Document dir=rtl already mirrors columns; do not re-swap under .lang-fa. */}
       <style>{`
         #trust {
           --tl-cols: 24px 1fr;
-          --tl-spine-left: 12px;
+          --tl-spine-inline: 12px;
           --tl-node-col: 1;
           --tl-plaque-col: 2;
-          --tl-text-align: left;
+          --tl-text-align: start;
         }
-        #trust .trust-item { padding-left: 0; }
+        #trust .trust-item { padding-inline-start: 0; }
+        #trust .trust-spine {
+          left: auto;
+          right: auto;
+          inset-inline-start: var(--tl-spine-inline);
+        }
         @media (min-width: 860px) {
           #trust {
             --tl-cols: 1fr 24px 1fr;
-            --tl-spine-left: 50%;
+            --tl-spine-inline: 50%;
             --tl-node-col: 2;
           }
           /* the absolute .trust-spine is child #1, so parity is offset by one:
-             even children are the 1st, 3rd, 5th milestones (start left). */
+             even children are the 1st, 3rd, 5th milestones (start side). */
           #trust .trust-item:nth-child(even) {
             --tl-plaque-col: 1;
-            --tl-text-align: right;
+            --tl-text-align: end;
           }
           #trust .trust-item:nth-child(odd) {
             --tl-plaque-col: 3;
-            --tl-text-align: left;
+            --tl-text-align: start;
           }
         }
       `}</style>

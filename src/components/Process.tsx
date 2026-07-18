@@ -1,52 +1,11 @@
 import { useEffect, useRef } from 'react';
 import Magnetic from './Magnetic';
-
-const steps = [
-  {
-    number: '01',
-    title: 'Research',
-    description:
-      'Every brief contains a problem. Finding that problem — the real one, not the stated one — requires systematic research. Market context, competitive landscape, user behavior, and the invisible rules of the industry.',
-    duration: '1–2 weeks',
-  },
-  {
-    number: '02',
-    title: 'Strategy',
-    description:
-      'Design without strategy is decoration. Strategy translates research into decisions: what the brand must communicate, what it must avoid, and the singular idea that will guide every visual and systemic choice.',
-    duration: '1 week',
-  },
-  {
-    number: '03',
-    title: 'Design',
-    description:
-      'This is where the invisible becomes visible. Typography, color, space, hierarchy, form — each decision made against a strategic reason. No decoration without purpose. No element without intention.',
-    duration: '2–3 weeks',
-  },
-  {
-    number: '04',
-    title: 'Prototype',
-    description:
-      'Before anything goes to print or production, it must be tested. Interactive prototypes, print dummies, material samples — reality reveals what screens hide.',
-    duration: '1 week',
-  },
-  {
-    number: '05',
-    title: 'Development',
-    description:
-      'For digital products: clean, maintainable code. For physical products: production-ready artwork, precise technical specifications, and print-ready files that printers don\'t have to fix.',
-    duration: '1–4 weeks',
-  },
-  {
-    number: '06',
-    title: 'Launch',
-    description:
-      'Delivery is not the end. Launch includes handoff documentation, brand guidelines, technical specifications, and — when needed — ongoing support to maintain design integrity over time.',
-    duration: 'Ongoing',
-  },
-];
+import { useLanguage } from '../config/languageConfig';
+import { processContent } from '../content/process';
 
 export default function Process() {
+  const { lang } = useLanguage();
+  const content = processContent[lang];
   const headerRef = useRef<HTMLDivElement>(null);
   const stepsRef = useRef<(HTMLDivElement | null)[]>([]);
 
@@ -84,7 +43,7 @@ export default function Process() {
       >
         <div>
           <div className="section-label" style={{ marginBottom: '16px' }}>
-            Section 03
+            {content.eyebrow}
           </div>
           <Magnetic strength={0.07} radius={90}>
           <h2
@@ -97,7 +56,7 @@ export default function Process() {
               color: 'var(--text)',
             }}
           >
-            Process
+            {content.title}
           </h2>
           </Magnetic>
         </div>
@@ -110,7 +69,7 @@ export default function Process() {
             maxWidth: '320px',
           }}
         >
-          A methodology refined over 16 years of working with pharmaceutical companies, global brands, and ambitious founders.
+          {content.subtitle}
         </p>
       </div>
 
@@ -120,7 +79,7 @@ export default function Process() {
           padding: '0 clamp(24px, 6vw, 80px) clamp(60px, 8vw, 100px)',
         }}
       >
-        {steps.map((step, index) => (
+        {content.steps.map((step, index) => (
           <div
             key={step.number}
             ref={(el) => { stepsRef.current[index] = el; }}
@@ -131,7 +90,7 @@ export default function Process() {
               gridTemplateColumns: 'auto 1fr',
               gap: 'clamp(24px, 4vw, 60px)',
               position: 'relative',
-              paddingBottom: index < steps.length - 1 ? 'clamp(40px, 5vw, 72px)' : 0,
+              paddingBottom: index < content.steps.length - 1 ? 'clamp(40px, 5vw, 72px)' : 0,
             }}
           >
             {/* Left: number + vertical line */}
@@ -166,7 +125,7 @@ export default function Process() {
               </div>
 
               {/* Vertical line */}
-              {index < steps.length - 1 && (
+              {index < content.steps.length - 1 && (
                 <div
                   style={{
                     flex: 1,

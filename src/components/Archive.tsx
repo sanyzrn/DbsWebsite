@@ -1,64 +1,31 @@
 import { useEffect, useRef } from 'react';
+import { useLanguage } from '../config/languageConfig';
+import { archiveContent } from '../content/archive';
 
-const projects = [
-  {
-    number: '001',
-    category: 'Pharmaceutical Packaging',
-    title: 'Medical Trust Series',
-    description:
-      'A comprehensive pharmaceutical packaging system designed for a clinical portfolio of injectable and oral medications. Built on a framework of regulatory compliance, clinical precision, and patient confidence — where every typographic decision is a dosage of trust.',
-    tags: ['Packaging Design', 'Regulatory', 'Brand System'],
-    image: '/images/packaging-01.jpg',
-    year: '2023',
-    align: 'left',
-  },
-  {
-    number: '002',
-    category: 'Product Packaging',
-    title: 'Luxury Wellness Identity',
-    description:
-      'Full packaging ecosystem for a premium wellness brand. Materials, finishes, and structure were treated as communication tools — the unboxing experience designed to feel like an extension of the brand promise.',
-    tags: ['Packaging', 'Brand Identity', 'Premium'],
-    image: '/images/packaging-02.jpg',
-    year: '2022',
-    align: 'right',
-  },
-  {
-    number: '003',
-    category: 'Catalog Design',
-    title: 'Editorial Product Archive',
-    description:
-      'A 200-page product catalog created as a design artifact in its own right. The publication follows a strict editorial system — each spread composed as a standalone visual statement, yet unified by an invisible grid.',
-    tags: ['Editorial', 'Catalog', 'Typography'],
-    image: '/images/catalog-01.jpg',
-    year: '2022',
-    align: 'left',
-  },
-  {
-    number: '004',
-    category: 'Brand Identity',
-    title: 'Corporate Identity System',
-    description:
-      'A complete brand identity system built for longevity. Identity marks, color philosophy, typographic hierarchy, stationery, and environmental applications — all designed as a single, cohesive language of trust.',
-    tags: ['Brand Identity', 'Identity System', 'Visual Language'],
-    image: '/images/brand-01.jpg',
-    year: '2021',
-    align: 'right',
-  },
-  {
-    number: '005',
-    category: 'UI/UX Design',
-    title: 'Healthcare Digital Platform',
-    description:
-      'End-to-end UX design for a healthcare management platform. User research, information architecture, interaction design, and high-fidelity prototypes — built with the understanding that good UX in healthcare is a matter of patient safety.',
-    tags: ['UI Design', 'UX Research', 'Healthcare'],
-    image: '/images/ui-01.jpg',
-    year: '2023',
-    align: 'left',
-  },
+/** Project images kept local — not part of localized copy. */
+const PROJECT_IMAGES = [
+  '/images/packaging-01.jpg',
+  '/images/packaging-02.jpg',
+  '/images/catalog-01.jpg',
+  '/images/brand-01.jpg',
+  '/images/ui-01.jpg',
 ];
 
-function ProjectRow({ project, index }: { project: typeof projects[0]; index: number }) {
+type Project = (typeof archiveContent.en.projects)[number] & {
+  image: string;
+  /** Display number padded to match original en visual (001…). */
+  displayNumber: string;
+};
+
+function ProjectRow({
+  project,
+  index,
+  isFa,
+}: {
+  project: Project;
+  index: number;
+  isFa: boolean;
+}) {
   const rowRef = useRef<HTMLDivElement>(null);
   const imgRef = useRef<HTMLDivElement>(null);
 
@@ -80,7 +47,14 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
     return () => observer.disconnect();
   }, []);
 
-  const isLeft = project.align === 'left';
+  // Mirror left/right for fa; under dir=rtl flex already flips, so invert
+  // the align token so physical layout matches the mirrored intent.
+  const effectiveAlign = isFa
+    ? project.align === 'left'
+      ? 'right'
+      : 'left'
+    : project.align;
+  const isLeft = effectiveAlign === 'left';
 
   return (
     <article
@@ -93,15 +67,16 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
     >
       <div
         className={`flex flex-col ${isLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-16 items-start`}
-        style={{ padding: '0 clamp(24px, 6vw, 80px)' }}
+        style={{ padding: '0 clamp(24px, 6vw, 80px)', direction: 'ltr' }}
       >
-        {/* Text block */}
+        {/* Text block — direction ltr on row keeps flex-row semantics; copy inherits lang from content */}
         <div
           ref={rowRef}
           className={`reveal ${isLeft ? '' : 'reveal-right'} flex-1 lg:max-w-sm`}
           style={{
             paddingTop: 'clamp(0px, 4vw, 60px)',
             transitionDelay: `${index * 80}ms`,
+            direction: isFa ? 'rtl' : 'ltr',
           }}
         >
           {/* Project number + category */}
@@ -122,7 +97,7 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
                 color: 'var(--accent)',
               }}
             >
-              {project.number}
+              {project.displayNumber}
             </span>
             <div style={{ height: '1px', width: '32px', backgroundColor: 'var(--border)' }} />
             <span
@@ -218,7 +193,7 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
         </div>
       </div>
 
-      {/* Decorative number */}
+      {/* Decorative number — physical sides match direction:ltr flex row */}
       <div
         style={{
           position: 'absolute',
@@ -234,14 +209,22 @@ function ProjectRow({ project, index }: { project: typeof projects[0]; index: nu
           userSelect: 'none',
         }}
       >
-        {project.number}
+        {project.displayNumber}
       </div>
     </article>
   );
 }
 
 export default function Archive() {
+  const { lang, isFa } = useLanguage();
+  const content = archiveContent[lang];
   const headerRef = useRef<HTMLDivElement>(null);
+
+  const projects: Project[] = content.projects.map((p, i) => ({
+    ...p,
+    image: PROJECT_IMAGES[i],
+    displayNumber: p.number.padStart(3, '0'),
+  }));
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -279,7 +262,7 @@ export default function Archive() {
       >
         <div>
           <div className="section-label" style={{ marginBottom: '16px' }}>
-            Section 01
+            {content.eyebrow}
           </div>
           <h2
             style={{
@@ -291,7 +274,7 @@ export default function Archive() {
               color: 'var(--text)',
             }}
           >
-            The<br />Archive
+            {content.titlePrefix}<br />{content.title}
           </h2>
         </div>
         <p
@@ -303,13 +286,13 @@ export default function Archive() {
             maxWidth: '340px',
           }}
         >
-          16+ years of selected work. Not everything is shown. What is shown is worth examining carefully.
+          {content.subtitle}
         </p>
       </div>
 
       {/* Projects */}
       {projects.map((project, index) => (
-        <ProjectRow key={project.number} project={project} index={index} />
+        <ProjectRow key={project.number} project={project} index={index} isFa={isFa} />
       ))}
 
       {/* Archive footer note */}
@@ -333,7 +316,7 @@ export default function Archive() {
             whiteSpace: 'nowrap',
           }}
         >
-          End of Selected Archive
+          {content.footer}
         </span>
         <div style={{ height: '1px', flex: 1, backgroundColor: 'var(--border)' }} />
       </div>

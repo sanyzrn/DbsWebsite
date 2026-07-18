@@ -1,4 +1,6 @@
 import Magnetic from './Magnetic';
+import { useLanguage } from '../config/languageConfig';
+import { labButtonContent } from '../content/labButton';
 
 interface LabButtonProps {
   visible: boolean;
@@ -6,12 +8,15 @@ interface LabButtonProps {
 }
 
 export default function LabButton({ visible, onClick }: LabButtonProps) {
+  const { lang } = useLanguage();
+  const copy = labButtonContent[lang];
+
   return (
     <div
       style={{
         position: 'fixed',
         bottom: '32px',
-        right: '32px',
+        insetInlineEnd: '32px',
         zIndex: 90,
         pointerEvents: visible ? 'all' : 'none',
       }}
@@ -19,7 +24,7 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
     <Magnetic strength={0.35} radius={48}>
     <button
       onClick={onClick}
-      aria-label="Open Lab Terminal"
+      aria-label={copy.aria}
       style={{
         display: 'flex',
         alignItems: 'center',
@@ -44,7 +49,6 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
         btn.style.backgroundColor = '#1A1916';
       }}
     >
-      {/* Terminal icon */}
       <svg
         width="14"
         height="14"
@@ -58,8 +62,8 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
       </svg>
 
       <span
+        className="mono"
         style={{
-          fontFamily: 'SF Mono, Fira Code, monospace',
           fontSize: '11px',
           fontWeight: 500,
           letterSpacing: '0.12em',
@@ -67,10 +71,9 @@ export default function LabButton({ visible, onClick }: LabButtonProps) {
           color: 'rgba(166, 134, 94, 0.9)',
         }}
       >
-        Open Lab
+        {copy.label}
       </span>
 
-      {/* Pulsing dot */}
       <div style={{ position: 'relative', width: '6px', height: '6px' }}>
         <div
           style={{

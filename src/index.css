@@ -45,6 +45,49 @@
     overflow-x: hidden;
   }
 
+  /* Persian (fa) — Vazirmatn as the full type system substitute */
+  html.lang-fa body {
+    font-family: 'Vazirmatn', 'Inter', sans-serif;
+    letter-spacing: 0;
+  }
+
+  html.lang-fa .font-display,
+  html.lang-fa .num-display,
+  html.lang-fa .process-num {
+    font-family: 'Vazirmatn', sans-serif;
+  }
+
+  /* Override hardcoded Latin display/body fonts in inline styles (common in this codebase) */
+  html.lang-fa [style*="Bricolage Grotesque"],
+  html.lang-fa [style*="Inter,"],
+  html.lang-fa [style*="Inter "] {
+    font-family: 'Vazirmatn', sans-serif !important;
+  }
+
+  /* Emphasis break for Persian — lighter weight instead of italic serif;
+     color stays under component control so Lab/Contact hierarchy is preserved */
+  html.lang-fa .serif-accent {
+    font-family: 'Vazirmatn', sans-serif !important;
+    font-style: normal !important;
+    font-weight: 300;
+    letter-spacing: 0.01em;
+  }
+
+  html.lang-fa .section-label,
+  html.lang-fa .classified-stamp {
+    font-family: 'Vazirmatn', sans-serif;
+    letter-spacing: 0.12em;
+  }
+
+  /* Mono stays IBM Plex Mono in both languages (instrument / system register) */
+  html.lang-fa .mono,
+  html.lang-fa .stamp,
+  html.lang-fa [style*="IBM Plex Mono"],
+  html.lang-fa [style*="SF Mono"],
+  html.lang-fa [style*="Fira Code"] {
+    font-family: 'IBM Plex Mono', 'SF Mono', 'Fira Code', 'Courier New', monospace !important;
+  }
+
   ::selection {
     background-color: var(--accent);
     color: white;
@@ -262,7 +305,7 @@ body::before {
   opacity: 0.15;
   position: absolute;
   top: -0.2em;
-  left: -0.1em;
+  inset-inline-start: -0.1em;
   pointer-events: none;
   user-select: none;
 }
@@ -276,7 +319,7 @@ nav a::after {
   content: '';
   position: absolute;
   bottom: -2px;
-  left: 0;
+  inset-inline-start: 0;
   width: 0;
   height: 1px;
   background-color: var(--accent);
@@ -662,6 +705,11 @@ nav a:hover::after {
 .vault-card:hover .redaction {
   clip-path: inset(0 100% 0 0);
   opacity: 0;
+}
+/* RTL: dissolve toward the inline-start (right side) so declassify still reads forward */
+html.lang-fa .vault-card:hover .redaction,
+[dir="rtl"] .vault-card:hover .redaction {
+  clip-path: inset(0 0 0 100%);
 }
 
 /* a scanning line that sweeps the specimen on hover */

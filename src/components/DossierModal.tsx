@@ -1,25 +1,15 @@
 import { useEffect, useRef } from 'react';
+import { useLanguage } from '../config/languageConfig';
+import { dossierContent } from '../content/dossier';
 
 interface DossierModalProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-const profileData = [
-  { label: 'Status', value: 'Active', highlight: true },
-  { label: 'Full Name', value: 'Saeed Zarrini' },
-  { label: 'Classification', value: 'Senior Graphic Designer · Packaging Specialist' },
-  { label: 'Years Active', value: '16+ Years (Est. 2007)' },
-  { label: 'Primary Discipline', value: 'Pharmaceutical Packaging Design' },
-  { label: 'Secondary Discipline', value: 'Visual Identity & Brand Systems' },
-  { label: 'Tertiary Discipline', value: 'UI/UX Design · Web Development' },
-  { label: 'Design Stack', value: 'Photoshop · Illustrator · Adobe XD · Figma · InDesign' },
-  { label: 'Build Stack', value: 'WordPress · HTML · CSS · JavaScript' },
-  { label: 'Current Clients', value: 'Nafas Pharmed · Busun Pharmed' },
-  { label: 'Profile ID', value: 'SRD-SZ-2007 / CONFIDENTIAL' },
-];
-
 export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
+  const { lang } = useLanguage();
+  const content = dossierContent[lang];
   const overlayRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
 
@@ -64,7 +54,7 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
       }}
       role="dialog"
       aria-modal="true"
-      aria-label="System Profile Dossier"
+      aria-label={content.ariaLabel}
     >
       <div
         ref={dialogRef}
@@ -79,8 +69,9 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
           position: 'relative',
         }}
       >
-        {/* Header bar */}
+        {/* Header bar — traffic lights stay LTR / top-left */}
         <div
+          dir="ltr"
           style={{
             backgroundColor: '#1A1916',
             padding: '12px 20px',
@@ -103,7 +94,7 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
               letterSpacing: '0.1em',
             }}
           >
-            system_profile.classified
+            {content.windowTitle}
           </span>
           <button
             onClick={onClose}
@@ -119,7 +110,7 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
             }}
             onMouseEnter={(e) => { (e.currentTarget as HTMLButtonElement).style.color = '#F4F2ED'; }}
             onMouseLeave={(e) => { (e.currentTarget as HTMLButtonElement).style.color = 'rgba(244, 242, 237, 0.4)'; }}
-            aria-label="Close modal"
+            aria-label={content.closeAria}
           >
             ✕
           </button>
@@ -129,7 +120,7 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
         <div style={{ padding: 'clamp(24px, 4vw, 40px)' }}>
           {/* Classified stamp */}
           <div className="classified-bar" style={{ marginBottom: '32px' }}>
-            CLASSIFIED — INTERNAL PROFILE
+            {content.classifiedBar}
           </div>
 
           {/* Title */}
@@ -145,7 +136,7 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
                 marginBottom: '8px',
               }}
             >
-              System Profile
+              {content.systemProfile}
             </div>
             <h2
               style={{
@@ -157,61 +148,64 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
                 lineHeight: 0.95,
               }}
             >
-              SAEED
+              {content.name}
             </h2>
           </div>
 
           {/* Horizontal rule */}
           <div className="hr-accent" style={{ marginBottom: '28px' }} />
 
-          {/* Profile data */}
+          {/* Profile data — label-then-value; document dir flips columns in RTL */}
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
-            {profileData.map((item, index) => (
-              <div
-                key={item.label}
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '160px 1fr',
-                  gap: '16px',
-                  padding: '14px 0',
-                  borderBottom: index < profileData.length - 1 ? '1px solid var(--border)' : 'none',
-                  alignItems: 'start',
-                }}
-              >
-                <span
+            {content.rows.map((item, index) => {
+              const highlight = index === 0;
+              return (
+                <div
+                  key={item.label}
                   style={{
-                    fontFamily: 'Inter, sans-serif',
-                    fontSize: '10px',
-                    fontWeight: 600,
-                    letterSpacing: '0.15em',
-                    textTransform: 'uppercase',
-                    color: 'var(--muted)',
-                    paddingTop: '2px',
+                    display: 'grid',
+                    gridTemplateColumns: 'minmax(120px, 160px) 1fr',
+                    gap: '16px',
+                    padding: '14px 0',
+                    borderBottom: index < content.rows.length - 1 ? '1px solid var(--border)' : 'none',
+                    alignItems: 'start',
                   }}
                 >
-                  {item.label}
-                </span>
-                <span
-                  style={{
-                    fontFamily: item.highlight ? 'Bricolage Grotesque, sans-serif' : 'Inter, sans-serif',
-                    fontSize: item.highlight ? '13px' : '13px',
-                    fontWeight: item.highlight ? 700 : 400,
-                    color: item.highlight ? 'var(--accent)' : 'var(--text)',
-                    letterSpacing: item.highlight ? '0.1em' : '0',
-                    textTransform: item.highlight ? 'uppercase' : 'none',
-                  }}
-                >
-                  {item.value}
-                </span>
-              </div>
-            ))}
+                  <span
+                    style={{
+                      fontFamily: 'Inter, sans-serif',
+                      fontSize: '10px',
+                      fontWeight: 600,
+                      letterSpacing: '0.15em',
+                      textTransform: 'uppercase',
+                      color: 'var(--muted)',
+                      paddingTop: '2px',
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                  <span
+                    style={{
+                      fontFamily: highlight ? 'Bricolage Grotesque, sans-serif' : 'Inter, sans-serif',
+                      fontSize: '13px',
+                      fontWeight: highlight ? 700 : 400,
+                      color: highlight ? 'var(--accent)' : 'var(--text)',
+                      letterSpacing: highlight ? '0.1em' : '0',
+                      textTransform: highlight ? 'uppercase' : 'none',
+                    }}
+                  >
+                    {item.value}
+                  </span>
+                </div>
+              );
+            })}
           </div>
 
           {/* Bottom classified stamp */}
           <div style={{ marginTop: '32px' }}>
             <div className="hr-accent" style={{ marginBottom: '20px' }} />
             <div className="classified-bar" style={{ justifyContent: 'center' }}>
-              END OF FILE — DO NOT DISTRIBUTE
+              {content.endStamp}
             </div>
           </div>
 
@@ -226,7 +220,7 @@ export default function DossierModal({ isOpen, onClose }: DossierModalProps) {
               opacity: 0.5,
             }}
           >
-            You found this because you were looking carefully. That matters.
+            {content.closingNote}
           </p>
         </div>
       </div>
