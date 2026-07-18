@@ -2,31 +2,31 @@
 
 @layer base {
   :root {
-    /* Warm cream + ink + grass green — Hope Rise–inspired studio palette */
-    --bg: #F6ECDD;
-    --bg-soft: #FBF4E9;
-    --bg-warm: #F0E0C8;
-    --text: #17140F;
-    --accent: #3FA65C;
-    --accent-light: #5CB873;
-    --accent-dark: #2F8A48;
-    --accent-soft: rgba(63, 166, 92, 0.14);
-    --muted: #6E6355;
-    --border: rgba(23, 20, 15, 0.12);
-    --line: rgba(23, 23, 23, 0.10);
-    --surface: #F3E6D4;
-    --surface-strong: rgba(255, 255, 255, 0.80);
-    --surface-dark: #E8D7C0;
-
-    /* Conservation / restricted tones (vault / classified stays red) */
+    color-scheme: light;
+    /* Hope Rise–inspired cream + ink + grass green */
+    --bg: #FAF7F2;
+    --bg-soft: #FFFCF8;
+    --bg-warm: #F5E8D1;
+    --surface: rgba(255, 255, 255, 0.55);
+    --surface-strong: rgba(255, 255, 255, 0.84);
+    --line: rgba(23, 23, 23, 0.09);
     --ink: #17140F;
+    --text: #17140F;
+    --muted: #6E6355;
+    --accent: #41DA6F;
+    --accent-dark: #2FBF58;
+    --accent-soft: rgba(65, 218, 111, 0.16);
+    --accent-light: #6AE48C;
+    --border: rgba(23, 23, 23, 0.09);
+    --surface-solid: #F3E9DA;
+    --surface-dark: #EADCC8;
     --ink-2: #1C1914;
     --ink-3: #242018;
-    --paper: #FBF4E9;
+    --paper: #FFFCF8;
     --classified: #8B1A1A;
     --classified-light: #B33A2B;
-    --bg-rgb: 246, 236, 221;
-    --accent-rgb: 63, 166, 92;
+    --bg-rgb: 250, 247, 242;
+    --accent-rgb: 65, 218, 111;
   }
 
   * {
@@ -43,70 +43,64 @@
   }
 
   body {
-    background-color: var(--bg);
-    background-image:
-      radial-gradient(ellipse 90% 55% at 15% -5%, var(--bg-soft), transparent 55%),
-      radial-gradient(ellipse 70% 45% at 95% 10%, rgba(var(--accent-rgb), 0.08), transparent 50%),
-      radial-gradient(ellipse 50% 40% at 50% 100%, var(--bg-warm), transparent 55%),
-      linear-gradient(180deg, var(--bg-soft) 0%, var(--bg) 42%, var(--bg-warm) 100%);
+    margin: 0;
+    min-width: 320px;
+    background:
+      radial-gradient(circle at top left, rgba(65, 218, 111, 0.10), transparent 28%),
+      radial-gradient(circle at 85% 8%, rgba(255, 255, 255, 0.95), transparent 22%),
+      radial-gradient(circle at 50% 100%, rgba(245, 232, 209, 0.9), transparent 40%),
+      linear-gradient(180deg, #FFFCF8 0%, #FAF7F2 42%, #F5E8D1 100%);
     background-attachment: fixed;
-    color: var(--text);
-    font-family: 'Inter', sans-serif;
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 16px;
-    line-height: 1.6;
+    line-height: 1.5;
     overflow-x: hidden;
   }
 
-  /* Persian (fa) — Cairo for display, IBM Plex Sans Arabic for body
-     (typographic sibling of IBM Plex Mono already used for system/mono UI) */
+  /* Soft grid overlay — same technique as the sample */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+    background-image:
+      linear-gradient(rgba(23, 23, 23, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(23, 23, 23, 0.03) 1px, transparent 1px);
+    background-size: 36px 36px;
+    mask-image: radial-gradient(circle at center, black 30%, transparent 85%);
+    opacity: 0.45;
+  }
+
+  /* Persian type system */
   html.lang-fa body {
-    font-family: 'IBM Plex Sans Arabic', 'Inter', sans-serif;
+    font-family: 'IBM Plex Sans Arabic', Inter, sans-serif;
     letter-spacing: 0;
   }
 
   html.lang-fa .font-display,
-  html.lang-fa .num-display,
-  html.lang-fa .process-num {
+  html.lang-fa h1,
+  html.lang-fa h2,
+  html.lang-fa h3 {
     font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif;
   }
 
-  /* Override hardcoded Latin display/body fonts in inline styles (common in this codebase) */
-  html.lang-fa [style*="Bricolage Grotesque"] {
-    font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif !important;
-  }
-
-  html.lang-fa [style*="Inter,"],
-  html.lang-fa [style*="Inter "] {
-    font-family: 'IBM Plex Sans Arabic', sans-serif !important;
-  }
-
-  /* Emphasis break for Persian — lighter weight instead of italic serif;
-     color stays under component control so Lab/Contact hierarchy is preserved */
   html.lang-fa .serif-accent {
     font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif !important;
     font-style: normal !important;
     font-weight: 300;
-    letter-spacing: 0.01em;
   }
 
-  html.lang-fa .section-label,
-  html.lang-fa .classified-stamp {
-    font-family: 'IBM Plex Sans Arabic', sans-serif;
-    letter-spacing: 0.12em;
-  }
-
-  /* Mono stays IBM Plex Mono in both languages (instrument / system register) */
   html.lang-fa .mono,
-  html.lang-fa .stamp,
   html.lang-fa [style*="IBM Plex Mono"],
-  html.lang-fa [style*="SF Mono"],
-  html.lang-fa [style*="Fira Code"] {
-    font-family: 'IBM Plex Mono', 'SF Mono', 'Fira Code', 'Courier New', monospace !important;
+  html.lang-fa [style*="SF Mono"] {
+    font-family: 'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace !important;
   }
 
   ::selection {
-    background-color: var(--accent);
-    color: white;
+    background: var(--accent-soft);
+    color: var(--ink);
   }
 
   ::-webkit-scrollbar {
@@ -114,7 +108,7 @@
   }
 
   ::-webkit-scrollbar-track {
-    background: var(--bg);
+    background: transparent;
   }
 
   ::-webkit-scrollbar-thumb {
@@ -125,46 +119,103 @@
 
 @layer utilities {
   .font-display {
-    font-family: 'Bricolage Grotesque', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   }
 
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: Inter, ui-sans-serif, system-ui, sans-serif;
   }
 
-  /* Editorial voice — expressive serif italic for display accents */
   .serif-accent {
     font-family: 'Instrument Serif', Georgia, serif;
     font-style: italic;
     font-weight: 400;
-    letter-spacing: -0.015em;
   }
 
-  /* Outlined display type — for marquee / ghost words.
-     Stroke color comes from --stroke on the element or an ancestor. */
-  .text-outline {
-    color: transparent;
-    -webkit-text-stroke: 1.2px var(--stroke, #17140F);
+  .mono {
+    font-family: 'IBM Plex Mono', 'SF Mono', 'Fira Code', monospace;
   }
 
-  .text-accent {
-    color: var(--accent);
+  .glass-card {
+    border: 1px solid var(--line);
+    background: rgba(255, 255, 255, 0.70);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow: 0 28px 90px -48px rgba(0, 0, 0, 0.45);
   }
 
-  .bg-surface {
-    background-color: var(--surface);
+  .glass-soft {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
   }
 
-  .border-subtle {
-    border-color: var(--border);
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    background: var(--accent);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.875rem;
+    padding: 0.75rem 1.25rem;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease, transform 0.25s ease;
   }
 
-  /* Reveal animations */
+  .btn-primary:hover {
+    background: var(--accent-dark);
+  }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    background: var(--surface-strong);
+    color: var(--ink);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: 0.75rem 1.25rem;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.25s ease;
+  }
+
+  .btn-secondary:hover {
+    background: #fff;
+  }
+
+  .pill-tag {
+    display: inline-flex;
+    align-items: center;
+    border-radius: 9999px;
+    border: 1px solid var(--line);
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .section-eyebrow {
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
   .reveal {
     opacity: 0;
-    transform: translateY(32px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(24px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .reveal.visible {
@@ -172,67 +223,49 @@
     transform: translateY(0);
   }
 
-  .reveal-left {
-    opacity: 0;
-    transform: translateX(-40px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .reveal-left.visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
-  .reveal-right {
-    opacity: 0;
-    transform: translateX(40px);
-    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .reveal-right.visible {
-    opacity: 1;
-    transform: translateX(0);
-  }
-
   .reveal-scale {
     opacity: 0;
     transform: scale(0.97);
-    transition: opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
-                transform 1.1s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .reveal-scale.visible {
     opacity: 1;
     transform: scale(1);
   }
+}
 
-  /* Delay utilities */
-  .delay-100 { transition-delay: 100ms; }
-  .delay-200 { transition-delay: 200ms; }
-  .delay-300 { transition-delay: 300ms; }
-  .delay-400 { transition-delay: 400ms; }
-  .delay-500 { transition-delay: 500ms; }
-  .delay-600 { transition-delay: 600ms; }
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 
-  /* Line clamp */
-  .line-clamp-3 {
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-/* Custom cursor */
-.cursor-accent {
-  cursor: crosshair;
+/* Keep terminal / dossier / admin chrome usable */
+.terminal-window {
+  background: #0E0E0D;
+  border: 1px solid rgba(65, 218, 111, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6);
 }
 
-/* Terminal styles */
+.terminal-bar {
+  background: #1C1B18;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 12px 12px 0 0;
+}
+
 .terminal-text {
-  font-family: 'SF Mono', 'Fira Code', 'Monaco', 'Cascadia Code', 'Courier New', monospace;
+  font-family: 'SF Mono', 'Fira Code', 'Monaco', monospace;
   font-size: 13px;
   line-height: 1.7;
 }
@@ -242,245 +275,31 @@
   color: var(--accent);
 }
 
-/* Dossier / Classified styles */
-.classified-stamp {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  letter-spacing: 0.3em;
-  text-transform: uppercase;
-  font-size: 10px;
-}
-
-/* Horizontal rule decorative */
-.hr-accent {
-  border: none;
-  height: 1px;
-  background: linear-gradient(to right, transparent, var(--accent), transparent);
-}
-
-/* Number display */
-.num-display {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-weight: 700;
-  font-variant-numeric: tabular-nums;
-}
-
-/* Image overlay */
-.img-reveal {
-  overflow: hidden;
-}
-
-.img-reveal img {
-  transform: scale(1.05);
-  transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.img-reveal.visible img {
-  transform: scale(1);
-}
-
-/* Noise texture overlay */
-.noise-overlay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  opacity: 0.5;
-  mix-blend-mode: multiply;
-}
-
-/* Global noise background */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n' x='0' y='0'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  background-size: 300px 300px;
-  pointer-events: none;
-  z-index: 9999;
-  /* No mix-blend-mode here: a fixed, full-viewport blended layer forces the
-     browser to recomposite the entire page on every scroll frame — the main
-     cause of "heavy" scrolling. A plain low-opacity grain reads the same. */
-  opacity: 0.5;
-}
-
-/* Lab section darker bg */
-.lab-bg {
-  background-color: #141311;
-  color: #F4F2ED;
-}
-
-/* Process number big */
-.process-num {
-  font-family: 'Bricolage Grotesque', sans-serif;
-  font-size: clamp(80px, 12vw, 160px);
-  font-weight: 900;
-  line-height: 0.85;
-  color: var(--accent);
-  opacity: 0.15;
-  position: absolute;
-  top: -0.2em;
-  inset-inline-start: -0.1em;
-  pointer-events: none;
-  user-select: none;
-}
-
-/* Navigation */
-nav a {
-  position: relative;
-}
-
-nav a::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  inset-inline-start: 0;
-  width: 0;
-  height: 1px;
-  background-color: var(--accent);
-  transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-nav a:hover::after {
-  width: 100%;
-}
-
-/* Section label */
-.section-label {
-  font-family: 'Inter', sans-serif;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--accent);
-}
-
-/* Expand button */
-.expand-btn {
-  border: 1px solid rgba(166, 134, 94, 0.3);
-  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.expand-btn:hover {
-  border-color: var(--accent);
-  background-color: rgba(166, 134, 94, 0.08);
-}
-
-/* Terminal window */
-.terminal-window {
-  background: #0E0E0D;
-  border: 1px solid rgba(166, 134, 94, 0.2);
-  border-radius: 12px;
-  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255,255,255,0.04);
-}
-
-.terminal-bar {
-  background: #1C1B18;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
-  border-radius: 12px 12px 0 0;
-}
-
-/* Dossier modal */
 .dossier-modal {
   background: #F4F2ED;
-  border: 1px solid var(--border);
+  border: 1px solid var(--line);
   box-shadow: 0 40px 120px rgba(22, 22, 22, 0.25);
-}
-
-/* Blinking cursor */
-@keyframes blink {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0; }
 }
 
 .cursor-blink {
   animation: blink 1.1s step-end infinite;
 }
 
-/* Fade in up */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
-.animate-fadeInUp {
-  animation: fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.terminal-output {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(65, 218, 111, 0.3) transparent;
 }
 
-/* Hero subtitle letters */
-@keyframes letterReveal {
-  from {
-    opacity: 0;
-    transform: translateY(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Admin panel leftovers — keep functional */
+.adm-scroll { scrollbar-width: thin; scrollbar-color: rgba(65,218,111,0.35) transparent; }
+.adm-scroll::-webkit-scrollbar { width: 4px; }
+.adm-scroll::-webkit-scrollbar-thumb { background: rgba(65,218,111,0.35); border-radius: 3px; }
 
-/* Lab item expand */
-.lab-item-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.lab-item-content.expanded {
-  max-height: 400px;
-}
-
-/* Contact gradient text */
-.gradient-text {
-  background: linear-gradient(135deg, var(--text) 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Archive project hover */
-.project-image-wrap {
-  overflow: hidden;
-}
-
-.project-image-wrap img {
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.project-image-wrap:hover img {
-  transform: scale(1.03);
-}
-
-/* Thin divider line */
-.divider-line {
-  width: 100%;
-  height: 1px;
-  background-color: var(--border);
-}
-
-/* Pill badge */
-.pill {
-  display: inline-flex;
-  align-items: center;
-  padding: 4px 12px;
-  border-radius: 100px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  border: 1px solid var(--border);
-  color: var(--muted);
-  background: transparent;
-}
-
-/* Classified bar */
 .classified-bar {
   display: flex;
   align-items: center;
@@ -501,485 +320,6 @@ nav a:hover::after {
   opacity: 0.4;
 }
 
-/* Scrollbar for terminal */
-.terminal-output {
-  scrollbar-width: thin;
-  scrollbar-color: rgba(166, 134, 94, 0.3) transparent;
-}
-
-.terminal-output::-webkit-scrollbar {
-  width: 4px;
-}
-
-.terminal-output::-webkit-scrollbar-thumb {
-  background: rgba(166, 134, 94, 0.3);
-  border-radius: 2px;
-}
-
-/* ============================================================
-   CYBERPUNK GLITCH — the wordmark, briefly possessed by signal
-   ============================================================ */
-.glitch-name {
-  position: relative;
-  isolation: isolate;
-}
-
-.glitch-name::before,
-.glitch-name::after {
-  content: attr(data-text);
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  user-select: none;
-  /* inherit type metrics from the heading so layers align */
-  font: inherit;
-  letter-spacing: inherit;
-  line-height: inherit;
-  opacity: 0;
-  mix-blend-mode: multiply;
-  will-change: transform, clip-path, opacity;
-}
-
-/* cyan channel */
-.glitch-name::before {
-  color: #00b8c4;
-  animation: glitchCyan 7s steps(1) infinite;
-}
-
-/* magenta channel */
-.glitch-name::after {
-  color: #e0006a;
-  animation: glitchMagenta 7s steps(1) infinite;
-}
-
-@keyframes glitchCyan {
-  0%, 100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 100% 0); }
-  86% { opacity: 0; clip-path: inset(0 0 100% 0); }
-  87% { opacity: 0.85; transform: translate(-4px, 1px); clip-path: inset(8% 0 64% 0); }
-  89% { opacity: 0.7; transform: translate(3px, -1px); clip-path: inset(54% 0 28% 0); }
-  91% { opacity: 0.85; transform: translate(-3px, 0); clip-path: inset(34% 0 46% 0); }
-  93% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 100% 0); }
-}
-
-@keyframes glitchMagenta {
-  0%, 100% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 100% 0); }
-  86% { opacity: 0; clip-path: inset(0 0 100% 0); }
-  87.5% { opacity: 0.8; transform: translate(4px, -1px); clip-path: inset(20% 0 50% 0); }
-  89.5% { opacity: 0.65; transform: translate(-3px, 1px); clip-path: inset(70% 0 12% 0); }
-  91.5% { opacity: 0.8; transform: translate(3px, 0); clip-path: inset(44% 0 38% 0); }
-  93% { opacity: 0; transform: translate(0, 0); clip-path: inset(0 0 100% 0); }
-}
-
-/* a faint base aberration, always alive */
-.glitch-name {
-  text-shadow:
-    0.5px 0 0 rgba(0, 184, 196, 0.18),
-    -0.5px 0 0 rgba(224, 0, 106, 0.16);
-}
-
-/* deliberate inspection — hover holds the signal open */
-.glitch-name:hover::before {
-  animation: glitchCyanHover 0.45s steps(2) infinite;
-  opacity: 0.85;
-}
-.glitch-name:hover::after {
-  animation: glitchMagentaHover 0.45s steps(2) infinite;
-  opacity: 0.8;
-}
-
-@keyframes glitchCyanHover {
-  0% { transform: translate(-4px, 1px); clip-path: inset(12% 0 58% 0); }
-  50% { transform: translate(3px, -1px); clip-path: inset(48% 0 30% 0); }
-  100% { transform: translate(-2px, 1px); clip-path: inset(72% 0 8% 0); }
-}
-@keyframes glitchMagentaHover {
-  0% { transform: translate(4px, -1px); clip-path: inset(30% 0 44% 0); }
-  50% { transform: translate(-3px, 1px); clip-path: inset(66% 0 14% 0); }
-  100% { transform: translate(3px, 0); clip-path: inset(6% 0 66% 0); }
-}
-
-/* faint scan flicker on the glyph itself during bursts */
-@keyframes glitchSkew {
-  0%, 100% { transform: skewX(0deg); }
-  92% { transform: skewX(0deg); }
-  92.6% { transform: skewX(-1.4deg); }
-  93.2% { transform: skewX(1deg); }
-  94% { transform: skewX(0deg); }
-}
-.glitch-name {
-  animation: glitchSkew 7s ease-in-out infinite;
-}
-
-/* ============================================================
-   THE VAULT — restricted pharmaceutical collection
-   ============================================================ */
-.vault {
-  background-color: var(--ink);
-  color: var(--paper);
-  position: relative;
-  overflow: hidden;
-}
-
-/* faint vault grid + scanlines, layered */
-.vault::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(166, 134, 94, 0.05) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(166, 134, 94, 0.05) 1px, transparent 1px);
-  background-size: 64px 64px;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-.vault-scanlines {
-  position: absolute;
-  inset: 0;
-  background-image: repeating-linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0px,
-    rgba(0, 0, 0, 0) 2px,
-    rgba(0, 0, 0, 0.25) 3px,
-    rgba(0, 0, 0, 0) 4px
-  );
-  pointer-events: none;
-  opacity: 0.35;
-  mix-blend-mode: overlay;
-  z-index: 2;
-}
-
-/* hazard / clearance stripe */
-.hazard-stripe {
-  background-image: repeating-linear-gradient(
-    45deg,
-    rgba(166, 134, 94, 0.9) 0px,
-    rgba(166, 134, 94, 0.9) 14px,
-    rgba(16, 15, 11, 0.9) 14px,
-    rgba(16, 15, 11, 0.9) 28px
-  );
-}
-
-.mono {
-  font-family: 'IBM Plex Mono', 'SF Mono', 'Fira Code', 'Courier New', monospace;
-}
-
-/* classified stamp — rotated wax-ink mark */
-.stamp {
-  font-family: 'IBM Plex Mono', monospace;
-  font-weight: 600;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  color: var(--classified-light);
-  border: 1.5px solid var(--classified-light);
-  border-radius: 3px;
-  padding: 4px 8px;
-  font-size: 9px;
-  display: inline-block;
-  opacity: 0.85;
-  transform: rotate(-7deg);
-  mix-blend-mode: screen;
-}
-
-/* the specimen plate — a conserved document under glass */
-.vault-card {
-  position: relative;
-  background: linear-gradient(160deg, var(--ink-2), var(--ink));
-  border: 1px solid rgba(166, 134, 94, 0.18);
-  border-radius: 4px;
-  overflow: hidden;
-  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-              border-color 0.5s ease,
-              box-shadow 0.6s ease;
-}
-
-.vault-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(166, 134, 94, 0.55);
-  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, 0.8),
-              0 0 0 1px rgba(166, 134, 94, 0.25),
-              0 0 40px -20px rgba(166, 134, 94, 0.4);
-}
-
-/* registration corner marks */
-.vault-card .reg-mark {
-  position: absolute;
-  width: 12px;
-  height: 12px;
-  border-color: rgba(166, 134, 94, 0.4);
-  pointer-events: none;
-  transition: border-color 0.5s ease;
-}
-.vault-card:hover .reg-mark { border-color: rgba(166, 134, 94, 0.85); }
-
-/* redaction bars dissolve when the file is inspected */
-.redaction {
-  background: #0c0b08;
-  transition: clip-path 0.7s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
-  clip-path: inset(0 0 0 0);
-}
-.vault-card:hover .redaction {
-  clip-path: inset(0 100% 0 0);
-  opacity: 0;
-}
-/* RTL: dissolve toward the inline-start (right side) so declassify still reads forward */
-html.lang-fa .vault-card:hover .redaction,
-[dir="rtl"] .vault-card:hover .redaction {
-  clip-path: inset(0 0 0 100%);
-}
-
-/* a scanning line that sweeps the specimen on hover */
-.vault-scan {
-  position: absolute;
-  left: 0;
-  right: 0;
-  height: 2px;
-  top: 0;
-  background: linear-gradient(90deg, transparent, rgba(166, 134, 94, 0.9), transparent);
-  opacity: 0;
-  pointer-events: none;
-}
-.vault-card:hover .vault-scan {
-  animation: vaultScan 1.6s ease-in-out infinite;
-  opacity: 1;
-}
-@keyframes vaultScan {
-  0% { top: 0%; opacity: 0; }
-  15% { opacity: 1; }
-  85% { opacity: 1; }
-  100% { top: 100%; opacity: 0; }
-}
-
-/* faux document lines for the specimen mock */
-.doc-line {
-  height: 5px;
-  border-radius: 1px;
-  background: rgba(239, 235, 225, 0.16);
-}
-
-/* blinking record dot */
-@keyframes recBlink {
-  0%, 49% { opacity: 1; }
-  50%, 100% { opacity: 0.15; }
-}
-.rec-dot { animation: recBlink 1.4s step-end infinite; }
-
-/* ============================================================
-   TIMELINE OF TRUST — provenance, not a résumé
-   ============================================================ */
-.trust-spine {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(to bottom,
-    transparent,
-    var(--border) 6%,
-    var(--border) 94%,
-    transparent);
-}
-
-.trust-node {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--bg);
-  border: 1px solid var(--accent);
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease;
-}
-.trust-node::after {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  transition: transform 0.5s ease;
-}
-.trust-item:hover .trust-node {
-  transform: scale(1.18);
-  box-shadow: 0 0 0 6px rgba(166, 134, 94, 0.1);
-}
-.trust-item:hover .trust-node::after { transform: scale(1.3); }
-
-.trust-plaque {
-  border: 1px solid var(--border);
-  background: var(--surface);
-  border-radius: 0;
-  transition: border-color 0.5s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.5s ease;
-}
-.trust-item:hover .trust-plaque {
-  border-color: var(--accent);
-  background: var(--bg);
-  transform: translateY(-3px);
-}
-
-/* ============================================================
-   HERO BACKDROP — quiet orbital ornaments behind the wordmark
-   ============================================================ */
-.hero-orbit {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-}
-
-/* outer ring: dashed, slow clockwise, carries a satellite dot */
-.hero-orbit-a {
-  width: min(74vmin, 660px);
-  height: min(74vmin, 660px);
-  border: 1px dashed rgba(166, 134, 94, 0.28);
-  animation: orbitSpin 90s linear infinite;
-}
-.hero-orbit-a::after {
-  content: '';
-  position: absolute;
-  top: -3.5px;
-  left: 50%;
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: 0.55;
-}
-
-/* inner ring: dotted, counter-rotating */
-.hero-orbit-b {
-  width: min(46vmin, 400px);
-  height: min(46vmin, 400px);
-  border: 1px dotted rgba(166, 134, 94, 0.22);
-  animation: orbitSpin 60s linear infinite reverse;
-}
-
-@keyframes orbitSpin {
-  to { transform: translate(-50%, -50%) rotate(360deg); }
-}
-
-/* registration glyphs drifting slowly up and down */
-.hero-drift {
-  position: absolute;
-  font-family: 'IBM Plex Mono', monospace;
-  color: var(--accent);
-  opacity: 0.22;
-  animation: heroDrift 10s ease-in-out infinite alternate;
-  user-select: none;
-}
-
-@keyframes heroDrift {
-  from { transform: translateY(-16px); }
-  to { transform: translateY(16px); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-orbit, .hero-drift { animation: none !important; }
-}
-html.cfg-no-reveal .hero-orbit,
-html.cfg-no-reveal .hero-drift { animation: none !important; }
-
-/* ============================================================
-   SCROLL & MOTION POLISH
-   ============================================================ */
-html.has-smooth-scroll {
-  scroll-behavior: auto; /* JS drives the wheel; keep native anchor jumps crisp */
-}
-
-/* honor reduced-motion across the board */
-@media (prefers-reduced-motion: reduce) {
-  .glitch-name::before,
-  .glitch-name::after { animation: none !important; opacity: 0 !important; }
-  .glitch-name { animation: none !important; text-shadow: none !important; }
-  .vault-card:hover .vault-scan { animation: none; }
-  .rec-dot { animation: none; }
-  * { scroll-behavior: auto !important; }
-}
-
-/* ============================================================
-   ADMIN OVERRIDES — toggled by the Control Room (Alt+A)
-   ============================================================ */
-html.cfg-no-glitch .glitch-name::before,
-html.cfg-no-glitch .glitch-name::after { animation: none !important; opacity: 0 !important; }
-html.cfg-no-glitch .glitch-name { animation: none !important; text-shadow: none !important; }
-
-html.cfg-no-grain body::before { content: none !important; }
-
-html.cfg-no-scanlines .vault-scanlines { display: none !important; }
-
-html.cfg-no-reveal .reveal,
-html.cfg-no-reveal .reveal-left,
-html.cfg-no-reveal .reveal-right,
-html.cfg-no-reveal .reveal-scale,
-html.cfg-no-reveal .img-reveal {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: none !important;
-}
-html.cfg-no-reveal .img-reveal img { transform: none !important; }
-
-/* ============================================================
-   ADMIN PANEL CONTROLS
-   ============================================================ */
-.adm-scroll { scrollbar-width: thin; scrollbar-color: rgba(166,134,94,0.35) transparent; }
-.adm-scroll::-webkit-scrollbar { width: 6px; }
-.adm-scroll::-webkit-scrollbar-thumb { background: rgba(166,134,94,0.35); border-radius: 3px; }
-.adm-scroll::-webkit-scrollbar-track { background: transparent; }
-
-.adm-switch {
-  position: relative;
-  width: 38px;
-  height: 20px;
-  flex-shrink: 0;
-  cursor: pointer;
-}
-.adm-switch input {
-  position: absolute;
-  inset: 0;
-  margin: 0;
-  opacity: 0;
-  cursor: pointer;
-  z-index: 2;
-}
-.adm-track {
-  position: absolute;
-  inset: 0;
-  border-radius: 999px;
-  background: rgba(239, 235, 225, 0.14);
-  border: 1px solid rgba(239, 235, 225, 0.12);
-  transition: background 0.25s ease, border-color 0.25s ease;
-}
-.adm-thumb {
-  position: absolute;
-  top: 3px;
-  left: 3px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: rgba(239, 235, 225, 0.55);
-  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), background 0.25s ease;
-}
-.adm-switch input:checked ~ .adm-track {
-  background: var(--accent, #3FA65C);
-  border-color: var(--accent, #3FA65C);
-}
-.adm-switch input:checked ~ .adm-thumb {
-  transform: translateX(18px);
-  background: #100F0B;
-}
-
-.adm-color {
-  -webkit-appearance: none;
-  appearance: none;
-  width: 26px;
-  height: 26px;
-  border: 1px solid rgba(166, 134, 94, 0.3);
-  border-radius: 4px;
-  background: none;
-  cursor: pointer;
-  padding: 0;
-}
-.adm-color::-webkit-color-swatch-wrapper { padding: 2px; }
-.adm-color::-webkit-color-swatch { border: none; border-radius: 2px; }
+.cfg-no-grain body::before { display: none; }
+.cfg-no-reveal .reveal,
+.cfg-no-reveal .reveal-scale { opacity: 1; transform: none; }

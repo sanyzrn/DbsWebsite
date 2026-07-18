@@ -9,10 +9,11 @@ export interface NavItem {
 export const navContent = {
   homeAria: { en: 'DBS Graphic — home', fa: 'دی‌بی‌اس گرافیک — خانه' },
   menuAria: { en: 'Toggle menu', fa: 'باز و بسته کردن منو' },
+  brand: { en: 'DBS Graphic', fa: 'دی‌بی‌اس گرافیک' },
+  cta: { en: 'Start a project', fa: 'شروع پروژه' },
   items: [
-    { id: 'vault', section: 'vault' as SectionKey, label: { en: 'Vault', fa: 'خزانه' } },
-    { id: 'archive', section: 'archive' as SectionKey, label: { en: 'Archive', fa: 'آرشیو' } },
-    { id: 'lab', section: 'lab' as SectionKey, label: { en: 'Lab', fa: 'آزمایشگاه' } },
+    { id: 'archive', section: 'archive' as SectionKey, label: { en: 'Work', fa: 'کارها' } },
+    { id: 'lab', section: 'lab' as SectionKey, label: { en: 'Services', fa: 'خدمات' } },
     { id: 'process', section: 'process' as SectionKey, label: { en: 'Process', fa: 'فرآیند' } },
     { id: 'trust', section: 'timeline' as SectionKey, label: { en: 'Trust', fa: 'اعتماد' } },
     { id: 'contact', section: 'contact' as SectionKey, label: { en: 'Contact', fa: 'تماس' } },

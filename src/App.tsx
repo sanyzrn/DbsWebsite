@@ -1,20 +1,14 @@
 import { useState, useEffect } from 'react';
 import Navigation from './components/Navigation';
 import Hero from './components/Hero';
-import Ticker from './components/Ticker';
-import IntroStats from './components/IntroStats';
-import Vault from './components/Vault';
 import Archive from './components/Archive';
 import Lab from './components/Lab';
 import Process from './components/Process';
-import Timeline from './components/Timeline';
-import Contact from './components/Contact';
+import Contact, { TrustStrip } from './components/Contact';
 import DossierModal from './components/DossierModal';
 import Terminal from './components/Terminal';
 import LabButton from './components/LabButton';
 import AdminPanel from './components/AdminPanel';
-import Cursor from './components/Cursor';
-import ScrollProgress from './components/ScrollProgress';
 import { useSmoothScroll } from './hooks/useSmoothScroll';
 import { useSiteConfig } from './config/siteConfig';
 
@@ -25,47 +19,33 @@ export default function App() {
   const [labVisited, setLabVisited] = useState(false);
   const [pageReady, setPageReady] = useState(false);
 
-  // Buttery wheel scrolling (no-ops on touch / reduced-motion / when disabled)
   useSmoothScroll(config.effects.smoothScroll);
 
-  // Page load animation
   useEffect(() => {
-    const timer = setTimeout(() => setPageReady(true), 80);
+    const timer = setTimeout(() => setPageReady(true), 60);
     return () => clearTimeout(timer);
   }, []);
 
-  // Setup global scroll-triggered reveals
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('visible');
-          }
+          if (entry.isIntersecting) entry.target.classList.add('visible');
         });
       },
       { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
     );
-
-    const scanElements = () => {
-      const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .img-reveal');
-      revealEls.forEach((el) => observer.observe(el));
+    const scan = () => {
+      document.querySelectorAll('.reveal, .reveal-scale').forEach((el) => observer.observe(el));
     };
-
-    scanElements();
-
-    // Re-scan after short delay for dynamic content
-    const timer = setTimeout(scanElements, 500);
-    const timer2 = setTimeout(scanElements, 1500);
-
+    scan();
+    const t1 = setTimeout(scan, 400);
     return () => {
       observer.disconnect();
-      clearTimeout(timer);
-      clearTimeout(timer2);
+      clearTimeout(t1);
     };
   }, [pageReady]);
 
-  // Keyboard shortcut: Ctrl+` opens terminal (hidden)
   useEffect(() => {
     const handleKey = (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === '`') {
@@ -79,72 +59,31 @@ export default function App() {
 
   return (
     <div
-      style={{
-        backgroundColor: 'var(--bg)',
-        color: 'var(--text)',
-        minHeight: '100vh',
-        opacity: pageReady ? 1 : 0,
-        transition: 'opacity 0.6s ease',
-      }}
+      className="min-h-screen overflow-hidden text-[var(--ink)]"
+      style={{ opacity: pageReady ? 1 : 0, transition: 'opacity 0.5s ease' }}
     >
-      {/* Reading progress hairline */}
-      <ScrollProgress />
+      {/* Ambient blobs — sample style, tuned for cream + green */}
+      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+        <div className="absolute left-[-7rem] top-24 h-72 w-72 rounded-full bg-[#e8d5b8]/70 blur-3xl" />
+        <div className="absolute right-[-5rem] top-16 h-64 w-64 rounded-full bg-white/85 blur-3xl" />
+        <div className="absolute bottom-10 left-1/3 h-80 w-80 rounded-full bg-[rgba(65,218,111,0.12)] blur-3xl" />
+      </div>
 
-      {/* Trailing cursor ornament (desktop only) */}
-      <Cursor />
-
-      {/* Navigation */}
       <Navigation />
 
-      {/* Main content */}
-      <main>
-        {/* Hero */}
+      <main className="pb-8">
         <Hero onNameTripleClick={() => setDossierOpen(true)} />
 
-        {/* Discipline ticker */}
-        {config.sections.ticker && <Ticker />}
-
-        {/* Stats + Manifesto */}
-        {config.sections.introStats && <IntroStats />}
-
-        {/* The Vault — restricted pharmaceutical collection */}
-        {config.sections.vault && <Vault />}
-
-        {/* Archive */}
         {config.sections.archive && <Archive />}
-
-        {/* Lab */}
         {config.sections.lab && <Lab onLabVisited={() => setLabVisited(true)} />}
-
-        {/* Process */}
         {config.sections.process && <Process />}
-
-        {/* Timeline of Trust — provenance */}
-        {config.sections.timeline && <Timeline />}
-
-        {/* Contact */}
+        {config.sections.timeline && <TrustStrip />}
         {config.sections.contact && <Contact />}
       </main>
 
-      {/* Hidden: Dossier Modal (triggered by triple-click on SAEED) */}
-      <DossierModal
-        isOpen={dossierOpen}
-        onClose={() => setDossierOpen(false)}
-      />
-
-      {/* Hidden: Terminal (triggered by Open Lab button or Ctrl+`) */}
-      <Terminal
-        isOpen={terminalOpen}
-        onClose={() => setTerminalOpen(false)}
-      />
-
-      {/* Hidden: Open Lab button (appears after Lab section is visited) */}
-      <LabButton
-        visible={labVisited}
-        onClick={() => setTerminalOpen(true)}
-      />
-
-      {/* Hidden: Admin control room (desktop only, toggle with Alt+A) */}
+      <DossierModal isOpen={dossierOpen} onClose={() => setDossierOpen(false)} />
+      <Terminal isOpen={terminalOpen} onClose={() => setTerminalOpen(false)} />
+      <LabButton visible={labVisited} onClick={() => setTerminalOpen(true)} />
       <AdminPanel />
     </div>
   );
