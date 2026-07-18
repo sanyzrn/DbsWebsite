@@ -5,13 +5,13 @@ export const contactContent = {
     headlineLead: 'Design is how',
     headlineAccent: 'trust begins.',
     paragraph:
-      "Ready to start a project or looking for collaboration? I'm available for remote or part-time work. Whether it's pharmaceutical packaging, brand identity, or a custom website — let's discuss how to create something that works.",
+      'Open to remote or part-time collaboration — pharmaceutical packaging, brand identity, or a custom product. Let’s talk about building something that holds up in use.',
     emailLabel: 'Email',
     phoneLabel: 'Phone',
     email: 'zrn_sany@yahoo.com',
     phone: '09301221816',
     phoneHref: 'tel:+989301221816',
-    cta: 'Start a Conversation',
+    cta: 'Start a conversation',
     copy: 'Copy',
     copied: 'Copied',
     footerRights: (year: number) =>
@@ -24,17 +24,17 @@ export const contactContent = {
     headlineLead: 'طراحی جایی است که',
     headlineAccent: 'اعتماد آغاز می‌شود.',
     paragraph:
-      'آمادهٔ شروع پروژه هستید یا به‌دنبال همکاری؟ برای کار دورکاری یا پاره‌وقت در دسترس‌ام. بسته‌بندی دارویی، هویت برند، یا وب‌سایت سفارشی — بیایید دربارهٔ ساختن چیزی که کار می‌کند حرف بزنیم.',
+      'برای همکاری دورکار یا پاره‌وقت آماده‌ام — بسته‌بندی دارویی، هویت برند، یا محصول سفارشی. بیایید دربارهٔ ساختن چیزی حرف بزنیم که در عمل دوام بیاورد.',
     emailLabel: 'ایمیل',
     phoneLabel: 'تلفن',
     email: 'zrn_sany@yahoo.com',
     phone: '09301221816',
     phoneHref: 'tel:+989301221816',
-    cta: 'آغاز گفتگو',
+    cta: 'شروع گفتگو',
     copy: 'کپی',
     copied: 'کپی شد',
     footerRights: (year: number) =>
-      `© ${year} دی‌بی‌اس گرافیک · سعید زرینی — همهٔ آثار محفوظ.`,
+      `© ${year} دی‌بی‌اس گرافیک · سعید زرینی — تمامی آثار محفوظ است.`,
     footerTagline: 'طراحی اعتماد از ۱۳۸۶',
   },
 };

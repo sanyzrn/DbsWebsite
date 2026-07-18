@@ -9,7 +9,7 @@ export const archiveContent = {
     titlePrefix: 'The',
     title: 'Archive',
     subtitle:
-      'Selected systems and products. Not everything is shown. What is shown is worth examining carefully.',
+      'Selected systems and products. Not everything is shown. What is shown rewards careful attention.',
     footer: 'End of Selected Archive',
     projects: [
       {
@@ -18,7 +18,7 @@ export const archiveContent = {
         category: 'Full-Stack System',
         title: 'DbsPulse',
         description:
-          'Organizational performance evaluation and contract-renewal system with a four-stage approval workflow — unit supervisor → HR → deputy → CEO — plus an analytics dashboard and QR-verified Excel/PDF export.',
+          'Organizational performance review and contract-renewal system with a four-stage approval flow — unit supervisor → HR → deputy → CEO — plus an analytics dashboard and QR-verified Excel/PDF export.',
         tags: ['FastAPI', 'React', 'PostgreSQL', 'Docker'],
         repoQuery: 'DbsPulse',
         align: 'left' as const,
@@ -29,7 +29,7 @@ export const archiveContent = {
         category: 'Android / Offline-First',
         title: 'Second Brain (SOL)',
         description:
-          'Offline-first Android app for personal life management — notes, habits, projects, meds, expenses, goals — fully Persian/RTL-native, encrypted at rest.',
+          'Offline-first Android app for personal life management — notes, habits, projects, medication, expenses, goals — fully Persian and RTL-native, encrypted at rest.',
         tags: ['Kotlin', 'Jetpack Compose', 'SQLCipher', 'Room', 'Hilt'],
         repoQuery: 'SOL',
         align: 'right' as const,
@@ -62,7 +62,7 @@ export const archiveContent = {
         category: 'WordPress Plugin',
         title: 'Nafas Chatbot Pro',
         description:
-          'WordPress AI chatbot plugin — floating widget, Elementor widget, or shortcode — Gemini-powered, with a six-tab admin panel.',
+          'WordPress AI chatbot plugin — floating widget, Elementor widget, or shortcode — powered by Gemini, with a six-tab admin panel.',
         tags: ['WordPress', 'PHP', 'AJAX', 'Google Gemini'],
         repoQuery: 'Nafas+Chatbot',
         align: 'left' as const,
@@ -73,7 +73,7 @@ export const archiveContent = {
         category: 'Elementor Plugin',
         title: 'Elementor Product Carousel',
         description:
-          'Professional product slider for Elementor: keyboard and mouse navigation, autoplay/loop, multiple pagination styles, full style controls, and reduced-motion support.',
+          'Product slider for Elementor: keyboard and mouse navigation, autoplay and loop, multiple pagination styles, full style controls, and reduced-motion support.',
         tags: ['PHP', 'WordPress', 'Elementor'],
         repoQuery: 'Elementor+Carousel',
         align: 'right' as const,
@@ -95,7 +95,7 @@ export const archiveContent = {
         category: 'Personal Finance PWA',
         title: 'Hesabyar',
         description:
-          '100% private personal finance manager — transactions, accounts, loans, envelope budgeting, savings goals — with Persian calendar support and an installable PWA shell.',
+          'Fully private personal finance manager — transactions, accounts, loans, envelope budgeting, savings goals — with Persian calendar support and an installable PWA shell.',
         tags: ['PHP', 'MySQL', 'PWA'],
         repoQuery: 'Hesabyar',
         align: 'right' as const,
@@ -106,7 +106,7 @@ export const archiveContent = {
         category: 'Patient Portal',
         title: 'Nafas Zist Pharmed Portal',
         description:
-          'Patient education and support portal: searchable catalogs (Fuse.js), PDF reader with highlights and notes, video player, content admin panel, installable as a PWA.',
+          'Patient education and support portal: searchable catalogs (Fuse.js), PDF reader with highlights and notes, video player, content admin panel — installable as a PWA.',
         tags: ['React 19', 'PHP', 'PWA'],
         repoQuery: 'Nafas+Portal',
         align: 'left' as const,
@@ -117,7 +117,7 @@ export const archiveContent = {
         category: 'Productivity Toolkit',
         title: 'NafasTools',
         description:
-          'Productivity toolkit: client-side PDF compression, merge, split and convert; formal document generation; AI-assisted pharma-specialized translation; and text utilities.',
+          'Productivity toolkit: client-side PDF compression, merge, split and convert; formal document generation; AI-assisted pharma translation; and text utilities.',
         tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         repoQuery: 'NafasTools',
         align: 'right' as const,
@@ -129,16 +129,16 @@ export const archiveContent = {
     titlePrefix: 'آرشیو',
     title: 'منتخب',
     subtitle:
-      'سامانه‌ها و محصولات گزینش‌شده. همه‌چیز نشان داده نمی‌شود. آنچه نشان داده می‌شود ارزش بررسی دقیق دارد.',
+      'سامانه‌ها و محصولات گزینش‌شده. همه‌چیز اینجا نیست؛ آنچه هست، ارزشِ بررسی دقیق دارد.',
     footer: 'پایان آرشیو منتخب',
     projects: [
       {
         number: '001',
         year: '2024—',
-        category: 'سامانه فول‌استک',
+        category: 'سامانهٔ فول‌استک',
         title: 'DbsPulse',
         description:
-          'سامانه ارزیابی عملکرد سازمانی و تمدید قرارداد با جریان تأیید چهارمرحله‌ای — سرپرست واحد ← منابع انسانی ← معاون ← مدیرعامل — به‌همراه داشبورد تحلیلی و خروجی Excel/PDF با تأیید QR.',
+          'سامانهٔ ارزیابی عملکرد سازمانی و تمدید قرارداد با گردش تأیید چهارمرحله‌ای — سرپرست واحد ← منابع انسانی ← معاون ← مدیرعامل — به‌همراه داشبورد تحلیلی و خروجی Excel/PDF با تأیید QR.',
         tags: ['FastAPI', 'React', 'PostgreSQL', 'Docker'],
         repoQuery: 'DbsPulse',
         align: 'left' as const,
@@ -160,7 +160,7 @@ export const archiveContent = {
         category: 'اپلیکیشن دسکتاپ',
         title: 'DbsKeep',
         description:
-          'یادداشت‌بردار دسکتاپ ویندوز با شش تب، پالت فرمان، دستیار هوش مصنوعی محلی، همگام‌سازی تلگرام، و ذخیره JSON روی دیسک — بدون وابستگی به ابر.',
+          'یادداشت‌بردار دسکتاپ ویندوز با شش تب، پالت فرمان، دستیار هوش مصنوعی محلی، همگام‌سازی تلگرام، و ذخیرهٔ JSON روی دیسک — بدون وابستگی به ابر.',
         tags: ['Tauri v2', 'Rust'],
         repoQuery: 'DbsKeep',
         align: 'left' as const,
@@ -168,10 +168,10 @@ export const archiveContent = {
       {
         number: '004',
         year: '2024—',
-        category: 'فضای کار هوش مصنوعی داخلی',
+        category: 'فضای کار داخلی هوش مصنوعی',
         title: 'Nafas AI',
         description:
-          'فضای کار داخلی خودمیزبان برای دسترسی تیم به چند مدل هوش مصنوعی — Anthropic، OpenAI، Google، OpenRouter — با سقف مصرف و گزارش کامل ادمین.',
+          'فضای کار داخلیِ خودمیزبان برای دسترسی تیم به چند مدل هوش مصنوعی — Anthropic، OpenAI، Google، OpenRouter — با سقف مصرف و گزارش‌گیری کامل ادمین.',
         tags: ['React 19', 'PHP 8', 'MySQL'],
         repoQuery: 'Nafas+AI',
         align: 'right' as const,
@@ -179,10 +179,10 @@ export const archiveContent = {
       {
         number: '005',
         year: 'v2.1.0',
-        category: 'افزونه وردپرس',
+        category: 'افزونهٔ وردپرس',
         title: 'Nafas Chatbot Pro',
         description:
-          'افزونه چت‌بات هوش مصنوعی وردپرس — ویجت شناور، ویجت المنتور یا شورت‌کد — مبتنی بر Gemini، با پنل ادمین شش‌تب.',
+          'افزونهٔ چت‌بات هوش مصنوعی برای وردپرس — ویجت شناور، ویجت المنتور یا شورت‌کد — مبتنی بر Gemini، با پنل ادمین شش‌تب.',
         tags: ['WordPress', 'PHP', 'AJAX', 'Google Gemini'],
         repoQuery: 'Nafas+Chatbot',
         align: 'left' as const,
@@ -190,10 +190,10 @@ export const archiveContent = {
       {
         number: '006',
         year: '2024—',
-        category: 'افزونه المنتور',
+        category: 'افزونهٔ المنتور',
         title: 'Elementor Product Carousel',
         description:
-          'اسلایدر حرفه‌ای محصول برای المنتور: ناوبری صفحه‌کلید و ماوس، پخش خودکار/حلقه، چند سبک صفحه‌بندی، کنترل کامل استایل، و پشتیبانی از reduced-motion.',
+          'اسلایدر محصول برای المنتور: ناوبری با صفحه‌کلید و ماوس، پخش خودکار و حلقه، چند سبک صفحه‌بندی، کنترل کامل استایل، و پشتیبانی از reduced-motion.',
         tags: ['PHP', 'WordPress', 'Elementor'],
         repoQuery: 'Elementor+Carousel',
         align: 'right' as const,
@@ -201,10 +201,10 @@ export const archiveContent = {
       {
         number: '007',
         year: '2024—',
-        category: 'پلتفرم تناسب اندام',
+        category: 'پلتفرم تناسب‌اندام',
         title: 'EsiFit',
         description:
-          'پلتفرم تناسب اندام دو زبانه (fa/en) با ۱۴ ماشین‌حساب تخصصی — BMI، BMR، TDEE، درصد چربی، 1RM، ماکرو، FFMI و بیشتر — به‌همراه نقشه بدن SVG تعاملی و نمودار پیشرفت.',
+          'پلتفرم تناسب‌اندام دوزبانه (fa/en) با ۱۴ ماشین‌حساب تخصصی — BMI، BMR، TDEE، درصد چربی، 1RM، ماکرو، FFMI و بیشتر — به‌همراه نقشهٔ بدن SVG تعاملی و نمودارهای پیشرفت.',
         tags: ['React 18', 'TypeScript', 'Vite', 'Tailwind CSS'],
         repoQuery: 'EsiFit',
         align: 'left' as const,
@@ -215,7 +215,7 @@ export const archiveContent = {
         category: 'PWA مالی شخصی',
         title: 'حساب‌یار',
         description:
-          'مدیر مالی شخصی ۱۰۰٪ خصوصی — تراکنش، حساب، وام، بودجه‌بندی پاکتی، اهداف پس‌انداز — با تقویم شمسی و پوسته قابل نصب PWA.',
+          'مدیر مالی شخصی کاملاً خصوصی — تراکنش، حساب، وام، بودجه‌بندی پاکتی، اهداف پس‌انداز — با پشتیبانی تقویم شمسی و پوستهٔ قابل‌نصب PWA.',
         tags: ['PHP', 'MySQL', 'PWA'],
         repoQuery: 'Hesabyar',
         align: 'right' as const,
@@ -226,7 +226,7 @@ export const archiveContent = {
         category: 'پورتال بیمار',
         title: 'پورتال نفس زیست فارمد',
         description:
-          'پورتال آموزش و پشتیبانی بیمار: کاتالوگ‌های قابل جستجو (Fuse.js)، خواننده PDF با هایلایت و یادداشت، پخش‌کننده ویدیو، پنل ادمین محتوا، قابل نصب به‌عنوان PWA.',
+          'پورتال آموزش و پشتیبانی بیمار: کاتالوگ‌های قابل‌جستجو (Fuse.js)، خوانندهٔ PDF با هایلایت و یادداشت، پخش‌کنندهٔ ویدیو، پنل ادمین محتوا — قابل‌نصب به‌صورت PWA.',
         tags: ['React 19', 'PHP', 'PWA'],
         repoQuery: 'Nafas+Portal',
         align: 'left' as const,
@@ -234,10 +234,10 @@ export const archiveContent = {
       {
         number: '010',
         year: '2024—',
-        category: 'جعبه ابزار بهره‌وری',
+        category: 'جعبه‌ابزار بهره‌وری',
         title: 'NafasTools',
         description:
-          'جعبه ابزار بهره‌وری: فشرده‌سازی، ادغام، تقسیم و تبدیل PDF سمت کلاینت؛ تولید اسناد رسمی؛ ترجمه تخصصی دارویی با کمک هوش مصنوعی؛ و ابزارهای متن.',
+          'جعبه‌ابزار بهره‌وری: فشرده‌سازی، ادغام، تقسیم و تبدیل PDF سمت کلاینت؛ تولید اسناد رسمی؛ ترجمهٔ تخصصی دارویی با کمک هوش مصنوعی؛ و ابزارهای متنی.',
         tags: ['Next.js', 'TypeScript', 'Tailwind CSS'],
         repoQuery: 'NafasTools',
         align: 'right' as const,

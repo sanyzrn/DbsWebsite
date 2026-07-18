@@ -12,10 +12,10 @@ export default function Process() {
       <div className="mx-auto grid max-w-6xl gap-6 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="rounded-[36px] border border-[var(--line)] bg-[var(--surface)] p-8 backdrop-blur-xl lg:p-10">
           <p className="section-eyebrow">{lang === 'fa' ? 'رویکرد' : 'Approach'}</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight sm:text-4xl text-[var(--ink)]">
-            {lang === 'fa'
-              ? 'طراحی خوب بی‌زحمت به‌نظر می‌رسد چون هر تصمیم از قبل سنجیده شده.'
-              : 'Good design feels effortless because every decision has already been considered.'}
+          <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)]">
+              {lang === 'fa'
+                ? 'طراحی خوب بی‌زحمت به‌نظر می‌رسد؛ چون هر تصمیم از پیش سنجیده شده.'
+                : 'Good design feels effortless because every decision has already been weighed.'}
           </h2>
           <p className="mt-5 max-w-2xl text-base leading-7 text-[var(--muted)]">
             {content.subtitle}
@@ -25,7 +25,7 @@ export default function Process() {
             <p className="text-sm leading-7 text-[var(--muted)]">
               {lang === 'fa'
                 ? 'هدف فقط زیباتر شدن نیست — ساختن حضوری بصری که در هر نقطهٔ تماس منسجم، مطمئن و مفید باشد.'
-                : 'The goal is not just to make things look better. It is to create a visual presence that feels cohesive, confident, and useful across every touchpoint.'}
+                : 'The goal is not merely to look better. It is to build a visual presence that feels cohesive, confident, and useful at every touchpoint.'}
             </p>
           </div>
         </div>
@@ -37,7 +37,7 @@ export default function Process() {
               className="rounded-[30px] border border-[var(--line)] bg-white/72 p-6 shadow-[0_18px_60px_-48px_rgba(0,0,0,0.65)]"
             >
               <div className="flex items-center justify-between gap-4">
-                <h3 className="text-xl font-bold tracking-tight text-[var(--ink)]">{item.title}</h3>
+                <h3 className="text-xl font-display font-bold tracking-tight text-[var(--ink)]">{item.title}</h3>
                 <span className="mono text-xs font-medium uppercase tracking-[0.24em] text-[var(--muted)]">
                   {item.number}
                 </span>

@@ -11,7 +11,7 @@ Personal portfolio of **Saeed Zarrini**, graphic designer and web developer with
 | Framework | React 19 + TypeScript |
 | Build | Vite 7 (single-file output) |
 | Styling | Tailwind CSS 4 + custom CSS |
-| Fonts | Bricolage Grotesque · Instrument Serif · IBM Plex Mono · Inter |
+| Fonts | EN: Bricolage Grotesque · Instrument Serif · Inter · IBM Plex Mono · FA: Vazirmatn |
 
 Builds to a single `index.html` — no server required, deploy anywhere.
 

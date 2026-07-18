@@ -32,7 +32,7 @@ const EFFECTS: { key: keyof SiteConfig['effects']; label: string; note: string }
 ];
 
 const PRESETS: { name: string; theme: SiteConfig['theme'] }[] = [
-  { name: 'Hope Rise', theme: { bg: '#FAF7F2', surface: '#F3E9DA', text: '#17140F', accent: '#41DA6F' } },
+  { name: 'Brand Gold', theme: { bg: '#FAF7F2', surface: '#F3E9DA', text: '#17140F', accent: '#BC9463' } },
   { name: 'Studio Vermilion', theme: { bg: '#FAF7F2', surface: '#F3E9DA', text: '#17140F', accent: '#E23D0F' } },
   { name: 'Klein Blue', theme: { bg: '#FAF7F2', surface: '#F3E9DA', text: '#17140F', accent: '#1F3BC4' } },
   { name: 'Crimson Archive', theme: { bg: '#F1EDE6', surface: '#E8E3D9', text: '#15140F', accent: '#8B1A1A' } },
@@ -42,8 +42,8 @@ const PANEL = {
   ink: '#100F0B',
   ink2: '#18160F',
   paper: '#EFEBE1',
-  bronze: '#41DA6F',
-  line: 'rgba(65,218,111,0.2)',
+  bronze: '#BC9463',
+  line: 'rgba(188,148,99,0.2)',
   mut: 'rgba(239,235,225,0.45)',
 };
 
@@ -309,20 +309,20 @@ export default function AdminPanel() {
                     cursor: remoteSyncStatus === 'publishing' ? 'wait' : 'pointer',
                     background:
                       remoteSyncStatus === 'published'
-                        ? 'rgba(63,185,80,0.12)'
+                        ? 'rgba(188,148,99,0.12)'
                         : remoteSyncStatus === 'error'
                         ? 'rgba(179,58,43,0.12)'
-                        : 'rgba(63,166,92,0.1)',
+                        : 'rgba(188,148,99,0.1)',
                     border: `1px solid ${
                       remoteSyncStatus === 'published'
-                        ? 'rgba(63,185,80,0.5)'
+                        ? 'rgba(188,148,99,0.5)'
                         : remoteSyncStatus === 'error'
                         ? 'rgba(179,58,43,0.5)'
                         : PANEL.bronze
                     }`,
                     color:
                       remoteSyncStatus === 'published'
-                        ? '#3FB950'
+                        ? '#BC9463'
                         : remoteSyncStatus === 'error'
                         ? '#B33A2B'
                         : PANEL.bronze,
@@ -373,7 +373,7 @@ export default function AdminPanel() {
                       padding: '6px 9px',
                       borderRadius: '4px',
                       cursor: 'pointer',
-                      background: active ? 'rgba(63,166,92,0.14)' : 'transparent',
+                      background: active ? 'rgba(188,148,99,0.14)' : 'transparent',
                       border: `1px solid ${active ? PANEL.bronze : PANEL.line}`,
                       color: active ? PANEL.paper : PANEL.mut,
                       fontSize: '9px',
@@ -459,7 +459,7 @@ export default function AdminPanel() {
           <span style={{ display: 'inline-flex', alignItems: 'center', gap: '7px' }}>
             <span
               className="rec-dot"
-              style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#3FB950' }}
+              style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#BC9463' }}
             />
             SYSTEM ONLINE
           </span>

@@ -67,7 +67,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
     bg: '#FAF7F2',
     surface: '#F3E9DA',
     text: '#17140F',
-    accent: '#41DA6F',
+    accent: '#BC9463',
   },
   hero: {
     name: 'SAEED',
@@ -89,7 +89,7 @@ export const DEFAULT_CONFIG: SiteConfig = {
   },
 };
 
-const STORAGE_KEY = 'dbs.siteConfig.v5';
+const STORAGE_KEY = 'dbs.siteConfig.v6';
 
 /** Deep-merge a stored (possibly partial / outdated) config onto defaults. */
 function mergeConfig(base: SiteConfig, stored: unknown): SiteConfig {
