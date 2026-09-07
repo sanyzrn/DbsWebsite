@@ -1,90 +1,142 @@
-import { useState, useEffect } from 'react';
-import Navigation from './components/Navigation';
-import Hero from './components/Hero';
-import Archive from './components/Archive';
-import Lab from './components/Lab';
-import Process from './components/Process';
-import Contact, { TrustStrip } from './components/Contact';
-import DossierModal from './components/DossierModal';
-import Terminal from './components/Terminal';
-import LabButton from './components/LabButton';
-import AdminPanel from './components/AdminPanel';
-import { useSmoothScroll } from './hooks/useSmoothScroll';
-import { useSiteConfig } from './config/siteConfig';
+import { Suspense } from "react";
+import { BrowserRouter, Outlet, Route, Routes, useLocation } from "react-router-dom";
+import { AppProvider, useApp } from "./lib/app";
+import Nav from "./components/Nav";
+import Footer from "./components/Footer";
+import CommandPalette from "./components/CommandPalette";
+import ScrollToTop from "./components/ScrollToTop";
+import FloatingQuickNav from "./components/FloatingQuickNav";
+import PwaInstallPrompt from "./components/PwaInstallPrompt";
+import { LocalePreferenceRedirect } from "./components/LocalePreferenceRedirect";
+import { PageTransition } from "./components/PageTransition";
+import NotFoundPage from "./pages/NotFoundPage";
+import { routesFromManifest } from "./lib/routesFromManifest";
+import { cn } from "./utils/cn";
 
-export default function App() {
-  const { config } = useSiteConfig();
-  const [dossierOpen, setDossierOpen] = useState(false);
-  const [terminalOpen, setTerminalOpen] = useState(false);
-  const [labVisited, setLabVisited] = useState(false);
-  const [pageReady, setPageReady] = useState(false);
+function isHomePath(pathname: string) {
+  return pathname === "/" || pathname === "/en" || pathname === "/en/";
+}
 
-  useSmoothScroll(config.effects.smoothScroll);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setPageReady(true), 60);
-    return () => clearTimeout(timer);
-  }, []);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) entry.target.classList.add('visible');
-        });
-      },
-      { threshold: 0.08, rootMargin: '0px 0px -40px 0px' }
-    );
-    const scan = () => {
-      document.querySelectorAll('.reveal, .reveal-scale').forEach((el) => observer.observe(el));
-    };
-    scan();
-    const t1 = setTimeout(scan, 400);
-    return () => {
-      observer.disconnect();
-      clearTimeout(t1);
-    };
-  }, [pageReady]);
-
-  useEffect(() => {
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.ctrlKey && e.key === '`') {
-        e.preventDefault();
-        setTerminalOpen((prev) => !prev);
-      }
-    };
-    document.addEventListener('keydown', handleKey);
-    return () => document.removeEventListener('keydown', handleKey);
-  }, []);
-
+/**
+ * Minimal on-brand spinner shown while the top-level Suspense is active
+ * (project/article chunk loading during first paint, before hydrateRoot kicks in).
+ * Respects prefers-reduced-motion — the spinner simply fades in without spinning
+ * when the user has opted out of animations.
+ */
+function AppLoadingFallback() {
   return (
     <div
-      className="min-h-screen overflow-hidden text-[var(--ink)]"
-      style={{ opacity: pageReady ? 1 : 0, transition: 'opacity 0.5s ease' }}
+      className="flex min-h-screen items-center justify-center bg-page"
+      role="status"
+      aria-label="Loading…"
     >
-      {/* Ambient blobs — sample style, tuned for cream + brand gold */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-[-7rem] top-24 h-72 w-72 rounded-full bg-[#e8d5b8]/70 blur-3xl" />
-        <div className="absolute right-[-5rem] top-16 h-64 w-64 rounded-full bg-white/85 blur-3xl" />
-        <div className="absolute bottom-10 left-1/3 h-80 w-80 rounded-full bg-[rgba(188,148,99,0.12)] blur-3xl" />
-      </div>
-
-      <Navigation />
-
-      <main className="pb-8">
-        <Hero onNameTripleClick={() => setDossierOpen(true)} />
-
-        {config.sections.archive && <Archive />}
-        {config.sections.lab && <Lab onLabVisited={() => setLabVisited(true)} />}
-        {config.sections.process && <Process />}
-        {config.sections.timeline && <TrustStrip />}
-        {config.sections.contact && <Contact />}
-      </main>
-
-      <DossierModal isOpen={dossierOpen} onClose={() => setDossierOpen(false)} />
-      <Terminal isOpen={terminalOpen} onClose={() => setTerminalOpen(false)} />
-      <LabButton visible={labVisited} onClick={() => setTerminalOpen(true)} />
-      <AdminPanel />
+      <span
+        className="h-8 w-8 rounded-full border-2 border-accent border-t-transparent motion-safe:animate-spin"
+        aria-hidden="true"
+      />
     </div>
+  );
+}
+
+/** Lightweight per-page loading indicator shown inside the layout shell. */
+function PageLoadingFallback() {
+  return (
+    <div
+      className="flex min-h-[30vh] items-center justify-center"
+      role="status"
+      aria-label="Loading…"
+    >
+      <span
+        className="h-6 w-6 rounded-full border-2 border-accent border-t-transparent motion-safe:animate-spin"
+        aria-hidden="true"
+      />
+    </div>
+  );
+}
+
+function Layout() {
+  const { t } = useApp();
+  const { pathname } = useLocation();
+  // Hero already clears the fixed 72px nav; other routes need mobile top padding.
+  const clearFixedNav = !isHomePath(pathname);
+
+  return (
+    <div className="min-h-screen bg-page font-sans text-ink">
+      <a href="#main" className="skip-link">
+        {t.a11y.skip}
+      </a>
+      <Nav />
+      <FloatingQuickNav />
+      <PwaInstallPrompt />
+      <main id="main" className={cn(clearFixedNav && "pt-[88px]")}>
+        <PageTransition>
+          <Outlet />
+        </PageTransition>
+      </main>
+      <Footer />
+      <CommandPalette />
+    </div>
+  );
+}
+
+function AppRoutes() {
+  return (
+    <Routes>
+      <Route element={<Layout />}>
+        {/*
+         * Inner Suspense: catches lazy page-chunk loading and per-page article
+         * data suspension (articles.ts getCache() throws articlesLoadPromise).
+         * Projects data is already available (resolved by the outer Suspense).
+         */}
+        <Route
+          element={
+            <Suspense fallback={<PageLoadingFallback />}>
+              <Outlet />
+            </Suspense>
+          }
+        >
+          {routesFromManifest()}
+          {/* Client catch-all — prerender emits /404 + /en/404 separately via specialPaths */}
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Route>
+    </Routes>
+  );
+}
+
+/**
+ * Shared shell for BrowserRouter (client) and StaticRouter (prerender).
+ *
+ * The outer Suspense lives here, not in `App`, so the server and client render the
+ * exact same tree. A Suspense boundary is a real node — one that exists only on the
+ * client is a structural hydration mismatch, and React recovers from those by
+ * discarding the prerendered DOM and re-rendering everything.
+ */
+export function AppShell() {
+  return (
+    /*
+     * Outer Suspense: catches AppProvider suspension when project data isn't
+     * loaded yet (projects.ts getCache() throws projectsLoadPromise, called
+     * synchronously by getDictionary inside AppProvider's useMemo).
+     *
+     * With hydrateRoot (prerendered pages), React keeps the server HTML visible
+     * while this resolves — no visible flash of fallback content. During prerender
+     * `ensureLoaded()` has already resolved the data, so it never suspends there.
+     */
+    <Suspense fallback={<AppLoadingFallback />}>
+      <AppProvider>
+        <ScrollToTop />
+        <LocalePreferenceRedirect />
+        <AppRoutes />
+      </AppProvider>
+    </Suspense>
+  );
+}
+
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
   );
 }

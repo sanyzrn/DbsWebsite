@@ -2,9 +2,30 @@
 
 ## Cursor Cloud specific instructions
 
-This is a single static React + TypeScript + Vite portfolio site (DBS Graphic). It builds to a single `index.html` and has no backend, database, or other services. Standard commands are documented in `README.md` (`npm install`, `npm run dev`, `npm run build`, `npm run preview`).
+This repo is a single, frontend-only React 19 + Vite 7 + Tailwind CSS 4 (TypeScript) portfolio SPA. There is no backend or database.
 
-- Dependencies (`npm install`) are refreshed automatically by the startup update script; no manual install is needed.
-- Dev server: `npm run dev` serves on `http://localhost:5173/` with HMR. There is no `lint` or `test` script; use `npx tsc --noEmit` for type-checking (the `tsconfig.json` uses strict mode) and `npm run build` for a production build.
-- Admin panel gotcha: the hidden admin panel (`Alt+A`, password `dbs@2025`) only mounts on desktop, gated by both `window.innerWidth >= 1024` AND `window.matchMedia('(pointer: fine)').matches` in `src/components/AdminPanel.tsx`. In headless/virtual desktop environments `pointer: fine` is often `false`, so `Alt+A` appears to do nothing even at a wide window width. This is expected; it is not a bug. To exercise the admin panel in such an environment, temporarily relax that pointer check locally (and revert before committing).
-- Optional JSONBin.io global sync is disabled by default (empty credentials in `src/config/remoteConfig.ts`); the app falls back to `localStorage`. No credentials are needed for local development.
+### Git workflow (permanent)
+- `main` = stable/production branch
+- `cursor-dev` = **permanent** development branch for all agent work
+- Always check out `cursor-dev` and sync to the latest `origin/cursor-dev` before starting work
+- Do **not** create a new branch per task, fix, or commit — keep committing on `cursor-dev`
+- Only use a different branch when the user explicitly asks for one
+- Open/update PRs from `cursor-dev` → `main` when shipping (do not invent per-task PR branches)
+
+### Services
+- Dev server: `npm run dev` (Vite, serves on http://localhost:5173). Use this for development (HMR).
+- Production-like preview: `npm run build` then `npm run preview`.
+
+### Commands
+- Typecheck: `npm run typecheck` (`tsc --noEmit`)
+- Tests: `npm test` (Vitest + Testing Library smoke tests)
+- Build: `npm run build` (client bundle + SSR prerender → static HTML per route in `dist/`)
+
+### Notes
+- Dependencies are installed on startup via the update script (`npm install`), so you normally don't need to reinstall.
+- Production build emits normal Vite assets plus a static HTML file per route (prerender). Locale is derived from the URL (`/` = fa, `/en…` = en); `localStorage` only remembers preference for redirecting a first visit to `/` toward `/en` when appropriate.
+- All UI copy lives in `src/lib/i18n.ts` (Persian + English); project case studies live in `content/projects/*.json`. Theme (light/dark) is managed via React Context in `src/lib/app.tsx` and persisted to `localStorage`. An inline script in `index.html` applies theme + URL-derived lang/dir before first paint to avoid FOUC.
+- Contact form: posts JSON to same-origin `/api/contact.php`, which forwards to Bale via a server-side bot token (GitHub Actions secrets → `dist/api/bale-config.php` at deploy). Always keep the visible direct-email link.
+- PWA: `vite-plugin-pwa` (generateSW). Icons via `npm run generate:icons`. After prerender, `scripts/generate-sw.mjs` rebuilds the service worker so all locale HTML is precached. Offline fallback is `public/offline.html`. Admin/PHP routes are denylisted.
+- ⌘K / Ctrl+K opens the command palette.
+- English UI uses self-hosted Bricolage Grotesque (variable) + IBM Plex Mono; Persian uses Vazirmatn (`@fontsource` packages imported in `src/main.tsx`).

@@ -1,100 +1,149 @@
-# DBS Graphic — Portfolio Website
+# Saeed Zarrini — portfolio
 
-Personal portfolio of **Saeed Zarrini**, graphic designer and web developer with 16+ years of experience in pharmaceutical packaging, brand identity, and web development.
+Personal portfolio site for Saeed Zarrini (DBSGraphic). Not a pure client-only SPA:
+the public site is a **static-prerendered** React frontend; project and article content
+is edited as files in git.
 
----
+## Architecture
 
-## Tech Stack
+| Piece | Role |
+|-------|------|
+| **Public frontend** (`src/`, `content/`) | React 19 + Vite + Tailwind. Build prerenders one HTML file per locale route (`scripts/prerender.mjs`) for SEO. UI copy lives in `src/lib/i18n/` (fa/en). |
+| **Content** (`content/projects/*.json`, `content/articles/*.mdx`, `content/news/*.json`) | Canonical case studies, Field Notes, and Daily Digest. Validated at build time (`npm run validate:content`). |
+| **Admin** (`admin/`) | **Deactivated (standby).** Former PHP + MySQL authoring UI. Kept in the repo for possible reactivation; not the primary editing path and not deployed with the static site. See [`admin/README.md`](./admin/README.md). |
+| **Field Notes MCP** (`mcp-fieldnotes/`) | Optional Cloudflare Worker remote MCP server for Claude to read/write `content/articles` + `content/news` via the GitHub Contents API. See [`mcp-fieldnotes/README.md`](./mcp-fieldnotes/README.md). |
+| **Hosting** | **Production:** Apache FTP at `https://saeedzarrini.ir` via [`.github/workflows/deploy.yml`](./.github/workflows/deploy.yml) (runs after CI succeeds on `main`). Host examples and Apache notes live under [`hosting/`](./hosting/README.md). |
+| **Publishing flow** | Edit content files in git (or via the Field Notes MCP) → push to `main` → CI → FTP deploy uploads `dist/`. |
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | React 19 + TypeScript |
-| Build | Vite 7 (single-file output) |
-| Styling | Tailwind CSS 4 + custom CSS |
-| Fonts | EN: Bricolage Grotesque · Instrument Serif · Inter · IBM Plex Mono · FA: Vazirmatn |
+Route lists for the app, sitemap, and prerender share [`shared/site-routes.json`](./shared/site-routes.json).
 
-Builds to a single `index.html` — no server required, deploy anywhere.
+## Content editing
 
----
+Project content lives in `content/projects/*.json` and is edited directly (the same as
+articles in `content/articles/`) — typically by asking Claude Code to make the change and
+commit it. The previous PHP/MySQL admin panel (`admin/`) is deactivated/standby; see
+[`admin/README.md`](./admin/README.md) for details on reactivating it if ever needed.
 
-## Features
+Daily Digest items (when any exist) live in `content/news/*.json` — citation-only, with
+required `sourceUrl` + `sourceName`.
 
-- Pharmaceutical-archive visual theme with CRT scanlines, glitch effects, and film grain
-- Smooth scroll with wheel inertia
-- Scroll-triggered reveal animations
-- Hidden easter eggs: triple-click the hero name · `Ctrl+\`` opens terminal
-- **Admin panel** (`Alt+A`, desktop only) — password-protected control room for toggling sections, theme, and global config
-- Global section visibility sync via [JSONBin.io](https://jsonbin.io) — publish from admin panel, all visitors see it instantly
+Field Notes (articles + news) can also be edited through the optional remote MCP Worker in
+[`mcp-fieldnotes/`](./mcp-fieldnotes/) when connected to Claude — same GitHub Contents API
+write path, commits land on `main`.
 
----
+### Project images
 
-## Project Structure
-
-```
-src/
-├── components/
-│   ├── Hero.tsx          # Full-viewport opening with glitch wordmark
-│   ├── Ticker.tsx        # Discipline marquee strip
-│   ├── IntroStats.tsx    # Stats + manifesto quote
-│   ├── Vault.tsx         # Pharmaceutical work — classified collection
-│   ├── Archive.tsx       # General portfolio — project showcase
-│   ├── Lab.tsx           # Capabilities (expandable list)
-│   ├── Process.tsx       # Design methodology timeline
-│   ├── Timeline.tsx      # Career history — provenance wall
-│   ├── Contact.tsx       # Contact info + footer
-│   ├── Navigation.tsx    # Fixed header with scroll detection
-│   ├── DossierModal.tsx  # Hidden profile modal (triple-click hero)
-│   ├── Terminal.tsx      # Interactive terminal (Ctrl+`)
-│   ├── AdminPanel.tsx    # Control room (Alt+A, desktop only)
-│   └── LabButton.tsx     # Floating Lab button
-├── config/
-│   ├── siteConfig.tsx    # Global state + localStorage persistence
-│   └── remoteConfig.ts   # JSONBin.io credentials for global sync
-├── hooks/
-│   └── useSmoothScroll.ts
-└── utils/
-    └── cn.ts
-```
-
----
-
-## Development
+Before adding a new project image, run
+`node scripts/optimize-image.mjs <path-to-raw-image> <project-slug>` to produce a safe,
+optimized file to reference in that project's `image_url` field.
 
 ```bash
-npm install
-npm run dev      # localhost:5173
-npm run build    # outputs dist/index.html (single file)
-npm run preview  # preview the build
+node scripts/optimize-image.mjs ./raw/hero.jpg dbspulse
+# → public/images/projects/dbspulse.webp
+# set image_url to "/images/projects/dbspulse.webp" in content/projects/dbspulse.json
 ```
 
----
+The script validates the file is a real image (via `sharp`, not extension alone), strips
+EXIF, caps the longest edge at 2000px, and re-encodes to WebP by default (JPEG/PNG via
+`--format=`). This replaces the safety net formerly provided by `admin/src/ImageHandler.php`.
 
-## Admin Panel
+## Scripts
 
-Toggle with `Alt+A` on desktop. Password required on open.
+| Command | Description |
+|---------|-------------|
+| `npm run dev` | Vite dev server |
+| `npm run build` | Validate content → SEO files → Vite client build → SSR prerender → service worker |
+| `npm run preview` | Preview production build |
+| `npm run typecheck` | `tsc --noEmit` |
+| `npm test` | Vitest |
+| `npm run lint` | ESLint (`src/` + `scripts/`) |
+| `npm run generate:seo` | Write `public/robots.txt` + `public/sitemap.xml` from `SITE_URL` |
+| `npm run check:urls` | Fail if SEO files hardcode a domain other than `SITE_URL` |
+| `npm run check:i18n` | Fail if fa/en UI dictionaries diverge in nested keys |
+| `npm run validate:content` | Zod-validate project/article/news content; block published placeholder copy |
+| `npm run check:dist` | Post-build: internal links, canonical/OG hosts, 404 `noindex`, `og.jpg` is exactly 1200×630 |
+| `npm run check:bundle` | Post-build gzip budgets (JS/CSS/HTML/fonts/first-paint) |
+| `npm run check:deploy` | Live HTTPS gate: unknown paths → HTTP 404 + noindex |
+| `node scripts/optimize-image.mjs <image> <slug>` | Optimize a project image into `public/images/projects/` |
 
-Controls: section visibility · theme colors · hero text · vault metadata · effects (glitch, grain, scanlines, smooth scroll)
+## Deployment
 
-**Publish Sections to Web** button writes the current visibility state to JSONBin so every visitor gets the same config on load.
+Host-specific rules (404 status, security headers) live in **[`hosting/`](./hosting/README.md)**.
 
-### Setting up global sync
+**Production deploy (FTP):** push to `main` → **CI** workflow → on success, **Deploy to hosting** builds with secrets and uploads `./dist/` to the FTP account root (already `public_html`). Live config is Apache `.htaccess` (emitted as `dist/.htaccess` at build time).
 
-1. Create a free account at [jsonbin.io](https://jsonbin.io)
-2. Create a new bin with: `{"sections":{}}`
-3. Copy the Bin ID and Master Key
-4. Edit `src/config/remoteConfig.ts`:
+`admin/` is **not** included in `dist/` and is **not** uploaded by the static-frontend deploy
+pipeline — it is a separate PHP app that would need its own host. Deactivating it as the
+primary editing workflow required no changes to CI/deploy workflows.
 
-```ts
-export const JSONBIN_BIN_ID = 'your-bin-id';
-export const JSONBIN_API_KEY = 'your-api-key';
+### Required GitHub Actions secrets
+
+Set these under **Settings → Secrets and variables → Actions**. They are **never** committed to any file in this repo.
+
+| Secret | Value / notes |
+|--------|----------------|
+| `FTP_SERVER` | `<your-ftp-hostname>` |
+| `FTP_USERNAME` | `<your-ftp-username>` |
+| `FTP_PASSWORD` | Current FTP account password |
+| `SITE_URL` | `https://saeedzarrini.ir` |
+| `BALE_BOT_TOKEN` | Bot token from Bale's BotFather — written only into `dist/api/bale-config.php` at deploy time (never committed) |
+| `BALE_CHAT_ID` | Numeric chat id that should receive form notifications |
+
+### `.htaccess` checklist
+
+`npm run build` already writes `dist/.htaccess` (from `hosting/apache.htaccess.example`, with live CSP hashes) and `dist/en/.htaccess` (English `ErrorDocument` override). The deploy workflow verifies both files exist before FTP upload so Apache 404 + headers stay present on every deploy.
+
+**After a successful FTP run**, confirm on the live host:
+
+1. `https://saeedzarrini.ir` loads correctly
+2. An unknown path returns a **real HTTP 404** with the custom body (requires root `.htaccess`; `/en/…` unknowns use `en/.htaccess`)
+3. Deployed files match a local `SITE_URL=https://saeedzarrini.ir npm run build` `dist/`
+
+### `SITE_URL`
+
+All canonical / social / sitemap URLs are derived from a single environment variable:
+
+```bash
+SITE_URL=https://saeedzarrini.ir
 ```
 
-5. Rebuild and deploy
+Copy `.env.example` to `.env` for local overrides (`.env` is gitignored).
 
----
+| Environment | Typical `SITE_URL` |
+|-------------|--------------------|
+| **Production (FTP)** | `https://saeedzarrini.ir` (GitHub Actions secret) |
+| **Local / preview** | Same production origin, or another HTTPS origin you control for staging checks |
 
-## Contact
+Set `SITE_URL` in GitHub Actions secrets for production FTP builds. Use a different value only when deliberately checking a non-production origin (Open Graph and sitemap URLs follow whatever `SITE_URL` was at build time).
 
-**Saeed Zarrini** — zrn_sany@yahoo.com · 09301221816
+At build time:
 
-*Designing since 2007. Packaging, branding, web — all of it.*
+1. `generate:seo` writes `robots.txt` and `sitemap.xml` using `SITE_URL` (all fa/en routes + published project slugs)
+2. `check:urls` fails the build if those files or `index.html` still contain a different site domain
+3. Vite replaces `__SITE_URL__` placeholders in `index.html` and exposes `import.meta.env.VITE_SITE_URL` to the app
+4. A build-time prerender step emits one static HTML file per route under `dist/` (title, description, canonical, hreflang, Open Graph, JSON-LD)
+
+Do not hardcode the site domain elsewhere — change `SITE_URL` only.
+
+Before promoting a production build, run:
+
+```bash
+SITE_URL=https://saeedzarrini.ir npm run check:deploy
+```
+
+(or set `DEPLOY_CHECK_BASE_URL` to another HTTPS origin). This hits the live URL over HTTPS and asserts real HTTP 404 + `noindex` on unknown paths.
+
+### Contact form
+
+The interactive contact form POSTs JSON to same-origin `/api/contact.php`. That PHP
+proxy validates the payload (honeypot, timing, rate limit) and forwards a plain-text
+message via the Bale Bot API (`https://tapi.bale.ai`). Bot credentials are GitHub
+Actions secrets (`BALE_BOT_TOKEN`, `BALE_CHAT_ID`) written into `dist/api/bale-config.php`
+only during deploy — they never appear in the client bundle or git history
+(`public/api/.gitignore` ignores `bale-config.php`).
+
+The visible direct-email link remains on the contact UI as a backup.
+
+## License
+
+See [`LICENSE`](./LICENSE) — all rights reserved.

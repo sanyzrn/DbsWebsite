@@ -1,0 +1,66 @@
+{
+  "id": "dbsnex",
+  "slug": "dbsnex",
+  "status": "production",
+  "maturity": "published",
+  "schemaType": "SoftwareApplication",
+  "isPubliclyAvailable": false,
+  "featured": true,
+  "order": 2,
+  "name": {
+    "fa": "Nex",
+    "en": "Nex"
+  },
+  "subtitle": {
+    "fa": "اپی برای ذهن‌های شلوغ: هر فکر، صدا، تصویر و فایل را در چند ثانیه بگیر؛ وقتی لازم شد، دقیقاً همان را پیدا کن.",
+    "en": "The capture app for busy minds: save every thought, voice, photo and file in seconds — then find exactly what you need."
+  },
+  "desc": {
+    "fa": "Nex برای لحظه‌ای ساخته شده که ایده می‌آید و نباید از دست برود. متن بنویس، ویس بگیر، عکس یا فایل بفرست و تمام؛ بدون انتخاب پوشه، بدون فرم‌های اضافی و بدون دکمهٔ ذخیره. همه‌چیز در یک تایم‌لاین تمیز می‌نشیند و بعد با جست‌وجوی سریع، تگ، فیلتر و یادآور دوباره سراغت می‌آید. اگر از ابزارهای شلوغ خسته‌ای و می‌خواهی بالاخره یک اپ ساده، خوش‌ساخت و خصوصی برای ثبت زندگی و کارت داشته باشی، Nex دقیقاً برای توست.",
+    "en": "Nex is built for the moment an idea arrives and must not be lost. Write, record, photograph or share a file — then move on. No folders to choose, no forms to fight and no save button. Everything lands in one clean timeline and comes back through fast search, tags, filters and reminders. For anyone tired of overbuilt note apps and ready for a simple, polished, private capture tool, Nex is the front door to their thinking."
+  },
+  "problem": {
+    "fa": "بیشتر ابزارهای یادداشت‌برداری کار را با انتخاب پوشه، قالب و دسته‌بندی شروع می‌کنند؛ همان اصطکاک کوچکی که باعث می‌شود ایده‌های کوتاه، صداهای مهم و لحظه‌های گذرا هرگز ثبت نشوند.",
+    "en": "Most note apps begin with friction: folders, templates and categorization. That tiny delay is enough for passing ideas, important voice notes and fleeting moments to disappear before they are captured."
+  },
+  "approach": {
+    "fa": "هستهٔ تجربه بر این اصل استوار شد: «اول ثبت کن، بعداً اگر خواستی مرتبش کن.» تایم‌لاین معکوس، جست‌وجوی تمام‌متن SQLite FTS5، تگ‌های آزاد، فیلترهای هوشمند، یادآور، سطل زباله، خروجی و پشتیبان‌گیری محلی باعث می‌شوند سرعت اولیه، بعداً به آشفتگی تبدیل نشود. OCR، تبدیل صدا به متن، خلاصه‌سازی و جست‌وجوی معنایی هم اختیاری‌اند؛ یعنی هوش فقط وقتی وارد می‌شود که خود کاربر انتخاب کند، نه به قیمت حریم خصوصی او.",
+    "en": "The experience is anchored in one rule: capture first, organize later — if ever. A reverse timeline, SQLite FTS5 search, flexible tags, intelligent filters, reminders, trash, export and local backups ensure immediate capture never becomes future chaos. OCR, transcription, summaries and semantic search are optional by design: intelligence enters only when the user chooses it, never at the expense of privacy."
+  },
+  "result": {
+    "fa": "یک ابزار capture سریع و خوش‌ساخت برای اندروید که داده را روی خود دستگاه نگه می‌دارد، با پشتیبان‌گیری و خروجی کامل از آن محافظت می‌کند و تجربهٔ ثبت را به اندازهٔ خود فکر، بی‌واسطه می‌سازد.",
+    "en": "A polished Android capture tool that keeps data on-device, protects it with complete backups and exports, and makes recording a thought feel as immediate as the thought itself."
+  },
+  "role": {
+    "fa": [
+      "استراتژی محصول",
+      "طراحی تجربه و رابط کاربری",
+      "معماری Local-first",
+      "توسعه Flutter",
+      "طراحی سیستم",
+      "تست و انتشار"
+    ],
+    "en": [
+      "Product Strategy",
+      "UX & UI Design",
+      "Local-first Architecture",
+      "Flutter Development",
+      "Design System",
+      "Testing & Release"
+    ]
+  },
+  "tech": [
+    "Flutter",
+    "Dart",
+    "SQLite",
+    "FTS5",
+    "Android"
+  ],
+  "tags": [
+    "Mobile",
+    "Product Design",
+    "Privacy"
+  ],
+  "image_url": "/images/projects/dbsnex.webp",
+  "mock": "keep"
+}

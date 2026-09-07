@@ -1,7 +1,12 @@
 node_modules/
 dist/
-.env
-.env.local
-.env.*.local
-*.log
+*.local
 .DS_Store
+.env
+.env.*
+!.env.example
+# Cloudflare Workers local secrets / state
+.dev.vars
+.wrangler/
+mcp-fieldnotes/.dev.vars
+mcp-fieldnotes/.wrangler/

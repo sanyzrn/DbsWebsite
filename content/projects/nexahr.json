@@ -1,0 +1,67 @@
+{
+  "id": "nexahr",
+  "slug": "nexahr",
+  "status": "production",
+  "maturity": "published",
+  "schemaType": "SoftwareApplication",
+  "isPubliclyAvailable": false,
+  "featured": true,
+  "order": 1,
+  "name": {
+    "fa": "NexaHR",
+    "en": "NexaHR"
+  },
+  "subtitle": {
+    "fa": "از ارزیابی‌های پراکنده و سلیقه‌ای تا تصمیم‌های منصفانه، مستند و قابل دفاع دربارهٔ مهم‌ترین سرمایهٔ سازمان: آدم‌ها.",
+    "en": "From fragmented, subjective performance reviews to fair, documented and defensible decisions about an organization's most valuable asset: its people."
+  },
+  "desc": {
+    "fa": "NexaHR یک سامانهٔ جدی برای سازمان‌هایی است که می‌خواهند تصمیم‌های منابع انسانی‌شان از حدس، اکسل و پیگیری تلفنی فراتر برود. از تعریف شاخص‌ها و بازکردن دورهٔ ارزیابی تا امتیازدهی، زنجیرهٔ تأیید، اعتراض، تحلیل مدیریتی و صدور کارنامهٔ رسمی، همه‌چیز در یک جریان روشن و قابل رهگیری انجام می‌شود. نتیجه فقط یک داشبورد زیبا نیست؛ یک زیرساخت تصمیم‌گیری است که به HR کمک می‌کند با داده، سابقه و منطق قابل دفاع، دربارهٔ تمدید قرارداد، رشد و برنامهٔ بهبود افراد تصمیم بگیرد.",
+    "en": "NexaHR is built for organizations ready to move people decisions beyond guesswork, spreadsheets and endless follow-ups. From defining criteria and opening an evaluation period through scoring, approval, appeals, management analytics and official performance records, every step lives in one clear, traceable flow. The outcome is not merely a polished dashboard; it is decision infrastructure that helps HR make defensible calls on contracts, growth and improvement plans with data, history and logic behind every decision."
+  },
+  "problem": {
+    "fa": "ارزیابی عملکرد در سازمان‌ها معمولاً میان اکسل، فرم کاغذی و پیام‌های پراکنده گم می‌شود؛ مسئولیت‌ها مبهم می‌مانند، سابقهٔ تصمیم‌ها قابل اتکا نیست و گزارش‌گیری زمان‌بر و آسیب‌پذیر می‌شود.",
+    "en": "Performance evaluation is often lost across spreadsheets, paper forms and scattered messages. Responsibility becomes unclear, decisions lose their audit trail, and reporting turns slow and fragile."
+  },
+  "approach": {
+    "fa": "NexaHR چرخهٔ پیچیدهٔ ارزیابی را به گردش‌کاری نقش‌محور، نسخه‌دار و مقاوم در برابر خطا تبدیل می‌کند. هر پرونده دقیقاً می‌داند از چه کسی به چه کسی می‌رود؛ هر برگشت دلیل دارد؛ هر تغییر در گزارش رویدادها ثبت می‌شود و هیچ‌کس نمی‌تواند خارج از اختیاراتش به پرونده دست بزند. نسخه‌گذاری شاخص‌ها و طرح امتیازدهی، اعتبار گزارش‌های گذشته را حفظ می‌کند؛ داشبوردها و گزارش‌های فیلترپذیر، تصمیم را از حس و برداشت فردی به شواهد واقعی نزدیک می‌کنند. RTL کامل، تقویم جلالی، کنترل دسترسی دقیق، PDF رسمی و امکان تأیید اصالت سند، این محصول را برای استفادهٔ روزمرهٔ یک سازمان ایرانی ساخته‌اند، نه یک دمو نمایشی.",
+    "en": "NexaHR turns a complex review cycle into a role-aware, versioned and error-resistant workflow. Every case knows exactly who owns the next step; every return needs a reason; every change is logged; and no one can reach beyond their authority. Versioned criteria and scoring protect the meaning of historical reports, while filterable analytics move decisions away from personal impressions and toward evidence. Full RTL, Jalali dates, precise access control, official PDFs and verifiable documents make this a product for everyday use in a real organization — not a polished demo."
+  },
+  "result": {
+    "fa": "یک مرکز فرمان مدرن برای منابع انسانی که ارزیابی را قابل‌مشاهده، منصفانه و قابل‌تحلیل می‌کند؛ از کارنامهٔ هر فرد تا دید کلان سازمان، بدون قربانی‌کردن امنیت یا جزئیات فرآیند.",
+    "en": "A modern command center for HR that makes evaluation visible, fair and analyzable — from each employee's record to the organization-wide view, without sacrificing security or process detail."
+  },
+  "role": {
+    "fa": [
+      "تحقیق و طراحی محصول",
+      "معماری سیستم",
+      "طراحی UX/UI",
+      "توسعه Full-stack",
+      "مدل‌سازی داده",
+      "امنیت و استقرار"
+    ],
+    "en": [
+      "Product Research & Design",
+      "System Architecture",
+      "UX/UI Design",
+      "Full-stack Development",
+      "Data Modeling",
+      "Security & Deployment"
+    ]
+  },
+  "tech": [
+    "React",
+    "TypeScript",
+    "FastAPI",
+    "PostgreSQL",
+    "Tailwind CSS",
+    "Docker"
+  ],
+  "tags": [
+    "Enterprise",
+    "HR Tech",
+    "Full-Stack"
+  ],
+  "image_url": "/images/projects/nexahr.webp",
+  "mock": "pulse"
+}

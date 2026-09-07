@@ -1,97 +1,215 @@
-import { useLanguage } from '../config/languageConfig';
-import { contactContent } from '../content/contact';
-import { timelineContent } from '../content/timeline';
+import { useEffect, useId, useRef, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Mail } from "lucide-react";
+import { useApp } from "../lib/app";
+import { type ContactStatus } from "../lib/mailto";
+import { useBodyScrollLock } from "../lib/useBodyScrollLock";
+import { useFocusTrap } from "../lib/useFocusTrap";
+import { DirArrow, Reveal, DecorativeGrid } from "./ui";
+import { ContactForm } from "./contact/ContactForm";
+import { ContactInfo } from "./contact/ContactInfo";
+import { ContactModal } from "./contact/ContactModal";
 
-export default function Contact() {
-  const { lang } = useLanguage();
-  const content = contactContent[lang];
-  const year = new Date().getFullYear();
+const START_HASH = "#contact/start";
 
-  return (
-    <>
-      <section id="contact" className="px-4 sm:px-6 lg:px-10 mt-16 sm:mt-20">
-        <div className="mx-auto max-w-6xl">
-          <div className="rounded-[40px] border border-[var(--ink)] bg-[var(--ink)] px-8 py-10 text-white shadow-[0_30px_100px_-50px_rgba(0,0,0,0.75)] lg:flex lg:items-end lg:justify-between lg:px-10 lg:py-12">
-            <div className="max-w-2xl">
-              <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/60">
-                {lang === 'fa' ? 'همکاری را شروع کنیم' : "Let's work together"}
-              </p>
-              <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl">
-                {content.headlineLead}{' '}
-                <span className="text-[var(--accent)]">{content.headlineAccent}</span>
-              </h2>
-              <p className="mt-4 text-sm leading-7 text-white/70 sm:text-base">
-                {content.paragraph}
-              </p>
+type ContactProps = {
+  variant?: "section" | "page";
+};
+
+export default function Contact({ variant = "section" }: ContactProps) {
+  const { t } = useApp();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const f = t.contact.form;
+  const titleId = useId();
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const firstFieldRef = useRef<HTMLInputElement>(null);
+  const previouslyFocused = useRef<HTMLElement | null>(null);
+  const [open, setOpen] = useState(false);
+  const [status, setStatus] = useState<ContactStatus>("idle");
+  const [truncated, setTruncated] = useState(false);
+
+  const rememberOpener = () => {
+    const active = document.activeElement;
+    previouslyFocused.current = active instanceof HTMLElement ? active : null;
+  };
+
+  const openModal = () => {
+    rememberOpener();
+    // Status reset happens in the hash effect when shouldOpen becomes true (#22).
+    navigate({ pathname: location.pathname, search: location.search, hash: "contact/start" }, { replace: true });
+  };
+
+  const closeModal = () => {
+    navigate({ pathname: location.pathname, search: location.search, hash: "contact" }, { replace: true });
+  };
+
+  useEffect(() => {
+    if (variant !== "section") return;
+    const shouldOpen = location.hash === START_HASH;
+    if (shouldOpen && !open) {
+      // Deep-link / hash open without the CTA button — capture current focus.
+      if (!previouslyFocused.current) rememberOpener();
+      // #22: any closed→open path (hash or button) must clear a stale banner.
+      setStatus("idle");
+      setTruncated(false);
+    }
+    setOpen(shouldOpen);
+  }, [location.hash, variant]); // eslint-disable-line react-hooks/exhaustive-deps -- sync open from URL only
+
+  useFocusTrap(dialogRef, open && variant === "section");
+  useBodyScrollLock(open && variant === "section");
+
+  useEffect(() => {
+    if (variant !== "section" || !open) return;
+
+    const root = document.getElementById("root");
+    if (root) root.setAttribute("inert", "");
+
+    const focusTimer = window.setTimeout(() => {
+      firstFieldRef.current?.focus();
+    }, 0);
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        e.preventDefault();
+        closeModal();
+      }
+    };
+    window.addEventListener("keydown", onKey);
+
+    return () => {
+      window.clearTimeout(focusTimer);
+      window.removeEventListener("keydown", onKey);
+      if (root) root.removeAttribute("inert");
+      const restore = previouslyFocused.current;
+      previouslyFocused.current = null;
+      // Defer so React can unmount the portal before restoring focus.
+      window.setTimeout(() => restore?.focus(), 0);
+    };
+  }, [open, variant]); // eslint-disable-line react-hooks/exhaustive-deps -- closeModal is stable enough via navigate
+
+  if (variant === "page") {
+    return (
+      <section id="contact" className="relative overflow-hidden border-t border-line bg-surface section-pad">
+        <DecorativeGrid />
+        <div className="wrap relative max-w-3xl">
+          <Reveal>
+            <span className="kicker">{t.contact.kicker}</span>
+          </Reveal>
+          <Reveal delay={80}>
+            <h1 className="display-heading mt-5 text-[38px] font-medium leading-[1.1] tracking-tight md:text-[52px]">
+              {t.contact.title}
+            </h1>
+          </Reveal>
+          <Reveal delay={140}>
+            <p className="mt-5 max-w-xl text-[16px] font-medium leading-8 text-ink2 md:text-[17px]">{t.contact.lead}</p>
+          </Reveal>
+          <Reveal delay={200}>
+            <p className="mt-5 max-w-xl border-s-2 border-accent ps-5 text-[15px] font-bold leading-8 tracking-tight md:text-[16px]">
+              {t.contact.strong}
+            </p>
+          </Reveal>
+
+          <Reveal delay={260}>
+            <div className="relative mt-10">
+              <h2 className="text-[22px] font-black tracking-tight">{f.title}</h2>
+              <p className="mt-1.5 max-w-md text-[13px] leading-6 text-ink2">{f.desc}</p>
+              <div className="mt-6">
+                <ContactForm
+                  idPrefix="ct-page"
+                  status={status}
+                  setStatus={setStatus}
+                  truncated={truncated}
+                  setTruncated={setTruncated}
+                />
+              </div>
             </div>
+          </Reveal>
 
-            <div className="mt-8 flex flex-wrap gap-3 lg:mt-0 lg:justify-end">
-              <a
-                href={`mailto:${content.email}`}
-                className="rounded-full bg-[var(--accent)] px-5 py-3 text-sm font-semibold text-white transition hover:bg-[var(--accent-dark)]"
-              >
-                {content.cta}
-              </a>
-              <a
-                href={`mailto:${content.email}`}
-                className="rounded-full border border-white/20 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
-              >
-                {content.email}
-              </a>
-              <a
-                href="#top"
-                className="rounded-full border border-white/20 px-5 py-3 text-sm font-medium text-white transition hover:bg-white/10"
-              >
-                {lang === 'fa' ? 'بازگشت به ابتدا' : 'Back to top'}
-              </a>
-            </div>
-          </div>
+          <Reveal delay={320}>
+            <ContactInfo />
+          </Reveal>
         </div>
       </section>
-
-      <footer className="px-4 sm:px-6 lg:px-10 pb-10 mt-10">
-        <div className="mx-auto flex max-w-6xl flex-col gap-3 border-t border-[var(--line)] pt-6 text-sm text-[var(--muted)] sm:flex-row sm:items-center sm:justify-between">
-          <p>{content.footerTagline}</p>
-          <p>{content.footerRights(year)}</p>
-        </div>
-      </footer>
-    </>
-  );
-}
-
-/** Optional provenance strip — glass restyle of timeline when enabled */
-export function TrustStrip() {
-  const { lang } = useLanguage();
-  const content = timelineContent[lang];
-  const items = content.milestones.slice(-4);
+    );
+  }
 
   return (
-    <section id="trust" className="px-4 sm:px-6 lg:px-10 mt-16 sm:mt-20">
-      <div className="mx-auto max-w-6xl">
-        <div className="mb-8">
-          <p className="section-eyebrow">{content.eyebrow}</p>
-          <h2 className="mt-3 text-3xl font-display font-extrabold tracking-tight sm:text-4xl text-[var(--ink)]">
-            {content.title}{' '}
-            <span className="serif-accent text-[var(--accent-dark)]">{content.titleAccent}</span>
-          </h2>
-          <p className="mt-4 max-w-2xl text-sm leading-6 text-[var(--muted)]">{content.subtitle}</p>
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          {items.map((m) => (
-            <div
-              key={`${m.era}-${m.marker}`}
-              className="rounded-[28px] border border-[var(--line)] bg-white/72 p-6 backdrop-blur-xl shadow-[0_18px_60px_-48px_rgba(0,0,0,0.5)]"
-            >
-              <div className="flex items-center justify-between gap-3">
-                <span className="mono text-xs tracking-[0.2em] text-[var(--accent-dark)]">{m.era}</span>
-                <span className="mono text-[10px] text-[var(--muted)]">{m.marker}</span>
+    <section id="contact" className="relative overflow-hidden border-t border-line bg-surface section-pad">
+      <DecorativeGrid />
+
+      <div className="wrap relative">
+        <div className="grid items-end gap-12 lg:grid-cols-12 lg:gap-10">
+          <div className="lg:col-span-7">
+            <Reveal>
+              <span className="kicker">
+                <span className="font-mono text-accent" dir="ltr" aria-hidden="true">04</span>
+                {t.contact.kicker}
+              </span>
+            </Reveal>
+            <Reveal delay={80}>
+              <h2 className="display-heading mt-5 max-w-xl text-[46px] font-medium leading-[1.08] tracking-tight md:text-[62px] lg:text-[72px]">
+                {t.contact.title}
+              </h2>
+            </Reveal>
+            <Reveal delay={160}>
+              <p className="mt-7 max-w-lg text-[17px] font-medium leading-8 text-ink2 md:text-[18px] md:leading-9">
+                {t.contact.lead}
+              </p>
+            </Reveal>
+            <Reveal delay={240}>
+              <p className="mt-7 max-w-xl border-s-2 border-accent ps-5 text-[16px] font-bold leading-8 tracking-tight md:text-[18px]">
+                {t.contact.strong}
+              </p>
+            </Reveal>
+
+            <Reveal delay={320}>
+              <div className="mt-10 flex flex-wrap items-center gap-3.5">
+                <button type="button" onClick={openModal} className="btn btn-primary">
+                  {t.contact.secondary}
+                  <DirArrow className="h-[18px] w-[18px]" />
+                </button>
+                <a href={`mailto:${t.contact.email}`} dir="ltr" className="btn btn-ghost">
+                  <Mail className="h-4 w-4" strokeWidth={2.1} />
+                  {t.contact.email}
+                </a>
               </div>
-              <h3 className="mt-3 text-lg font-display font-bold tracking-tight text-[var(--ink)]">{m.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-[var(--muted)]">{m.body}</p>
-            </div>
-          ))}
+            </Reveal>
+          </div>
+
+          <div className="lg:col-span-5">
+            <Reveal delay={200}>
+              <ol className="space-y-0 border-t border-line">
+                {t.contact.lines.map((line, i) => (
+                  <li key={i} className="flex items-baseline gap-4 border-b border-line py-4">
+                    <span className="shrink-0 font-mono text-[10.5px] font-bold tracking-[0.14em] text-accent" dir="ltr" aria-hidden="true">
+                      0{i + 1}
+                    </span>
+                    <p className="text-[14.5px] font-medium leading-7 text-ink2 md:text-[15px] md:leading-8">{line}</p>
+                  </li>
+                ))}
+              </ol>
+            </Reveal>
+          </div>
         </div>
+
+        <Reveal delay={400}>
+          <ContactInfo />
+        </Reveal>
       </div>
+
+      <ContactModal
+        open={open}
+        onClose={closeModal}
+        titleId={titleId}
+        dialogRef={dialogRef}
+        firstFieldRef={firstFieldRef}
+        status={status}
+        setStatus={setStatus}
+        truncated={truncated}
+        setTruncated={setTruncated}
+      />
     </section>
   );
 }

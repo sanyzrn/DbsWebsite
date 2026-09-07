@@ -1,0 +1,129 @@
+import { Layers } from "lucide-react";
+import { CareerTimeline, Skills } from "../components/About";
+import Contact from "../components/Contact";
+import { HeroAtmosphere } from "../components/Hero";
+import { PageMeta } from "../components/PageMeta";
+import BrandLogo from "../components/BrandLogo";
+import Testimonials from "../components/Testimonials";
+import { Reveal, SectionHead, DecorativeGrid } from "../components/ui";
+import { useApp } from "../lib/app";
+
+/**
+ * Combined About + Contact route.
+ * Opening + studio hero are page-specific; path timeline / skills reuse About + Skills.
+ */
+export default function AboutPage() {
+  const { t } = useApp();
+
+  return (
+    <>
+      <PageMeta page="about" />
+      {/* 1–2. Strong opening + prominent studio image */}
+      <section id="about" className="relative overflow-hidden section-pad border-t border-line bg-surface">
+        <DecorativeGrid />
+        <div className="wrap relative">
+          <SectionHead kicker={t.about.kicker} title={t.about.title} />
+
+          <Reveal delay={80}>
+            <figure className="relative mt-9 overflow-hidden rounded-md border border-line sm:mt-11">
+              <img
+                src="/images/studio.jpg"
+                alt={t.about.studioAlt}
+                loading="eager"
+                className="aspect-[16/9] w-full object-cover transition-transform duration-[1200ms] ease-[cubic-bezier(0.22,1,0.36,1)] hover:scale-[1.02] md:aspect-[21/9]"
+              />
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/55 to-transparent p-4 pt-16 sm:p-6 sm:pt-24" dir="ltr">
+                <span className="inline-flex items-center gap-2.5">
+                  <BrandLogo variant="icon" alt="" imgClassName="h-5 w-5 object-contain" />
+                  <span className="font-mono text-[9px] uppercase tracking-[0.18em] text-white/80 sm:text-[10px] sm:tracking-[0.2em]">
+                    DbsStudio — creative & product studio
+                  </span>
+                </span>
+              </div>
+              <span
+                className="absolute end-3 top-3 rounded-full border border-white/25 bg-black/30 px-2.5 py-1 font-mono text-[9px] uppercase tracking-[0.18em] text-white/85 backdrop-blur sm:end-4 sm:top-4 sm:px-3"
+                dir="ltr"
+              >
+                since 2008
+              </span>
+            </figure>
+          </Reveal>
+
+          <div className="mx-auto mt-12 max-w-3xl md:mt-16">
+            <Reveal delay={160}>
+              <p className="text-[15px] leading-8 text-ink2 sm:text-[16px] sm:leading-[1.95] md:text-[17px]">{t.about.p1}</p>
+            </Reveal>
+            <Reveal delay={220}>
+              <p className="display-heading mt-7 text-[24px] font-medium leading-[1.5] tracking-tight text-hi sm:mt-9 sm:text-[28px] sm:leading-[1.6] md:text-[32px]">
+                {t.about.question}
+              </p>
+            </Reveal>
+            <Reveal delay={280}>
+              <p className="mt-7 text-[15px] leading-8 text-ink2 sm:mt-9 sm:text-[16px] sm:leading-[1.95]">{t.about.p2}</p>
+            </Reveal>
+            <Reveal delay={340}>
+              <p className="mt-7 text-[15px] font-bold leading-8 sm:mt-9 sm:text-[16px]">{t.about.p3}</p>
+            </Reveal>
+            <Reveal delay={400}>
+              <ul className="mt-7 grid gap-x-10 gap-y-3 sm:grid-cols-2">
+                {t.about.checklist.map((item, i) => (
+                  <li key={i} className="flex items-center gap-3 border-b border-line pb-3 text-[14.5px] font-semibold sm:text-[15px]">
+                    <span className="font-mono text-[10px] font-semibold text-accent" dir="ltr" aria-hidden="true">
+                      {String(i + 1).padStart(2, "0")}
+                    </span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+            <Reveal delay={460}>
+              <p className="mt-9 inline-flex items-center gap-2.5 rounded-full border border-line bg-page px-4 py-3 text-[12.5px] font-semibold text-ink2">
+                <Layers className="h-4 w-4 text-hi" />
+                {t.about.studioNote}
+              </p>
+            </Reveal>
+          </div>
+
+          {/* Career path timeline */}
+          <div className="mt-16 grid gap-10 border-t border-line pt-14 md:mt-24 md:gap-12 md:pt-16 lg:grid-cols-12">
+            <div className="lg:col-span-6">
+              <Reveal>
+                <h2 className="display-heading text-[24px] font-semibold leading-[1.28] tracking-tight sm:text-[28px] md:text-[34px]">{t.about.expTitle}</h2>
+              </Reveal>
+              <Reveal delay={120}>
+                <p className="mt-5 max-w-xl text-[14.5px] leading-8 text-ink2 sm:mt-6 sm:text-[15.5px] sm:leading-[1.95]">{t.about.expBody}</p>
+              </Reveal>
+              <Reveal delay={200}>
+                <p className="mt-6 max-w-xl border-s-2 border-accent ps-5 text-[15px] font-bold leading-8 tracking-tight sm:mt-8 sm:text-[16px] sm:leading-9">
+                  {t.about.expClosing}
+                </p>
+              </Reveal>
+            </div>
+
+            <div className="lg:col-span-6">
+              <Reveal delay={160}>
+                <CareerTimeline nodes={t.about.path} />
+              </Reveal>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* 3. Skills / expertise breakdown */}
+      <Skills />
+
+      {/* 4. Atmosphere divider between About and Contact */}
+      <div className="relative h-28 overflow-hidden border-t border-line md:h-40" aria-hidden="true">
+        <div className="absolute inset-0 opacity-70">
+          <HeroAtmosphere />
+        </div>
+      </div>
+
+      {/* 5. Testimonials — trust nudge before Contact; hidden when empty */}
+      <Testimonials />
+
+      {/* 6. Contact — keep id="contact" for /about#contact */}
+      <Contact />
+    </>
+  );
+}
